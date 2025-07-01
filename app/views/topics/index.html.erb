@@ -4,10 +4,11 @@
 
 <ul>
   <% @topics.each do |topic| %>
-    <li>
-      <strong><%= topic.name %></strong><br>
-      <%= simple_format(topic.description) %><br>
-      <span>Total Sats Received: <%= topic.total_sats_received %></span>
-    </li>
+    <p>
+      <li>
+        <strong><%= topic.name %></strong><br>
+        <span>Total Sats Received: <%= topic.sats_received %></span>
+      </li>
+    </p>
   <% end %>
 </ul>
