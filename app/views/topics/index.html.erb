@@ -1,0 +1,12 @@
+<h1>Topics</h1>
+
+<%= link_to 'New Topic', new_topic_path, class: 'button' %>
+
+<ul>
+  <% @topics.each do |topic| %>
+    <li>
+      <strong><%= topic.name %></strong><br>
+      <%= simple_format(topic.description) %>
+    </li>
+  <% end %>
+</ul>
