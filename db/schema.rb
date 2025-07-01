@@ -10,11 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_01_070024) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_01_174833) do
   create_table "topics", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "lnurl"
+    t.integer "total_sats_received"
   end
 end
