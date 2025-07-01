@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :topics, only: [:index, :new, :create]
+  resources :topics, only: [ :index, :new, :create ]
   root "topics#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
