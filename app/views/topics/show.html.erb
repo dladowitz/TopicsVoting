@@ -9,12 +9,16 @@
 </H2>
 <H2><strong>Invividial Votes:</strong> <%= @topic.individial_payments %></H2>
 
-<p><strong>LNURL:</strong> <%= @topic.lnurl.presence || 'N/A' %></p>
 <% if @topic.lnurl %>
-  <H3>Scan the QR code to Upvote the topic</H3>
+  <H3>Scan the QR code or use the LNURL to Upvote the topic</H3>
   <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{CGI.escape(@topic.lnurl)}" %>
-  
-  <p><%= link_to "LNURLPay.com link", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank" %></p>
+  <p>
+    <strong>LNURL:</strong>
+    <br>
+    <%= @topic.lnurl.presence %>
+  </p>
+  <br>
+  <p>Try the <%= link_to "LNURLPay.com link", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank" %> if the QR code doesn't work</p>
   
 <% end %>
 
@@ -22,4 +26,4 @@
 
 
 
-<%= link_to ' <Back To Topic List', topics_path %> 
+<%= link_to 'Back To Topic List', topics_path %> 
