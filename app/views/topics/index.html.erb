@@ -1,3 +1,6 @@
+<!-- TODO Move this to a template -->
+<script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
+
 <h1>Topics</h1>
 
 <%= link_to 'New Topic', new_topic_path, class: 'button' %>
@@ -7,7 +10,9 @@
     <p>
       <li>
         <strong><%= link_to topic.name, topic_path(topic) %></strong><br>
-        <span>Total Sats Received: <%= topic.sats_received %></span>
+        <span>Sats Received: <i class="fak fa-satoshisymbol-solid"> <%= topic.sats_received %></i></span>
+        <br>
+        <span>Votes Received: <%= topic.individial_payments %></span>
       </li>
     </p>
   <% end %>
