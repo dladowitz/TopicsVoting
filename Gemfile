@@ -40,6 +40,12 @@ gem "thruster", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# Encoding
+gem "bech32"
+
+# HTTP
+gem "faraday"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -51,6 +57,9 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 
   gem 'dotenv-rails', groups: [:development, :test]
+
+  gem 'pry', groups: [:development, :test]
+  gem 'pry-byebug', groups: [:development, :test]
 end
 
 group :development do

@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
-  resources :topics, only: [ :index, :new, :create ]
+  # Topics
+  resources :topics, only: [:index, :new, :create, :show]
+
+  # LNURL Pay
+  get '/lnurl-pay/:id', to: 'lnurl_pay#show', as: :lnurl_pay
+  get '/lnurl-callback', to: 'lnurl_callback#show' # Doesn't need /:id as the params {id: XX} is passed in from the LNURL callback
+  post '/webhook', to: 'webhook#create'
+
   root "topics#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

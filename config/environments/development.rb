@@ -2,6 +2,10 @@ require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
+  
+  # HostAuthorization
+  # https://guides.rubyonrails.org/configuring.html#actiondispatch-hostauthorization
+  config.hosts << "enough-hound-destined.ngrok-free.app"
 
   # Make code changes take effect immediately without server restart.
   config.enable_reloading = true

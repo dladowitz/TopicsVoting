@@ -6,7 +6,7 @@
   <% @topics.each do |topic| %>
     <p>
       <li>
-        <strong><%= topic.name %></strong><br>
+        <strong><%= link_to topic.name, topic_path(topic) %></strong><br>
         <span>Total Sats Received: <%= topic.sats_received %></span>
       </li>
     </p>

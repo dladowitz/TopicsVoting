@@ -1,0 +1,14 @@
+<h1><%= @topic.name %></h1>
+
+<p><strong>LNURL:</strong> <%= @topic.lnurl.presence || 'N/A' %></p>
+<% if @topic.lnurl %>
+  <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{CGI.escape(@topic.lnurl)}" %>
+  <br>
+  <%= link_to "LNURLPay.com link", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank" %>
+<% end %>
+
+
+
+<p><strong>Sats Received:</strong> <%= @topic.sats_received %></p>
+
+<%= link_to 'Back to Topics', topics_path %> 
