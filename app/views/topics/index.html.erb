@@ -1,24 +1,32 @@
 <!-- TODO Move this to a template -->
 <script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
 
-<h1>Topics</h1>
-
-<%= link_to 'New Topic', new_topic_path, class: 'button' %>
-
-<ul>
-  <% @topics.each do |topic| %>
-    <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
-    <p>
-      <li>
-        <strong><%= link_to topic.name, topic_path(topic) %></strong><br>
-        <span>Sats Received: <i class="fak fa-satoshisymbol-solid"> <%= topic.sats_received %></i></span>
-        <br>
-        <span>Payments Received: <%= topic.individial_payments %></span>
-        <br>
-        <span>Votes: <%= topic.votes || 0 %></span>
-        <%= button_to 'Up', upvote_topic_path(topic), method: :post, class: 'button', disabled: (vote_state == 'up') %>
-        <%= button_to 'Down', downvote_topic_path(topic), method: :post, class: 'button', disabled: (vote_state == 'down') %>
+<div class="container">
+  <div class="page-header-row">
+    <h1>Topics</h1>
+    <%= link_to 'New Topic', new_topic_path, class: 'button button-new-topic' %>
+  </div>
+  <ul>
+    <% @topics.each do |topic| %>
+      <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
+      <li class="topic-list-item">
+        <div class="topic-header-row">
+          <span class="topic-name"><%= link_to topic.name, topic_path(topic) %></span>
+          <div class="vote-buttons">
+            <%= button_to upvote_topic_path(topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
+              <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span> Up
+            <% end %>
+            <%= button_to downvote_topic_path(topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down') do %>
+              <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span> Down
+            <% end %>
+          </div>
+        </div>
+        <span class="vote-info-row">
+          Sats Received: <i class="fak fa-satoshisymbol-solid"> <%= topic.sats_received %></i>
+          |
+          Votes: <%= topic.votes || 0 %>
+        </span>
       </li>
-    </p>
-  <% end %>
-</ul>
+    <% end %>
+  </ul>
+</div>
