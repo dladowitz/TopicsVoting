@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_01_181744) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_21_155830) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -27,6 +27,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_01_181744) do
     t.integer "sats_received", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "votes"
   end
 
   add_foreign_key "payments", "topics"

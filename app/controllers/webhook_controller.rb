@@ -14,6 +14,7 @@ class WebhookController < ApplicationController
       if payment
         payment.update(paid: true)
         payment.topic.increment!(:sats_received, payment.amount)
+        payment.topic.increment!(:votes, 1)
         head :ok
       else
         head :not_found

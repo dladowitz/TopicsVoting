@@ -5,6 +5,7 @@ class TopicsController < ApplicationController
 
   def index
     @topics = Topic.all
+    @vote_states = session[:votes] || {}
   end
 
   def show
@@ -23,6 +24,44 @@ class TopicsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def upvote
+    @topic = Topic.find(params[:id])
+    session[:votes] ||= {}
+    vote_state = session[:votes][@topic.id.to_s]
+
+    case vote_state
+    when 'up'
+      # Already upvoted, do nothing
+    when 'down'
+      # User previously downvoted, revert to original state
+      @topic.increment!(:votes, 1)
+      session[:votes].delete(@topic.id.to_s)
+    else
+      @topic.increment!(:votes, 1)
+      session[:votes][@topic.id.to_s] = 'up'
+    end
+    redirect_to topics_path
+  end
+
+  def downvote
+    @topic = Topic.find(params[:id])
+    session[:votes] ||= {}
+    vote_state = session[:votes][@topic.id.to_s]
+
+    case vote_state
+    when 'down'
+      # Already downvoted, do nothing
+    when 'up'
+      # User previously upvoted, revert to original state
+      @topic.decrement!(:votes, 1)
+      session[:votes].delete(@topic.id.to_s)
+    else
+      @topic.decrement!(:votes, 1)
+      session[:votes][@topic.id.to_s] = 'down'
+    end
+    redirect_to topics_path
   end
 
   private

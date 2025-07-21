@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
   get "webhook/receive"
   # Topics
-  resources :topics, only: [:index, :new, :create, :show]
+  resources :topics, only: [:index, :new, :create, :show] do
+    member do
+      post 'upvote'
+      post 'downvote'
+    end
+  end
 
   # LNURL Pay
   get '/lnurl-pay/:id', to: 'lnurl_pay#show', as: :lnurl_pay

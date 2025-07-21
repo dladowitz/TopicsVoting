@@ -7,12 +7,17 @@
 
 <ul>
   <% @topics.each do |topic| %>
+    <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
     <p>
       <li>
         <strong><%= link_to topic.name, topic_path(topic) %></strong><br>
         <span>Sats Received: <i class="fak fa-satoshisymbol-solid"> <%= topic.sats_received %></i></span>
         <br>
-        <span>Votes Received: <%= topic.individial_payments %></span>
+        <span>Payments Received: <%= topic.individial_payments %></span>
+        <br>
+        <span>Votes: <%= topic.votes || 0 %></span>
+        <%= button_to 'Up', upvote_topic_path(topic), method: :post, class: 'button', disabled: (vote_state == 'up') %>
+        <%= button_to 'Down', downvote_topic_path(topic), method: :post, class: 'button', disabled: (vote_state == 'down') %>
       </li>
     </p>
   <% end %>
