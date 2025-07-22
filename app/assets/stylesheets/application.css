@@ -115,6 +115,31 @@ span {
   font-size: 0.85em;
 }
 
+.button-danger, input[type="submit"].button-danger {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4em 1em;
+  font-size: 0.9em;
+  font-weight: 600;
+  cursor: pointer;
+  margin-right: 0.5em;
+  margin-top: 0.5em;
+  transition: background 0.2s, color 0.2s;
+}
+
+.button-danger:disabled, input[type="submit"].button-danger[disabled] {
+  background: #e5e7eb;
+  color: #b1b5bb;
+  cursor: not-allowed;
+}
+
+.button-danger:hover:not(:disabled), input[type="submit"].button-danger:hover:not([disabled]) {
+  background: #c0392b;
+  color: #fff;
+}
+
 /* =========================
    2. TOPICS STYLES
    ========================= */
@@ -211,4 +236,34 @@ span {
 
 .vote-count {
   font-weight: 600;
+}
+
+.socratic-seminar-index-item {
+  font-size: 1.3em;
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.seminar-name {
+  font-weight: 700;
+  display: inline;
+}
+
+.seminar-flex-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.seminar-date {
+  white-space: nowrap;
+  width: 170px;
+  display: inline-block;
+  font-size: 1.1em;
+}
+
+.seminar-name {
+  font-weight: 700;
+  font-size: 1.2em;
 }

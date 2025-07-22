@@ -1,0 +1,15 @@
+<div class="container">
+  <p style="color: green"><%= notice %></p>
+
+  <% content_for :title, "Socratic seminars" %>
+
+  <h1>Socratic seminars</h1>
+
+  <div id="socratic_seminars">
+    <% @socratic_seminars.each do |socratic_seminar| %>
+      <%= render socratic_seminar %>
+    <% end %>
+  </div>
+
+  <%= link_to "New socratic seminar", new_socratic_seminar_path %>
+</div>

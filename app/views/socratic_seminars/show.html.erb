@@ -1,0 +1,12 @@
+<div class="container">
+  <p style="color: green"><%= notice %></p>
+
+  <%= render @socratic_seminar %>
+
+  <div>
+    <%= link_to "Edit this socratic seminar", edit_socratic_seminar_path(@socratic_seminar) %> |
+    <%= link_to "Back to socratic seminars", socratic_seminars_path %>
+
+    <%= button_to "Destroy this socratic seminar", @socratic_seminar, method: :delete, class: 'button-danger' %>
+  </div>
+</div>

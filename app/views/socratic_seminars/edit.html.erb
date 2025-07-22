@@ -1,0 +1,14 @@
+<div class="container">
+  <% content_for :title, "Editing socratic seminar" %>
+
+  <h1>Editing socratic seminar</h1>
+
+  <%= render "form", socratic_seminar: @socratic_seminar %>
+
+  <br>
+
+  <div>
+    <%= link_to "Show this socratic seminar", @socratic_seminar %> |
+    <%= link_to "Back to socratic seminars", socratic_seminars_path %>
+  </div>
+</div>
