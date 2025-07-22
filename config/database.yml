@@ -55,6 +55,20 @@ production:
     database: topics-voting_production
     username: topics-voting
     password: <%= ENV['TOPICS_VOTING_DATABASE_PASSWORD'] %>
+  cache:
+    adapter: postgresql
+    encoding: unicode
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    database: topics-voting_production
+    username: topics-voting
+    password: <%= ENV['TOPICS_VOTING_DATABASE_PASSWORD'] %>
+  queue:
+    adapter: postgresql
+    encoding: unicode
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+    database: topics-voting_production
+    username: topics-voting
+    password: <%= ENV['TOPICS_VOTING_DATABASE_PASSWORD'] %>
 
 # Older setting pre-heroku
 # Store production database in the storage/ directory, which by default
