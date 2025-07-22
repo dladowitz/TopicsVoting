@@ -156,6 +156,10 @@ span {
   margin-bottom: 0;
 }
 
+.vote-count {
+  font-weight: 600;
+}
+
 .topic-list-item {
   padding: 10px 15px 5px 15px;
   margin-bottom: 10px;
@@ -169,8 +173,19 @@ span {
   margin-bottom: 0;
 }
 
+.topic-list-header-row {
+  font-size: 1.1em;
+  font-weight: 400;
+  margin: 0 0 10px 5px;
+}
+
 .topic-name {
   margin-bottom: 0;
+}
+
+.sats-received {
+  margin-left: -5px;
+  font-weight: 600;
 }
 
 .page-header-row {

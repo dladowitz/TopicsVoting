@@ -6,6 +6,9 @@
     <h1>Topics</h1>
     <%= link_to 'New Topic', new_topic_path, class: 'button button-new-topic' %>
   </div>
+  <div class="topic-list-header-row">
+    Every Lightning payment counts as 1 vote.
+  </div>
   <ul>
     <% @topics.each do |topic| %>
       <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
@@ -22,9 +25,12 @@
           </div>
         </div>
         <span class="vote-info-row">
-          Sats Received: <i class="fak fa-satoshisymbol-solid"> <%= topic.sats_received %></i>
+          Votes: 
+          <div class="vote-count"><%= topic.votes || 0 %></div>
           |
-          Votes: <%= topic.votes || 0 %>
+          Sats Received: 
+          <i class="fak fa-satoshisymbol-solid"></i>
+          <div class="sats-received"><%= topic.sats_received %></div>
         </span>
       </li>
     <% end %>

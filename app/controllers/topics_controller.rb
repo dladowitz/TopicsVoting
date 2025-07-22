@@ -4,7 +4,7 @@ class TopicsController < ApplicationController
   require 'json'
 
   def index
-    @topics = Topic.all
+    @topics = Topic.order(votes: :desc)
     @vote_states = session[:votes] || {}
   end
 
