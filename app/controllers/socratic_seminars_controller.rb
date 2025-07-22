@@ -1,4 +1,5 @@
 class SocraticSeminarsController < ApplicationController
+  before_action :set_admin_mode
   before_action :set_socratic_seminar, only: %i[ show edit update destroy ]
 
   # GET /socratic_seminars or /socratic_seminars.json
@@ -61,6 +62,10 @@ class SocraticSeminarsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_socratic_seminar
       @socratic_seminar = SocraticSeminar.find(params.expect(:id))
+    end
+
+    def set_admin_mode
+      @admin_mode = params[:mode] == 'admin'
     end
 
     # Only allow a list of trusted parameters through.

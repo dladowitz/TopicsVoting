@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :socratic_seminars
+  resources :socratic_seminars, path: 'seminars'
   get "webhook/receive"
   # Topics
   resources :topics, only: [:index, :new, :create, :show] do

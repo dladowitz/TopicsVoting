@@ -11,5 +11,7 @@
     <% end %>
   </div>
 
-  <%= link_to "New socratic seminar", new_socratic_seminar_path %>
+  <% if @admin_mode %>
+    <%= link_to "New socratic seminar", new_socratic_seminar_path(mode: 'admin') %>
+  <% end %>
 </div>

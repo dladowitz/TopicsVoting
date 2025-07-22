@@ -4,9 +4,10 @@
   <%= render @socratic_seminar %>
 
   <div>
-    <%= link_to "Edit this socratic seminar", edit_socratic_seminar_path(@socratic_seminar) %> |
-    <%= link_to "Back to socratic seminars", socratic_seminars_path %>
-
-    <%= button_to "Destroy this socratic seminar", @socratic_seminar, method: :delete, class: 'button-danger' %>
+    <% if @admin_mode %>
+      <%= link_to "Edit this socratic seminar", edit_socratic_seminar_path(@socratic_seminar, mode: 'admin') %> |
+      <%= button_to "Destroy this socratic seminar", @socratic_seminar, method: :delete, class: 'button-danger', params: { mode: 'admin' } %> |
+    <% end %>
+    <%= link_to "Back to socratic seminars", socratic_seminars_path(mode: (@admin_mode ? 'admin' : nil)) %>
   </div>
 </div>
