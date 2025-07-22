@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_21_155830) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_22_174815) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -19,6 +19,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_21_155830) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["topic_id"], name: "index_payments_on_topic_id"
+  end
+
+  create_table "socratic_seminars", force: :cascade do |t|
+    t.integer "seminar_number"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["seminar_number"], name: "index_socratic_seminars_on_seminar_number", unique: true
   end
 
   create_table "topics", force: :cascade do |t|

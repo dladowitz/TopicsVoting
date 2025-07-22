@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="page-header-row">
-    <h1>Topics</h1>
+    <h1 class="page-header-title">Topics</h1>
     <%= link_to 'New Topic', new_topic_path, class: 'button button-new-topic' %>
   </div>
   <div class="topic-list-header-row">
@@ -17,10 +17,10 @@
           <span class="topic-name"><%= link_to topic.name, topic_path(topic) %></span>
           <div class="vote-buttons">
             <%= button_to upvote_topic_path(topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
-              <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span> Up
+              <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span>
             <% end %>
             <%= button_to downvote_topic_path(topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down') do %>
-              <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span> Down
+              <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span>
             <% end %>
           </div>
         </div>

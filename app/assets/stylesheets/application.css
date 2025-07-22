@@ -9,6 +9,9 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+/* =========================
+   1. GENERAL PAGE LAYOUT
+   ========================= */
 body {
   background: #fff;
   color: #222;
@@ -44,6 +47,41 @@ li:hover {
   border: 1.5px solid #b1b5bb;
 }
 
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.page-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.page-header-title {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0 0 0.5em 0;
+}
+
+a {
+  color: #f7931a;
+  /* font-weight: 700; */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+span {
+  display: block;
+  margin-bottom: 0.5em;
+  font-size: 1.1em;
+}
+
 .button, input[type="submit"] {
   background: #f7931a;
   color: #fff;
@@ -77,28 +115,43 @@ li:hover {
   font-size: 0.85em;
 }
 
-a {
-  color: #f7931a;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-span {
-  display: block;
-  margin-bottom: 0.5em;
+/* =========================
+   2. TOPICS STYLES
+   ========================= */
+.topic-list-header-row {
   font-size: 1.1em;
+  font-weight: 400;
+  margin: 0 0 10px 5px;
 }
 
-.container {
-  max-width: 700px;
-  margin: 2rem auto;
-  padding: 0 1rem;
+.topic-list-item {
+  padding: 3px 15px 5px 15px;
+  margin-bottom: 5px;
+  border: none;
 }
 
+.topic-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.topic-name {
+  font-size: 0.9em;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.sats-received {
+  margin-left: -5px;
+  font-weight: 600;
+}
+
+/* =========================
+   3. VOTING STYLES
+   ========================= */
 .vote-buttons {
   display: flex;
   gap: 0.3em;
@@ -111,7 +164,7 @@ span {
   border: none;
   border-radius: 6px;
   padding: 0.15em 0.5em;
-  font-size: 0.85em;
+  font-size: 0.75em;
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
@@ -151,47 +204,11 @@ span {
   display: flex;
   align-items: center;
   gap: 0.5em;
-  font-size: 0.9em;
+  font-size: 0.85em;
   font-weight: 400;
   margin-bottom: 0;
 }
 
 .vote-count {
   font-weight: 600;
-}
-
-.topic-list-item {
-  padding: 10px 15px 5px 15px;
-  margin-bottom: 10px;
-}
-
-.topic-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 0;
-}
-
-.topic-list-header-row {
-  font-size: 1.1em;
-  font-weight: 400;
-  margin: 0 0 10px 5px;
-}
-
-.topic-name {
-  margin-bottom: 0;
-}
-
-.sats-received {
-  margin-left: -5px;
-  font-weight: 600;
-}
-
-.page-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 1.5em;
 }

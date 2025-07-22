@@ -1,0 +1,2 @@
+class SocraticSeminar < ApplicationRecord
+end
