@@ -1,4 +1,4 @@
 Original Builder SF Site: https://www.bitcoinbuildersf.com/
 
 Rake Task:
-`rake import:bitcoin_products`
+"bin/rails "import:import_sections_and_topics[2]" 
