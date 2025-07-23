@@ -67,7 +67,7 @@ class TopicsController < ApplicationController
   private
 
   def topic_params
-    params.require(:topic).permit(:name)
+    params.require(:topic).permit(:name, :link)
   end
 
   def generate_lnurl(topic_id)

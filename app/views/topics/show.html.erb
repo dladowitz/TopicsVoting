@@ -1,29 +1,67 @@
 <!-- Sats symbol https://satsymbol.com/fontawesome/ -->
 <script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
 
+<script>
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(function() {
+    // Optional: Show a brief success message
+    const button = event.target.closest('.copy-button');
+    const originalIcon = button.innerHTML;
+    button.innerHTML = '<i class="fas fa-check"></i>';
+    setTimeout(() => {
+      button.innerHTML = originalIcon;
+    }, 1000);
+  }).catch(function(err) {
+    console.error('Could not copy text: ', err);
+  });
+}
+</script>
 
-<h1><%= @topic.name %></h1>
-<H2>
-  <strong>Sats Received: </strong>
-  <i class="fak fa-satoshisymbol-solid"> <%= @topic.sats_received %></i>
-</H2>
-<H2><strong>Individual Payments:</strong> <%= @topic.individial_payments %></H2>
+<div class="container">
+  <h1>
+    <% if @topic.link.present? %>
+      <%= link_to @topic.name, @topic.link, target: "_blank", rel: "noopener", class: "topic-title-link" %>
+    <% else %>
+      <%= @topic.name %>
+    <% end %>
+  </h1>
 
-<% if @topic.lnurl %>
-  <H3>Scan the QR code or use the LNURL to Upvote the topic</H3>
-  <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{CGI.escape(@topic.lnurl)}" %>
-  <p>
-    <strong>LNURL:</strong>
-    <br>
-    <%= @topic.lnurl.presence %>
-  </p>
-  <br>
-  <p>Try the <%= link_to "LNURLPay.com link", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank" %> if the QR code doesn't work</p>
+  <% if @topic.lnurl %>
+    <div class="vote-using-lnurl">
+      Vote using <%= link_to "LNURLPay.com/#{@topic.lnurl.truncate(15)}", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank" %>
+    </div>
+    <div class="or-text">Or</div>
+    <div class="copy-lnurl">
+      
+      <button onclick="copyToClipboard('<%= @topic.lnurl %>')" class="copy-button" title="Copy LNURL">
+        Copy <i class="fas fa-copy"></i>
+      </button>
+      the <strong>LNURL</strong> and paste it into a lightning wallet
+      
+      <div class="lnurl-text"><%= @topic.lnurl %></div>
+    </div>
+  <% end %>
+
+  <div class="current-status">
+    <div class="current-status-title">Current Votes & Payments:</div>
+    <div class="sats-received-row">Votes: <%= @topic.votes %></div>
+    <div class="sats-received-row">Individual Payments: <%= @topic.individial_payments %></div>
+    
+    <div class="sats-received-row">
+      Sats Received:
+      <i class="fak fa-satoshisymbol-solid"> <%= @topic.sats_received %></i>
+    </div>
+    
+  </div>
+
+  <div class="back-to-topic-list">
+    <%= link_to 'Back To Topic List', topics_path %> 
+  </div>
   
-<% end %>
+  <% if @topic.lnurl %>
+    <%= image_tag "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{CGI.escape(@topic.lnurl)}" %>
+    <br>
+  <% end %>
 
-
-
-
-
-<%= link_to 'Back To Topic List', topics_path %> 
+  
+</div> 

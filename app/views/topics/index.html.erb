@@ -7,7 +7,7 @@
     <%= link_to 'New Topic', new_topic_path, class: 'button button-new-topic' %>
   </div>
   <div class="topic-list-header-row">
-    Every Lightning payment counts as 1 vote.
+    Each Lightning payment is 1 vote.
   </div>
   <ul>
     <% @topics.each do |topic| %>
@@ -15,7 +15,11 @@
       <li class="topic-list-item">
         <div class="topic-header-row">
           <span class="topic-name"><%= link_to topic.name, topic_path(topic) %></span>
-          <div class="vote-buttons">
+        </div>
+        <span class="vote-info-row">
+          Votes: 
+          <div class="vote-count"><%= topic.votes || 0 %></div>
+          <div class="vote-buttons" style="display:inline-flex; vertical-align:middle; margin-left:0.5em;">
             <%= button_to upvote_topic_path(topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
               <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span>
             <% end %>
@@ -23,14 +27,12 @@
               <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span>
             <% end %>
           </div>
-        </div>
-        <span class="vote-info-row">
-          Votes: 
-          <div class="vote-count"><%= topic.votes || 0 %></div>
           |
-          Sats Received: 
+          Sats: 
           <i class="fak fa-satoshisymbol-solid"></i>
           <div class="sats-received"><%= topic.sats_received %></div>
+          |
+          <%= link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}", class: 'send-btc-link' %>
         </span>
       </li>
     <% end %>
