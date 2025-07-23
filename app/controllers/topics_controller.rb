@@ -2,32 +2,33 @@ class TopicsController < ApplicationController
   require 'net/http'
   require 'uri'
   require 'json'
+  before_action :set_socratic_seminar
+  before_action :set_topic, only: [:show, :upvote, :downvote]
 
   def index
-    @topics = Topic.order(votes: :desc)
+    @topics = @socratic_seminar.topics.order(votes: :desc)
     @vote_states = session[:votes] || {}
   end
 
   def show
-    @topic = Topic.find(params[:id])
   end
 
   def new
-    @topic = Topic.new
+    @topic = @socratic_seminar.topics.new
+    @topic.socratic_seminar_id = params[:socratic_seminar_id] if params[:socratic_seminar_id]
   end
 
   def create
-    @topic = Topic.new(topic_params)
+    @topic = @socratic_seminar.topics.new(topic_params)
     if @topic.save
       @topic.update!(lnurl: generate_lnurl(@topic.id))
-      redirect_to @topic
+      redirect_to [@socratic_seminar, @topic]
     else
       render :new
     end
   end
 
   def upvote
-    @topic = Topic.find(params[:id])
     session[:votes] ||= {}
     vote_state = session[:votes][@topic.id.to_s]
 
@@ -35,18 +36,16 @@ class TopicsController < ApplicationController
     when 'up'
       # Already upvoted, do nothing
     when 'down'
-      # User previously downvoted, revert to original state
       @topic.increment!(:votes, 1)
       session[:votes].delete(@topic.id.to_s)
     else
       @topic.increment!(:votes, 1)
       session[:votes][@topic.id.to_s] = 'up'
     end
-    redirect_to topics_path
+    redirect_to [@socratic_seminar, :topics]
   end
 
   def downvote
-    @topic = Topic.find(params[:id])
     session[:votes] ||= {}
     vote_state = session[:votes][@topic.id.to_s]
 
@@ -54,20 +53,27 @@ class TopicsController < ApplicationController
     when 'down'
       # Already downvoted, do nothing
     when 'up'
-      # User previously upvoted, revert to original state
       @topic.decrement!(:votes, 1)
       session[:votes].delete(@topic.id.to_s)
     else
       @topic.decrement!(:votes, 1)
       session[:votes][@topic.id.to_s] = 'down'
     end
-    redirect_to topics_path
+    redirect_to [@socratic_seminar, :topics]
   end
 
   private
 
+  def set_socratic_seminar
+    @socratic_seminar = SocraticSeminar.find(params[:socratic_seminar_id])
+  end
+
+  def set_topic
+    @topic = @socratic_seminar.topics.find(params[:id])
+  end
+
   def topic_params
-    params.require(:topic).permit(:name, :link)
+    params.require(:topic).permit(:name, :link, :socratic_seminar_id)
   end
 
   def generate_lnurl(topic_id)

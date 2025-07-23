@@ -67,8 +67,8 @@ li:hover {
 }
 
 a {
-  color: #f7931a;
-  /* font-weight: 700; */
+  color: #f68b08;
+  font-weight: 600;
   text-decoration: none;
 }
 
@@ -109,6 +109,13 @@ span {
 
 .button-new-topic {
   /* background: #000; */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85em;
+}
+
+.button-home {
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -252,6 +259,7 @@ span {
 .seminar-name {
   font-weight: 700;
   display: inline;
+  font-size: 1.2em;
 }
 
 .seminar-flex-row {
@@ -264,13 +272,9 @@ span {
   white-space: nowrap;
   width: 170px;
   display: inline-block;
-  font-size: 1.1em;
+  font-weight: 700;
 }
 
-.seminar-name {
-  font-weight: 700;
-  font-size: 1.2em;
-}
 
 .copy-button {
   background: #f7931a;
@@ -357,4 +361,53 @@ span {
 
 .topic-title-link {
   text-decoration: underline;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+}
+
+
+/* =========================
+   4. SEMINARS STYLES
+   ========================= */
+@media (max-width: 600px) {
+  .socratic-seminar-index-item {
+    font-size: 1em;
+  }
+}
+
+/* Remove li styling for seminars index */
+.voting-instructions {
+  padding: 5px;
+  border-radius: 5px;
+  padding: 10px 10px 5px 10px;
+  margin-bottom: 10px;
+  background: #f7941a0f;
+  font-size: 0.9em;
+}
+
+.voting-instructions li {
+  background: none;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0.5em;
+  padding: 0;
+  box-shadow: none;
+  list-style: disc;
+  margin-left: 1em;
+}
+
+.seminar-title {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0 0 0 0;
+}
+
+.seminar-subtitle {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 0 0 10px 0;
 }

@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
-  resources :socratic_seminars, path: 'seminars'
-  get "webhook/receive"
-  # Topics
-  resources :topics, only: [:index, :new, :create, :show] do
-    member do
-      post 'upvote'
-      post 'downvote'
+  resources :socratic_seminars, path: 'seminars' do
+    resources :topics, path: 'topics' do 
+      member do
+        post 'upvote'
+        post 'downvote'
+      end
     end
   end
+
+  get "webhook/receive"
 
   # LNURL Pay
   get '/lnurl-pay/:id', to: 'lnurl_pay#show', as: :lnurl_pay
@@ -16,7 +17,7 @@ Rails.application.routes.draw do
 
   post 'webhook/receive', to: 'webhook#receive'
 
-  root "topics#index"
+  root "socratic_seminars#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -3,7 +3,15 @@
 
   <% content_for :title, "Socratic seminars" %>
 
-  <h1>Socratic seminars</h1>
+  <div class="seminar-title">₿uilder Voting</div>
+  <div class="seminar-subtitle">Vote on topics for the next ₿uilder Socratic Seminar</div>
+
+  <div class="voting-instructions">
+    <ul>
+      <li>Vote for free with the Up & Down arrows. One vote per person.</li>
+      <li>Send Lightning payments for additional votes. Each individual payment counts as 1 vote. Unlimited Lightning votes per person.</li>
+    </ul>
+  </div>
 
   <div id="socratic_seminars">
     <% @socratic_seminars.each do |socratic_seminar| %>

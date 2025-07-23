@@ -44,7 +44,7 @@ function copyToClipboard(text) {
 
   <div class="current-status">
     <div class="current-status-title">Current Votes & Payments:</div>
-    <div class="sats-received-row">Votes: <%= @topic.votes %></div>
+    <div class="sats-received-row">Votes: <%= @topic.votes || 0  %></div>
     <div class="sats-received-row">Individual Payments: <%= @topic.individial_payments %></div>
     
     <div class="sats-received-row">
@@ -55,7 +55,7 @@ function copyToClipboard(text) {
   </div>
 
   <div class="back-to-topic-list">
-    <%= link_to 'Back To Topic List', topics_path %> 
+    <%= link_to 'Back To Topics', socratic_seminar_topics_path(@topic.socratic_seminar) %> 
   </div>
   
   <% if @topic.lnurl %>

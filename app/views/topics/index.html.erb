@@ -4,26 +4,32 @@
 <div class="container">
   <div class="page-header-row">
     <h1 class="page-header-title">Topics</h1>
-    <%= link_to 'New Topic', new_topic_path, class: 'button button-new-topic' %>
+    <div class="header-actions">
+      <%= link_to 'Home', root_path, class: 'button button-home' %>
+      <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button button-new-topic' %>
+    </div>
   </div>
-  <div class="topic-list-header-row">
-    Each Lightning payment is 1 vote.
+  <div class="voting-instructions">
+    <ul>
+      <li>Vote for free with the Up & Down arrows. One vote per person.</li>
+      <li>Send Lightning payments for additional votes. Each individual payment counts as 1 vote. Unlimited Lighting votes per person.</li>
+    </ul>
   </div>
   <ul>
     <% @topics.each do |topic| %>
       <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
       <li class="topic-list-item">
         <div class="topic-header-row">
-          <span class="topic-name"><%= link_to topic.name, topic_path(topic) %></span>
+          <span class="topic-name"><%= link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic) %></span>
         </div>
         <span class="vote-info-row">
           Votes: 
           <div class="vote-count"><%= topic.votes || 0 %></div>
           <div class="vote-buttons" style="display:inline-flex; vertical-align:middle; margin-left:0.5em;">
-            <%= button_to upvote_topic_path(topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
+            <%= button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
               <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span>
             <% end %>
-            <%= button_to downvote_topic_path(topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down') do %>
+            <%= button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down') do %>
               <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span>
             <% end %>
           </div>

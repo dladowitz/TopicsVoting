@@ -1,0 +1,5 @@
+class AddSocraticSeminarToTopics < ActiveRecord::Migration[8.0]
+  def change
+    add_reference :topics, :socratic_seminar, null: false, foreign_key: true
+  end
+end
