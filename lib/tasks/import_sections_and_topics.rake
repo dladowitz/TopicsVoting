@@ -22,8 +22,13 @@ namespace :import do
       next unless section_id.present?
       # Humanize the section name
       section_name = section_id.gsub('-', ' ').split.map(&:capitalize).join(' ')
-      section = Section.create!(name: section_name, socratic_seminar: seminar)
-      puts "Created Section: #{section.name}"
+      section = Section.find_by(name: section_name, socratic_seminar: seminar)
+      if section
+        puts "Skipping Section (already exists): #{section.name}"
+      else
+        section = Section.create!(name: section_name, socratic_seminar: seminar)
+        puts "Created Section: #{section.name}"
+      end
 
       # Find the next sibling <ul> or <ol> (the list of topics)
       list = h2.xpath('following-sibling::*').find { |el| el.name == 'ul' || el.name == 'ol' }
@@ -36,8 +41,17 @@ namespace :import do
           link = match
           ''
         end.strip
-        topic = section.topics.create!(name: text, link: link, socratic_seminar: seminar)
-        puts "  Created Topic: #{topic.name}#{" (link: #{topic.link})" if topic.link.present?}"
+        topic = section.topics.find_by(name: text, socratic_seminar: seminar)
+        if topic
+          topic.link = link if link.present?
+          topic.save!
+          puts "  Skipping Topic (already exists): #{topic.name}"
+        else
+          topic = section.topics.create!(name: text, socratic_seminar: seminar)
+          topic.link = link if link.present?
+          topic.save!
+          puts "  Created Topic: #{topic.name}#{" (link: #{topic.link})" if topic.link.present?}"
+        end
       end
     end
     puts "Import complete."
