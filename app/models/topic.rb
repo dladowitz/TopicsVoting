@@ -1,5 +1,6 @@
 class Topic < ApplicationRecord
-  belongs_to :socratic_seminar, optional: false
+  belongs_to :socratic_seminar, optional: true
+  belongs_to :section, optional: true
   has_many :payments
 
   def individial_payments

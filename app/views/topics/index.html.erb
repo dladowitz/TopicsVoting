@@ -3,7 +3,7 @@
 
 <div class="container">
   <div class="page-header-row">
-    <h1 class="page-header-title">Topics</h1>
+    <h1 class="page-header-title">₿uilder <%= @socratic_seminar.seminar_number %></h1>
     <div class="header-actions">
       <%= link_to 'Home', root_path, class: 'button button-home' %>
       <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button button-new-topic' %>
@@ -15,37 +15,41 @@
       <li>Send Lightning payments for additional votes. Each individual payment counts as 1 vote. Unlimited Lighting votes per person.</li>
     </ul>
   </div>
-  <ul>
-    <% @topics.each do |topic| %>
-      <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
-      <li class="topic-list-item">
-        <div class="topic-header-row">
-          <span class="topic-name">
-            <%= link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic) %>
-            <% if topic.link.present? %>
-              <span class="topic-link-desktop"> <%= link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener" %></span>
-            <% end %>
-          </span>
-        </div>
-        <span class="vote-info-row">
-          Votes: 
-          <div class="vote-count"><%= topic.votes || 0 %></div>
-          <div class="vote-buttons" style="display:inline-flex; vertical-align:middle; margin-left:0.5em;">
-            <%= button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
-              <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span>
-            <% end %>
-            <%= button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down') do %>
-              <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span>
-            <% end %>
+  <% sections = @topics.group_by(&:section) %>
+  <% sections.each do |section, topics| %>
+    <h2 class="section-title"><%= section&.name || 'Uncategorized' %></h2>
+    <ul>
+      <% topics.each do |topic| %>
+        <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
+        <li class="topic-list-item">
+          <div class="topic-header-row">
+            <span class="topic-name">
+              <%= link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic) %>
+              <% if topic.link.present? %>
+                <span class="topic-link-desktop"> <%= link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener" %></span>
+              <% end %>
+            </span>
           </div>
-          |
-          Sats: 
-          <i class="fak fa-satoshisymbol-solid"></i>
-          <div class="sats-received"><%= topic.sats_received %></div>
-          |
-          <%= link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}", class: 'send-btc-link' %>
-        </span>
-      </li>
-    <% end %>
-  </ul>
+          <span class="vote-info-row">
+            Votes: 
+            <div class="vote-count"><%= topic.votes || 0 %></div>
+            <div class="vote-buttons" style="display:inline-flex; vertical-align:middle; margin-left:0.5em;">
+              <%= button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
+                <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span>
+              <% end %>
+              <%= button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down') do %>
+                <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span>
+              <% end %>
+            </div>
+            |
+            Sats: 
+            <i class="fak fa-satoshisymbol-solid"></i>
+            <div class="sats-received"><%= topic.sats_received %></div>
+            |
+            <%= link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}", class: 'send-btc-link' %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
 </div>
