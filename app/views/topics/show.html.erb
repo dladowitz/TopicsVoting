@@ -18,17 +18,16 @@ function copyToClipboard(text) {
 </script>
 
 <div class="container">
-  <h1>
-    <% if @topic.link.present? %>
-      <%= link_to @topic.name, @topic.link, target: "_blank", rel: "noopener", class: "topic-title-link" %>
-    <% else %>
-      <%= @topic.name %>
-    <% end %>
-  </h1>
+  <h1 class="topic-title"><%= @topic.name %></h1>
+  <% if @topic.link.present? %>
+    <div class="topic-link-row">
+      <%= link_to @topic.link, @topic.link, target: "_blank", rel: "noopener", class: "topic-link-show" %>
+    </div>
+  <% end %>
 
   <% if @topic.lnurl %>
-    <div class="vote-using-lnurl">
-      Vote using <%= link_to "LNURLPay.com/#{@topic.lnurl.truncate(15)}", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank" %>
+    <div class="vote-using-lnurl ">
+      Vote using <%= link_to "LNURLPay.com/#{@topic.lnurl}", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank" %>
     </div>
     <div class="or-text">Or</div>
     <div class="copy-lnurl">
@@ -36,7 +35,7 @@ function copyToClipboard(text) {
       <button onclick="copyToClipboard('<%= @topic.lnurl %>')" class="copy-button" title="Copy LNURL">
         Copy <i class="fas fa-copy"></i>
       </button>
-      the <strong>LNURL</strong> and paste it into a lightning wallet
+      the <strong>LNURL</strong> and paste it into a lightning wallet to generate an invoice.
       
       <div class="lnurl-text"><%= @topic.lnurl %></div>
     </div>
@@ -55,7 +54,7 @@ function copyToClipboard(text) {
   </div>
 
   <div class="back-to-topic-list">
-    <%= link_to 'Back To Topics', socratic_seminar_topics_path(@topic.socratic_seminar) %> 
+    <%= link_to '<- Back To Topics', socratic_seminar_topics_path(@topic.socratic_seminar) %> 
   </div>
   
   <% if @topic.lnurl %>

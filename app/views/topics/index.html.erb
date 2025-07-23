@@ -20,7 +20,12 @@
       <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
       <li class="topic-list-item">
         <div class="topic-header-row">
-          <span class="topic-name"><%= link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic) %></span>
+          <span class="topic-name">
+            <%= link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic) %>
+            <% if topic.link.present? %>
+              <span class="topic-link-desktop"> <%= link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener" %></span>
+            <% end %>
+          </span>
         </div>
         <span class="vote-info-row">
           Votes: 

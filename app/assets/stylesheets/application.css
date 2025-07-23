@@ -306,6 +306,9 @@ span {
   border: 1px solid #E0CBE9;
   padding: 5px;
   border-radius: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .copy-lnurl {
@@ -359,8 +362,8 @@ span {
   margin: 20px 0 20px 5px;
 }
 
-.topic-title-link {
-  text-decoration: underline;
+.topic-title {
+  margin: 10px 0 5px 0;
 }
 
 .header-actions {
@@ -369,6 +372,37 @@ span {
   align-items: center;
 }
 
+.topic-link-desktop {
+  font-size: 0.85em;
+  color: #666;
+  margin-left: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.topic-link-desktop a {
+  font-size: 0.8em;
+  color: #d3961ae9;
+}
+
+@media (max-width: 600px) {
+  .topic-link-desktop {
+    display: none;
+  }
+}
+
+.topic-link-row {
+  margin-bottom: 1em;
+}
+
+.topic-link-show {
+  font-size: 0.95em;
+  word-break: break-all;
+}
 
 /* =========================
    4. SEMINARS STYLES
