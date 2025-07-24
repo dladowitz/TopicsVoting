@@ -12,23 +12,17 @@ document.addEventListener('visibilitychange', function() {
   }
 });
 
-window.addEventListener('DOMContentLoaded', function() {
-  const scrollY = localStorage.getItem('scrollY');
-  if (scrollY !== null) {
-    window.scrollTo(0, parseInt(scrollY, 10));
-    localStorage.removeItem('scrollY');
-  }
-  const toggle = document.getElementById('satsBtcToggle');
-  if (toggle) {
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.getElementById('satsBtcToggleSlider');
+  if (slider) {
     // Set initial state from localStorage
     let satsMode = localStorage.getItem('satsMode') || 'sats';
+    slider.checked = satsMode === 'btc';
     updateSatsLabels(satsMode);
-    toggle.textContent = satsMode === 'sats' ? 'Show as BTC' : 'Show in Sats';
-    toggle.addEventListener('click', function() {
-      satsMode = satsMode === 'sats' ? 'btc' : 'sats';
+    slider.addEventListener('change', function() {
+      satsMode = slider.checked ? 'btc' : 'sats';
       localStorage.setItem('satsMode', satsMode);
       updateSatsLabels(satsMode);
-      toggle.textContent = satsMode === 'sats' ? 'Show as BTC' : 'Show in Sats';
     });
   }
 });

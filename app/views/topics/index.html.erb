@@ -6,12 +6,20 @@
   <p style="color: red"><%= alert %></p>
   
   <div class="page-header-row">
-    <div style="display: flex; align-items: center; gap: 1.2em; margin-bottom: 1em;">
+    <div style="display: flex; align-items: flex-start; gap: 1.2em; margin-bottom: 1em;">
       <div class="builder-logo-container">
         <%= image_tag 'logo.png', alt: 'Builder Voting Logo', style: 'width: 100%; height: 100%; object-fit: cover; object-position: center;' %>
       </div>
-      <div>
+      <div style="display: flex; flex-direction: column; align-items: flex-start;">
         <h1 class="page-header-title" style="margin-bottom: 0.2em;">₿uilder <%= @socratic_seminar.seminar_number %></h1>
+        <div class="sats-btc-toggle" style="margin-bottom: 0.2em;">
+          <span class="toggle-label toggle-label-sats">Sats</span>
+          <label class="switch">
+            <input type="checkbox" id="satsBtcToggleSlider">
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label toggle-label-btc">BTC</span>
+        </div>
       </div>
     </div>
     <div class="header-actions" style="display: flex; align-items: flex-start; gap: 0.5em;">
@@ -27,9 +35,6 @@
         <button onclick="showDeleteSectionsModal()" class="button projector-footer-btn delete-content-btn">Delete Topics</button>
       <% end %>
     </div>
-  </div>
-  <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 0.5em;">
-    <button id="satsBtcToggle" class="button projector-footer-btn" style="font-size: 0.95em; padding: 0.3em 1em;">Show as BTC</button>
   </div>
   <div class="voting-instructions">
     <ul>
