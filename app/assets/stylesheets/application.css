@@ -195,3 +195,18 @@ span {
   list-style: disc;
   margin-left: 1em;
 }
+
+.builder-logo-container {
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  border-radius: 10%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 600px) {
+  .builder-logo-container {
+    width: 65px;
+    height: 55px;
+  }
+}
