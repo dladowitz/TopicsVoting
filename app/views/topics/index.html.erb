@@ -52,7 +52,7 @@
           <span class="vote-info-row">
             Votes: 
             <div class="vote-count" data-topics-target="voteCount"><%= topic.votes || 0 %></div>
-            <div class="vote-buttons" style="display:inline-flex; vertical-align:middle; margin-left:0.5em;">
+            <div class="vote-buttons" style="display:inline-flex; vertical-align:middle; margin-left:0.1em;">
               <%= button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up'), form: { data: { topics_target: 'voteForm', turbo: 'false' } } do %>
                 <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span>
               <% end %>
