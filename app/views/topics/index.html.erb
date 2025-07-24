@@ -8,8 +8,10 @@
   <div class="page-header-row">
     <h1 class="page-header-title">₿uilder <%= @socratic_seminar.seminar_number %></h1>
     <div class="header-actions">
-      <%= link_to 'Home', root_path, class: 'button' %>
-      <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button' %>
+      <%= link_to 'Home', root_path, class: 'button', style: 'position: relative; top: -10px; font-size: 90%; padding: 0.375em 0.75em;' %>
+      <% if @admin_mode %>
+        <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button' %>
+      <% end %>
       <% if @admin_mode %>
         <%= button_to "Import Sections & Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar), 
                       method: :post, 
