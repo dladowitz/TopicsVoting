@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_24_214734) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -36,6 +36,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_214734) do
     t.datetime "updated_at", null: false
     t.string "builder_sf_link"
     t.index ["seminar_number"], name: "index_socratic_seminars_on_seminar_number", unique: true
+  end
+
+  create_table "toggles", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_toggles_on_name", unique: true
   end
 
   create_table "topics", force: :cascade do |t|

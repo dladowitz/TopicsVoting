@@ -28,6 +28,9 @@ Rails.application.routes.draw do
 
   post 'webhook/receive', to: 'webhook#receive'
 
+  post '/toggles/increment', to: 'toggles#increment', as: :increment_toggle
+  get '/sats_vs_bitcoin', to: 'toggles#sats_vs_bitcoin', as: :sats_vs_bitcoin
+
   root "socratic_seminars#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

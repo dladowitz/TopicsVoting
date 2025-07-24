@@ -15,14 +15,27 @@ document.addEventListener('visibilitychange', function() {
 document.addEventListener('DOMContentLoaded', function() {
   const slider = document.getElementById('satsBtcToggleSlider');
   if (slider) {
-    // Set initial state from localStorage
-    let satsMode = localStorage.getItem('satsMode') || 'sats';
+    // Set initial state from localStorage, or random on first visit
+    let satsMode = localStorage.getItem('satsMode');
+    if (!satsMode) {
+      satsMode = Math.random() < 0.5 ? 'sats' : 'btc';
+      localStorage.setItem('satsMode', satsMode);
+    }
     slider.checked = satsMode === 'btc';
     updateSatsLabels(satsMode);
     slider.addEventListener('change', function() {
       satsMode = slider.checked ? 'btc' : 'sats';
       localStorage.setItem('satsMode', satsMode);
       updateSatsLabels(satsMode);
+      // Track toggle preference
+      fetch('/toggles/increment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        },
+        body: JSON.stringify({ name: satsMode === 'btc' ? 'btc_preference' : 'sats_preference' })
+      });
     });
   }
 });
