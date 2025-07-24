@@ -5,8 +5,19 @@ Rails.application.routes.draw do
         post 'upvote'
         post 'downvote'
       end
+      
+      collection do
+        post 'import_sections_and_topics'
+      end
+    end
+    
+    member do
+      delete 'delete_sections'
     end
   end
+
+  # Admin mode control
+  post 'seminars/disable_admin_mode', to: 'socratic_seminars#disable_admin_mode_action', as: :disable_admin_mode
 
   get "webhook/receive"
 

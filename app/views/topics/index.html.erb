@@ -2,11 +2,21 @@
 <script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
 
 <div class="container">
+  <p style="color: green"><%= notice %></p>
+  <p style="color: red"><%= alert %></p>
+  
   <div class="page-header-row">
     <h1 class="page-header-title">₿uilder <%= @socratic_seminar.seminar_number %></h1>
     <div class="header-actions">
-      <%= link_to 'Home', root_path, class: 'button button-home' %>
-      <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button button-new-topic' %>
+      <%= link_to 'Home', root_path, class: 'button' %>
+      <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button' %>
+      <% if @admin_mode %>
+        <%= button_to "Import Sections & Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar), 
+                      method: :post, 
+                      class: "button",
+                      data: { confirm: "This will import sections and topics from bitcoinbuildersf.com for Builder #{@socratic_seminar.seminar_number}. Continue?" } %>
+        <button onclick="showDeleteSectionsModal()" class="button button-danger">Delete Sections</button>
+      <% end %>
     </div>
   </div>
   <div class="voting-instructions">
@@ -53,3 +63,39 @@
     </ul>
   <% end %>
 </div>
+
+<!-- Delete Sections Confirmation Modal -->
+<div id="deleteSectionsModal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);">
+  <div style="background-color: white; margin: 15% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 500px;">
+    <h3 style="color: #e74c3c; margin-top: 0;">⚠️ Warning: Delete All Sections</h3>
+    <p>You are about to delete <strong>ALL</strong> Sections and Topics for this Seminar.</p>
+    <p>This will also delete <strong>ALL Lightning Payments</strong> associated with the Topics.</p>
+    <p style="color: #e74c3c; font-weight: bold;">This action cannot be undone!</p>
+    
+    <div style="margin-top: 20px; text-align: right;">
+      <button onclick="hideDeleteSectionsModal()" class="button" style="margin-right: 10px;">Cancel</button>
+      <%= button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar), 
+                    method: :delete, 
+                    class: "button button-danger",
+                    data: { confirm: false } %>
+    </div>
+  </div>
+</div>
+
+<script>
+function showDeleteSectionsModal() {
+  document.getElementById('deleteSectionsModal').style.display = 'block';
+}
+
+function hideDeleteSectionsModal() {
+  document.getElementById('deleteSectionsModal').style.display = 'none';
+}
+
+// Close modal when clicking outside of it
+window.onclick = function(event) {
+  var modal = document.getElementById('deleteSectionsModal');
+  if (event.target == modal) {
+    hideDeleteSectionsModal();
+  }
+}
+</script>

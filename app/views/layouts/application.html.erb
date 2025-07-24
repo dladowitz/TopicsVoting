@@ -24,6 +24,12 @@
   </head>
 
   <body>
+    <% if @admin_mode %>
+      <div class="admin-mode-indicator">
+        Admin Mode Active
+      </div>
+    <% end %>
+    
     <%= yield %>
   </body>
 </html>

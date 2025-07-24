@@ -3,7 +3,7 @@ class TopicsController < ApplicationController
   require 'uri'
   require 'json'
   before_action :set_socratic_seminar
-  before_action :set_topic, only: [:show, :upvote, :downvote]
+  before_action :set_topic, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
 
   def index
     @topics = @socratic_seminar.topics.order(votes: :desc)
@@ -25,6 +25,36 @@ class TopicsController < ApplicationController
       redirect_to [@socratic_seminar, @topic]
     else
       render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @topic.update(topic_params)
+      redirect_to [@socratic_seminar, @topic], notice: "Topic was successfully updated."
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @topic.destroy!
+    redirect_to [@socratic_seminar, :topics], notice: "Topic was successfully destroyed."
+  end
+
+  def import_sections_and_topics
+    # Call the rake task with the seminar number
+    builder_number = @socratic_seminar.seminar_number.to_s
+    
+    # Capture the output from the rake task
+    output = `cd #{Rails.root} && bin/rails "import:import_sections_and_topics[#{builder_number}]" 2>&1`
+    
+    if $?.success?
+      redirect_to [@socratic_seminar, :topics], notice: "Import completed successfully. #{output.lines.last}"
+    else
+      redirect_to [@socratic_seminar, :topics], alert: "Import failed: #{output.lines.last}"
     end
   end
 

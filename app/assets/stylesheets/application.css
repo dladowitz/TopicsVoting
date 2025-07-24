@@ -126,8 +126,8 @@ span {
   color: #fff;
   border: none;
   border-radius: 8px;
-  padding: 0.4em 1em;
-  font-size: 0.9em;
+  /* padding: 0.4em 1em; */
+  /* font-size: 0.9em; */
   font-weight: 600;
   cursor: pointer;
   margin-right: 0.5em;
@@ -150,6 +150,27 @@ span {
   display: flex;
   gap: 0.5em;
   align-items: center;
+}
+
+/* =========================
+   ADMIN MODE INDICATOR
+   ========================= */
+.admin-mode-indicator {
+  background: #e74c3c;
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.admin-mode-indicator::before {
+  content: "🔧";
+  font-size: 1.1em;
 }
 
 /* =========================

@@ -42,6 +42,11 @@
   margin: 0 0 10px 0;
 }
 
+.disable-admin-button {
+  background: #e74c3c;
+  color: #fff;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   .socratic-seminar-index-item {

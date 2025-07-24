@@ -18,7 +18,21 @@ function copyToClipboard(text) {
 </script>
 
 <div class="container">
-  <h1 class="topic-title"><%= @topic.name %></h1>
+  <p style="color: green"><%= notice %></p>
+  
+  <div class="page-header-row">
+    <h1 class="topic-title"><%= @topic.name %></h1>
+    <% if @admin_mode %>
+      <div class="header-actions">
+        <%= link_to "Edit", edit_socratic_seminar_topic_path(@socratic_seminar, @topic, mode: 'admin'), class: "button" %>
+        <%= button_to "Delete", socratic_seminar_topic_path(@socratic_seminar, @topic, mode: 'admin'), 
+                      method: :delete, 
+                      class: "button button-danger", 
+                      data: { confirm: "Are you sure you want to delete this topic?" } %>
+      </div>
+    <% end %>
+  </div>
+
   <% if @topic.link.present? %>
     <div class="topic-link-row">
       <%= link_to @topic.link, @topic.link, target: "_blank", rel: "noopener", class: "topic-link-show" %>
