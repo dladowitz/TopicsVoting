@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_24_050714) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_24_214734) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -44,7 +44,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_050714) do
     t.integer "sats_received", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "votes"
+    t.integer "votes", default: 0, null: false
     t.string "link"
     t.integer "socratic_seminar_id", null: false
     t.integer "section_id", null: false

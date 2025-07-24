@@ -6,7 +6,7 @@ class TopicsController < ApplicationController
   before_action :set_topic, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
 
   def index
-    @topics = @socratic_seminar.topics.order(votes: :desc)
+    @topics = @socratic_seminar.topics.order(Arel.sql('COALESCE(votes, 0) DESC'), :id)
     @sections = @socratic_seminar.sections.order(:id)
     @vote_states = session[:votes] || {}
   end
