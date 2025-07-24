@@ -91,9 +91,8 @@ Rails.application.configure do
   # Allow Action Cable requests from your custom domain (https only)
   config.action_cable.allowed_request_origins = [
     'http://buildervoting.com',
-    'http://www.buildervoting.com'
+    'http://www.buildervoting.com',
     'https://buildervoting.com',
-    'https://www.buildervoting.com'
-
+    'https://www.buildervoting.com',
   ]
 end
