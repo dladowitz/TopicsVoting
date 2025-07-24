@@ -6,7 +6,14 @@
   <p style="color: red"><%= alert %></p>
   
   <div class="page-header-row">
-    <h1 class="page-header-title">₿uilder <%= @socratic_seminar.seminar_number %></h1>
+    <div style="display: flex; align-items: center; gap: 1.2em; margin-bottom: 1em;">
+      <div style="width: 65px; height: 55px; overflow: hidden; border-radius: 10%; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+        <%= image_tag 'logo.png', alt: 'Builder Voting Logo', style: 'width: 100%; height: 100%; object-fit: cover; object-position: center;' %>
+      </div>
+      <div>
+        <h1 class="page-header-title" style="margin-bottom: 0.2em;">₿uilder <%= @socratic_seminar.seminar_number %></h1>
+      </div>
+    </div>
     <div class="header-actions">
       <%= link_to 'Home', root_path, class: 'button', style: 'position: relative; top: -10px; font-size: 90%; padding: 0.375em 0.75em;' %>
       <% if @admin_mode %>
