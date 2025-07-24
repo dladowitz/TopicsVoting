@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_23_164232) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_24_050714) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -48,6 +48,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_23_164232) do
     t.string "link"
     t.integer "socratic_seminar_id", null: false
     t.integer "section_id", null: false
+    t.index ["id"], name: "index_topics_on_id", unique: true
     t.index ["section_id"], name: "index_topics_on_section_id"
     t.index ["socratic_seminar_id"], name: "index_topics_on_socratic_seminar_id"
   end

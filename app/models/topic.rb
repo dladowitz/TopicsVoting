@@ -6,7 +6,7 @@ class Topic < ApplicationRecord
   has_many :payments
 
   after_create :set_lnurl
-
+  after_update_commit :broadcast_topic_update
 
   def completed_payments_count
     payments.where(paid: true).count
@@ -23,5 +23,21 @@ class Topic < ApplicationRecord
     data = url.unpack("C*")
     words = Bech32.convert_bits(data, 8, 5, true)
     Bech32.encode("lnurl", words, :bech32)
+  end
+
+  def broadcast_topic_update
+    puts "[Topic] Broadcasting update for topic ##{id} (votes: #{votes}, sats: #{sats_received})"
+    ActionCable.server.broadcast(
+      "topics",
+      {
+        id: id,
+        votes: votes,
+        sats_received: sats_received
+      }
+    )
+  end
+
+  def individial_payments
+    payments
   end
 end

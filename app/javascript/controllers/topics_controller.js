@@ -9,6 +9,7 @@ export default class extends Controller {
     this.voteFormTargets.forEach(form => {
       form.addEventListener('submit', this.handleVote.bind(this))
     })
+    this.subscribeToTopicUpdates();
   }
 
   async handleVote(event) {
@@ -17,11 +18,11 @@ export default class extends Controller {
     console.log("Vote form submitted!", form);
     const url = form.action;
     const method = form.method || 'post';
-    const token = document.querySelector('meta[name="csrf-token"]')?.content;
     const topicListItem = form.closest('.topic-list-item');
     const voteCountSpan = topicListItem.querySelector('.vote-count');
     const upButton = form.closest('.vote-buttons').querySelector('form[action*="upvote"] button');
     const downButton = form.closest('.vote-buttons').querySelector('form[action*="downvote"] button');
+    const token = document.querySelector('meta[name="csrf-token"]')?.content;
 
     const response = await fetch(url, {
       method: method.toUpperCase(),
@@ -54,14 +55,33 @@ export default class extends Controller {
   }
 
   resortTopicsInSection(topicListItem) {
-    // Find the parent <ul> (the section's topic list)
     const ul = topicListItem.closest('ul');
     if (!ul) return;
-    // Get all topic-list-item <li>s in this section
     const items = Array.from(ul.querySelectorAll('.topic-list-item'));
-    // Sort by data-votes (descending)
     items.sort((a, b) => parseInt(b.getAttribute('data-votes')) - parseInt(a.getAttribute('data-votes')));
-    // Re-append in sorted order
     items.forEach(item => ul.appendChild(item));
+  }
+
+  subscribeToTopicUpdates() {
+    if (!window.solidCableConsumer) return;
+    window.solidCableConsumer.subscriptions.create({ channel: "TopicsChannel" }, {
+      received: (data) => {
+        const topicListItem = document.querySelector(`.topic-list-item[data-topic-id='${data.id}']`);
+        if (topicListItem) {
+          // Update votes
+          const voteCountSpan = topicListItem.querySelector('.vote-count');
+          if (voteCountSpan) {
+            voteCountSpan.textContent = data.votes;
+          }
+          topicListItem.setAttribute('data-votes', data.votes);
+          // Update sats
+          const satsSpan = topicListItem.querySelector('.sats-received');
+          if (satsSpan) {
+            satsSpan.textContent = data.sats_received;
+          }
+          this.resortTopicsInSection(topicListItem);
+        }
+      }
+    });
   }
 } 

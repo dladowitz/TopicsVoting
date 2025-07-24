@@ -67,10 +67,12 @@ class TopicsController < ApplicationController
     when 'up'
       # Already upvoted, do nothing
     when 'down'
-      @topic.increment!(:votes, 1)
+      @topic.votes = (@topic.votes || 0) + 1
+      @topic.save!
       session[:votes].delete(@topic.id.to_s)
     else
-      @topic.increment!(:votes, 1)
+      @topic.votes = (@topic.votes || 0) + 1
+      @topic.save!
       session[:votes][@topic.id.to_s] = 'up'
     end
 
@@ -93,10 +95,12 @@ class TopicsController < ApplicationController
     when 'down'
       # Already downvoted, do nothing
     when 'up'
-      @topic.decrement!(:votes, 1)
+      @topic.votes = (@topic.votes || 0) - 1
+      @topic.save!
       session[:votes].delete(@topic.id.to_s)
     else
-      @topic.decrement!(:votes, 1)
+      @topic.votes = (@topic.votes || 0) - 1
+      @topic.save!
       session[:votes][@topic.id.to_s] = 'down'
     end
 

@@ -13,8 +13,10 @@ class WebhookController < ApplicationController
       payment = Payment.find_by(payment_hash: payment_hash)
       if payment
         payment.update(paid: true)
-        payment.topic.increment!(:sats_received, payment.amount)
-        payment.topic.increment!(:votes, 1)
+        topic = payment.topic
+        topic.sats_received = (topic.sats_received || 0) + payment.amount
+        topic.votes = (topic.votes || 0) + 1
+        topic.save!
         head :ok
       else
         head :not_found
