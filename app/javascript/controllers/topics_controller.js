@@ -37,8 +37,13 @@ export default class extends Controller {
     if (response.ok) {
       const data = await response.json();
       if (data.vote_count !== undefined) {
-        voteCountSpan.textContent = data.vote_count;
-        topicListItem.setAttribute('data-votes', data.vote_count);
+        const prevVotes = parseInt(voteCountSpan.textContent, 10);
+        if (prevVotes !== data.vote_count) {
+          voteCountSpan.textContent = data.vote_count;
+          topicListItem.setAttribute('data-votes', data.vote_count);
+          this.animatePop(voteCountSpan);
+          this.flashBorder(topicListItem);
+        }
         this.resortTopicsInSection(topicListItem);
       }
       if (data.vote_state === 'up') {
@@ -58,8 +63,22 @@ export default class extends Controller {
     const ul = topicListItem.closest('ul');
     if (!ul) return;
     const items = Array.from(ul.querySelectorAll('.topic-list-item'));
+    // Sort by data-votes (descending)
     items.sort((a, b) => parseInt(b.getAttribute('data-votes')) - parseInt(a.getAttribute('data-votes')));
     items.forEach(item => ul.appendChild(item));
+  }
+
+  flashBorder(element) {
+    element.classList.remove('flash-border');
+    void element.offsetWidth;
+    element.classList.add('flash-border');
+    // Remove border after animation ends
+    const removeBorder = () => {
+      element.classList.remove('flash-border');
+      element.style.border = 'none';
+      element.removeEventListener('animationend', removeBorder);
+    };
+    element.addEventListener('animationend', removeBorder);
   }
 
   subscribeToTopicUpdates() {
@@ -71,17 +90,42 @@ export default class extends Controller {
           // Update votes
           const voteCountSpan = topicListItem.querySelector('.vote-count');
           if (voteCountSpan) {
-            voteCountSpan.textContent = data.votes;
+            const prevVotes = parseInt(voteCountSpan.textContent, 10);
+            if (prevVotes !== data.votes) {
+              voteCountSpan.textContent = data.votes;
+              this.animatePop(voteCountSpan);
+              this.flashBorder(topicListItem);
+            }
+            topicListItem.setAttribute('data-votes', data.votes);
+            this.resortTopicsInSection(topicListItem);
           }
-          topicListItem.setAttribute('data-votes', data.votes);
           // Update sats
           const satsSpan = topicListItem.querySelector('.sats-received');
           if (satsSpan) {
-            satsSpan.textContent = data.sats_received;
+            const prevSats = parseInt(satsSpan.textContent, 10);
+            if (prevSats !== data.sats_received) {
+              satsSpan.textContent = data.sats_received;
+              this.animateLightning(satsSpan);
+              this.flashBorder(topicListItem);
+            }
+            this.resortTopicsInSection(topicListItem);
           }
-          this.resortTopicsInSection(topicListItem);
         }
       }
     });
+  }
+
+  animatePop(element) {
+    element.classList.remove('pop');
+    // Force reflow to restart animation
+    void element.offsetWidth;
+    element.classList.add('pop');
+  }
+
+  animateLightning(element) {
+    element.classList.remove('pop');
+    element.classList.remove('lightning');
+    void element.offsetWidth;
+    element.classList.add('lightning');
   }
 } 
