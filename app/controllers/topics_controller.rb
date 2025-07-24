@@ -7,6 +7,7 @@ class TopicsController < ApplicationController
 
   def index
     @topics = @socratic_seminar.topics.order(votes: :desc)
+    @sections = @socratic_seminar.sections.order(:id)
     @vote_states = session[:votes] || {}
   end
 
@@ -72,7 +73,16 @@ class TopicsController < ApplicationController
       @topic.increment!(:votes, 1)
       session[:votes][@topic.id.to_s] = 'up'
     end
-    redirect_to [@socratic_seminar, :topics]
+
+    respond_to do |format|
+      format.html { redirect_to [@socratic_seminar, :topics] }
+      format.json {
+        render json: {
+          vote_count: @topic.votes,
+          vote_state: session[:votes][@topic.id.to_s]
+        }
+      }
+    end
   end
 
   def downvote
@@ -89,7 +99,16 @@ class TopicsController < ApplicationController
       @topic.decrement!(:votes, 1)
       session[:votes][@topic.id.to_s] = 'down'
     end
-    redirect_to [@socratic_seminar, :topics]
+
+    respond_to do |format|
+      format.html { redirect_to [@socratic_seminar, :topics] }
+      format.json {
+        render json: {
+          vote_count: @topic.votes,
+          vote_state: session[:votes][@topic.id.to_s]
+        }
+      }
+    end
   end
 
   private

@@ -1,7 +1,7 @@
 <!-- TODO Move this to a template -->
 <script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
 
-<div class="container">
+<div class="container" data-controller="topics">
   <p style="color: green"><%= notice %></p>
   <p style="color: red"><%= alert %></p>
   
@@ -25,13 +25,12 @@
       <li>Send Lightning payments for additional votes. Each individual payment counts as 1 vote. Unlimited Lighting votes per person.</li>
     </ul>
   </div>
-  <% sections = @topics.group_by(&:section) %>
-  <% sections.each do |section, topics| %>
-    <h2 class="section-title"><%= section&.name || 'Uncategorized' %></h2>
+  <% @sections.each do |section| %>
+    <h2 class="section-title"><%= section.name %></h2>
     <ul>
-      <% topics.each do |topic| %>
+      <% @topics.select { |topic| topic.section_id == section.id }.each do |topic| %>
         <% vote_state = (@vote_states && @vote_states[topic.id.to_s]) %>
-        <li class="topic-list-item">
+        <li class="topic-list-item" data-topic-id="<%= topic.id %>" data-votes="<%= topic.votes || 0 %>">
           <div class="topic-header-row">
             <span class="topic-name">
               <%= link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic) %>
@@ -42,12 +41,12 @@
           </div>
           <span class="vote-info-row">
             Votes: 
-            <div class="vote-count"><%= topic.votes || 0 %></div>
+            <div class="vote-count" data-topics-target="voteCount"><%= topic.votes || 0 %></div>
             <div class="vote-buttons" style="display:inline-flex; vertical-align:middle; margin-left:0.5em;">
-              <%= button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up') do %>
+              <%= button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'up'), form: { data: { topics_target: 'voteForm', turbo: 'false' } } do %>
                 <span class="vote-arrow"><i class="fas fa-arrow-up"></i></span>
               <% end %>
-              <%= button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down') do %>
+              <%= button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic), method: :post, class: 'vote-button', disabled: (vote_state == 'down'), form: { data: { topics_target: 'voteForm', turbo: 'false' } } do %>
                 <span class="vote-arrow"><i class="fas fa-arrow-down"></i></span>
               <% end %>
             </div>
@@ -56,7 +55,7 @@
             <i class="fak fa-satoshisymbol-solid"></i>
             <div class="sats-received"><%= topic.sats_received %></div>
             |
-            <%= link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}", class: 'send-btc-link' %>
+            <%= link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}", class: 'send-btc-link', target: "_blank", rel: "noopener" %>
           </span>
         </li>
       <% end %>
