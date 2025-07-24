@@ -1,7 +1,7 @@
 <div class="container">
-  <p style="color: green"><%= notice %></p>
+<p style="color: green"><%= notice %></p>
 
-  <%= render @socratic_seminar %>
+<%= render @socratic_seminar %>
 
   <h2>Topics for this Seminar</h2>
   <ul>
@@ -12,7 +12,7 @@
     <% end %>
   </ul>
 
-  <div>
+<div>
     <% if @admin_mode %>
       <%= link_to "Edit this socratic seminar", edit_socratic_seminar_path(@socratic_seminar, mode: 'admin') %> |
       <%= button_to "Destroy this socratic seminar", @socratic_seminar, method: :delete, class: 'button-danger', params: { mode: 'admin' } %> |

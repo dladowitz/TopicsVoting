@@ -31,7 +31,16 @@
 
 .sats-received {
   margin-left: -5px;
+  margin-bottom: 0;
   font-weight: 600;
+}
+
+.sats-symbol {
+  margin-bottom: 0;
+}
+
+.sats-label {
+  margin-bottom: 0;
 }
 
 /* Topic Show Page Styles */

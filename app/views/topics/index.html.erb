@@ -28,6 +28,9 @@
       <% end %>
     </div>
   </div>
+  <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 0.5em;">
+    <button id="satsBtcToggle" class="button projector-footer-btn" style="font-size: 0.95em; padding: 0.3em 1em;">Show as BTC</button>
+  </div>
   <div class="voting-instructions">
     <ul>
       <li>Vote for free with the Up & Down arrows. One vote per person.</li>
@@ -61,9 +64,9 @@
               <% end %>
             </div>
             |
-            Sats: 
-            <i class="fak fa-satoshisymbol-solid"></i>
-            <div class="sats-received"><%= topic.sats_received %></div>
+            <span class="sats-label">Sats:</span> 
+            <span class="sats-symbol"><i class="fak fa-satoshisymbol-solid"></i></span>
+            <div class="sats-received" data-sats="<%= topic.sats_received %>"><%= topic.sats_received %></div>
             |
             <%= link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}", class: 'send-btc-link', target: "_blank", rel: "noopener" %>
           </span>
