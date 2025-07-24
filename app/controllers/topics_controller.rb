@@ -16,12 +16,12 @@ class TopicsController < ApplicationController
   def new
     @topic = @socratic_seminar.topics.new
     @topic.socratic_seminar_id = params[:socratic_seminar_id] if params[:socratic_seminar_id]
+    @sections = @socratic_seminar.sections
   end
 
   def create
     @topic = @socratic_seminar.topics.new(topic_params)
     if @topic.save
-      @topic.update!(lnurl: generate_lnurl(@topic.id))
       redirect_to [@socratic_seminar, @topic]
     else
       render :new
@@ -103,13 +103,6 @@ class TopicsController < ApplicationController
   end
 
   def topic_params
-    params.require(:topic).permit(:name, :link, :socratic_seminar_id)
-  end
-
-  def generate_lnurl(topic_id)
-    url = "https://enough-hound-destined.ngrok-free.app/lnurl-pay/#{topic_id}"
-    data = url.unpack("C*")
-    words = Bech32.convert_bits(data, 8, 5, true)
-    Bech32.encode("lnurl", words, :bech32)
+    params.require(:topic).permit(:name, :link, :socratic_seminar_id, :section_id)
   end
 end

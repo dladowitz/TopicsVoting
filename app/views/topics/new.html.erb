@@ -28,6 +28,11 @@
       <%= form.text_field :socratic_seminar_id, size: 4, value: @topic.socratic_seminar_id %>
     </div>
 
+    <div class="field">
+      <%= form.label :section_id, 'Section' %><br>
+      <%= form.collection_select :section_id, @sections, :id, :name, {}, { required: true } %>
+    </div>
+
     <div class="actions">
       <%= form.submit "Create Topic" %>
     </div>

@@ -58,7 +58,7 @@ function copyToClipboard(text) {
   <div class="current-status">
     <div class="current-status-title">Current Votes & Payments:</div>
     <div class="sats-received-row">Votes: <%= @topic.votes || 0  %></div>
-    <div class="sats-received-row">Individual Payments: <%= @topic.individial_payments %></div>
+    <div class="sats-received-row">Individual Payments: <%= @topic.completed_payments_count %></div>
     
     <div class="sats-received-row">
       Sats Received:
