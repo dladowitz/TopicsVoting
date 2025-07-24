@@ -4,3 +4,8 @@ import "controllers"
 import { createConsumer } from "@rails/actioncable"
 window.solidCableConsumer = createConsumer()
 import "channels"
+document.addEventListener('visibilitychange', function() {
+  if (document.visibilityState === 'visible') {
+    window.location.reload();
+  }
+});
