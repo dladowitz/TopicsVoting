@@ -95,4 +95,7 @@ Rails.application.configure do
     'https://buildervoting.com',
     'https://www.buildervoting.com',
   ]
+
+  # Fix orgiin vs base_url mismatch
+  config.action_controller.forgery_protection_origin_check = false
 end
