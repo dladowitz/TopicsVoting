@@ -259,3 +259,38 @@ span {
   font-size: 0.6em;
   padding: 0.5em 0.8em;
 }
+
+.projector-footer-btn {
+  font-size: 0.95em;
+  padding: 0.4em 1.2em;
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
+  border-radius: 8px;
+  box-shadow: none;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.projector-footer-btn:hover, .projector-footer-btn:focus {
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
+}
+
+.sticky-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.5em 0 1em 0;
+  text-align: center;
+  background: #fafafa;
+  border-top: 1px solid #eee;
+  z-index: 100;
+}
+
+@media (max-width: 600px) {
+  .sticky-footer {
+    display: none !important;
+  }
+}
