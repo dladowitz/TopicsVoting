@@ -294,3 +294,16 @@ span {
     display: none !important;
   }
 }
+
+.delete-content-btn {
+  border: 1.5px solid #e74c3c !important;
+  color: #e74c3c !important;
+  background: #fff !important;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+.delete-content-btn:hover, .delete-content-btn:focus {
+  background: #e74c3c !important;
+  color: #fff !important;
+  border: 1.5px solid #e74c3c !important;
+}

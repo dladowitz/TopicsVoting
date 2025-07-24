@@ -14,17 +14,17 @@
         <h1 class="page-header-title" style="margin-bottom: 0.2em;">₿uilder <%= @socratic_seminar.seminar_number %></h1>
       </div>
     </div>
-    <div class="header-actions">
-      <%= link_to 'Home', root_path, class: 'button projector-footer-btn', style: 'position: relative; top: -10px;' %>
+    <div class="header-actions" style="display: flex; align-items: flex-start; gap: 0.5em;">
+      <%= link_to 'Home', root_path, class: 'button projector-footer-btn' %>
       <% if @admin_mode %>
-        <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button' %>
+        <%= link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn' %>
       <% end %>
       <% if @admin_mode %>
-        <%= button_to "Import Sections & Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar), 
+        <%= button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar), 
                       method: :post, 
-                      class: "button",
+                      class: "button projector-footer-btn",
                       data: { confirm: "This will import sections and topics from bitcoinbuildersf.com for Builder #{@socratic_seminar.seminar_number}. Continue?" } %>
-        <button onclick="showDeleteSectionsModal()" class="button button-danger">Delete Sections</button>
+        <button onclick="showDeleteSectionsModal()" class="button projector-footer-btn delete-content-btn">Delete Topics</button>
       <% end %>
     </div>
   </div>
