@@ -128,4 +128,13 @@ export default class extends Controller {
     void element.offsetWidth;
     element.classList.add('lightning');
   }
+
+  toggleSatsLabel(event) {
+    const label = event.target;
+    if (label.textContent.trim() === 'Sats') {
+      label.textContent = '₿';
+    } else {
+      label.textContent = 'Sats';
+    }
+  }
 } 

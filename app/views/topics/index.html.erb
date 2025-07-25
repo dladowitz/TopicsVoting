@@ -15,7 +15,7 @@
             <input type="checkbox" id="satsBtcToggleSlider">
             <span class="slider"></span>
           </label>
-          <span class="toggle-label toggle-label-btc">Bitcoin</span>
+          <span class="toggle-label toggle-label-btc">₿</span>
         </div>
       </div>
     </div>
@@ -66,8 +66,8 @@
               <% end %>
             </div>
             |
-            <%# <span class="sats-label">Sats:</span> %>
-            <span class="sats-symbol"><i class="fak fa-satoshisymbol-solid"></i></span>
+            <span class="sats-label" data-action="click->topics#toggleSatsLabel">Sats</span>
+            <%# comment out the sats symbol for now<span class="sats-symbol"><i class="fak fa-satoshisymbol-solid"></i></span> %>
             <div class="sats-received" data-sats="<%= topic.sats_received %>"><%= topic.sats_received %></div>
             |
             <%= link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}", class: 'send-btc-link', target: "_blank", rel: "noopener" %>
