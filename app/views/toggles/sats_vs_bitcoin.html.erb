@@ -1,6 +1,6 @@
 <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh;">
   <h1 style="font-size: 2.5em; color: #f7931a; margin-bottom: 1em;">Sats vs Bitcoin Toggle Counts</h1>
-  <div style="font-size: 2em; margin-bottom: 1em; color: #222; display: flex; flex-direction: column; gap: 0.7em; align-items: center;">
+  <div style="font-size: 2em; margin-bottom: 1em; color: #222; display: flex; gap: 2em; align-items: center;">
     <span style="display: flex; align-items: center;">
       <i class="fab fa-btc" style="margin-right: 0.3em;"></i> BTC: <strong style="margin-left: 0.3em;"><%= @btc_count %></strong>
     </span>
@@ -10,5 +10,6 @@
   </div>
   <div style="margin-top: 2em; color: #888; font-size: 1.1em;">
     This page shows how many times users have toggled to each mode.<br>
+    Settings are randomized on a user's first visit to not bias the results.
   </div>
 </div> 
