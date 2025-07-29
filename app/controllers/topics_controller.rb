@@ -23,7 +23,7 @@ class TopicsController < ApplicationController
   def create
     @topic = @socratic_seminar.topics.new(topic_params)
     if @topic.save
-      redirect_to [@socratic_seminar, @topic]
+      redirect_to [@socratic_seminar, :topics]
     else
       render :new
     end

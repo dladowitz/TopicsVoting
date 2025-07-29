@@ -17,7 +17,7 @@ class SocraticSeminarsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create socratic_seminar" do
     assert_difference("SocraticSeminar.count") do
-      post socratic_seminars_url, params: { socratic_seminar: { date: @socratic_seminar.date, seminar_number: @socratic_seminar.seminar_number } }
+      post socratic_seminars_url, params: { socratic_seminar: { date: @socratic_seminar.date, seminar_number: 3 } }
     end
 
     assert_redirected_to socratic_seminar_url(SocraticSeminar.last)
@@ -39,6 +39,12 @@ class SocraticSeminarsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should destroy socratic_seminar" do
+    # Delete associated records first
+    @socratic_seminar.sections.each do |section|
+      section.topics.destroy_all
+    end
+    @socratic_seminar.sections.destroy_all
+
     assert_difference("SocraticSeminar.count", -1) do
       delete socratic_seminar_url(@socratic_seminar)
     end
