@@ -2,8 +2,18 @@
 
 one:
   name: MyString
-  description: MyText
+  lnurl: lnurl1
+  sats_received: 0
+  votes: 0
+  link: https://example.com/1
+  socratic_seminar: one
+  section: one
 
 two:
-  name: MyString
-  description: MyText
+  name: MyString2
+  lnurl: lnurl2
+  sats_received: 0
+  votes: 0
+  link: https://example.com/2
+  socratic_seminar: two
+  section: two
