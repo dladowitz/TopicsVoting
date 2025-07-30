@@ -32,7 +32,7 @@ function copyToClipboard(text) {
 
   <% if @topic.link.present? %>
     <div class="topic-link-row">
-      <%= link_to @topic.link, @topic.link, target: "_blank", rel: "noopener", class: "topic-link-show" %>
+      <%= link_to @topic.link, sanitize_url(@topic.link), target: "_blank", rel: "noopener", class: "topic-link-show" if sanitize_url(@topic.link).present? %>
     </div>
   <% end %>
 
