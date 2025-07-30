@@ -1,5 +1,5 @@
 source "https://rubygems.org"
-ruby '>= 3.1', '< 3.4'
+ruby ">= 3.1", "< 3.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
@@ -55,20 +55,20 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'dotenv-rails', groups: [:development, :test]
+  gem "dotenv-rails", groups: [ :development, :test ]
 
-  gem 'pry', groups: [:development, :test]
-  gem 'pry-byebug', groups: [:development, :test]
+  gem "pry", groups: [ :development, :test ]
+  gem "pry-byebug", groups: [ :development, :test ]
 
   # Use sqlite3 as the database for Active Record
   gem "sqlite3", ">= 2.1"
 
   # RSpec for Rails
-  gem 'rspec-rails'
-  gem 'factory_bot_rails'
-  gem 'faker'
-  gem 'shoulda-matchers'
-  gem 'rails-controller-testing'
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "shoulda-matchers"
+  gem "rails-controller-testing"
 end
 
 group :development do
@@ -84,5 +84,5 @@ end
 
 group :production do
   # Use postgresql as the database for Active Record
-  gem 'pg', '~> 1.5.9'
+  gem "pg", "~> 1.5.9"
 end

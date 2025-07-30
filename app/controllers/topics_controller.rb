@@ -1,12 +1,12 @@
 class TopicsController < ApplicationController
-  require 'net/http'
-  require 'uri'
-  require 'json'
+  require "net/http"
+  require "uri"
+  require "json"
   before_action :set_socratic_seminar
-  before_action :set_topic, only: [:show, :edit, :update, :destroy, :upvote, :downvote]
+  before_action :set_topic, only: [ :show, :edit, :update, :destroy, :upvote, :downvote ]
 
   def index
-    @topics = @socratic_seminar.topics.order(Arel.sql('COALESCE(votes, 0) DESC'), :id)
+    @topics = @socratic_seminar.topics.order(Arel.sql("COALESCE(votes, 0) DESC"), :id)
     @sections = @socratic_seminar.sections.order(:id)
     @vote_states = session[:votes] || {}
   end
@@ -23,7 +23,7 @@ class TopicsController < ApplicationController
   def create
     @topic = @socratic_seminar.topics.new(topic_params)
     if @topic.save
-      redirect_to [@socratic_seminar, :topics]
+      redirect_to [ @socratic_seminar, :topics ]
     else
       render :new
     end
@@ -34,7 +34,7 @@ class TopicsController < ApplicationController
 
   def update
     if @topic.update(topic_params)
-      redirect_to [@socratic_seminar, @topic], notice: "Topic was successfully updated."
+      redirect_to [ @socratic_seminar, @topic ], notice: "Topic was successfully updated."
     else
       render :edit
     end
@@ -42,20 +42,20 @@ class TopicsController < ApplicationController
 
   def destroy
     @topic.destroy!
-    redirect_to [@socratic_seminar, :topics], notice: "Topic was successfully destroyed."
+    redirect_to [ @socratic_seminar, :topics ], notice: "Topic was successfully destroyed."
   end
 
   def import_sections_and_topics
     # Call the rake task with the seminar number
     builder_number = @socratic_seminar.seminar_number.to_s
-    
+
     # Capture the output from the rake task
     output = `cd #{Rails.root} && bin/rails "import:import_sections_and_topics[#{builder_number}]" 2>&1`
-    
+
     if $?.success?
-      redirect_to [@socratic_seminar, :topics], notice: "Import completed successfully. #{output.lines.last}"
+      redirect_to [ @socratic_seminar, :topics ], notice: "Import completed successfully. #{output.lines.last}"
     else
-      redirect_to [@socratic_seminar, :topics], alert: "Import failed: #{output.lines.last}"
+      redirect_to [ @socratic_seminar, :topics ], alert: "Import failed: #{output.lines.last}"
     end
   end
 
@@ -64,20 +64,20 @@ class TopicsController < ApplicationController
     vote_state = session[:votes][@topic.id.to_s]
 
     case vote_state
-    when 'up'
+    when "up"
       # Already upvoted, do nothing
-    when 'down'
+    when "down"
       @topic.votes = (@topic.votes || 0) + 1
       @topic.save!
       session[:votes].delete(@topic.id.to_s)
     else
       @topic.votes = (@topic.votes || 0) + 1
       @topic.save!
-      session[:votes][@topic.id.to_s] = 'up'
+      session[:votes][@topic.id.to_s] = "up"
     end
 
     respond_to do |format|
-      format.html { redirect_to [@socratic_seminar, :topics] }
+      format.html { redirect_to [ @socratic_seminar, :topics ] }
       format.json {
         render json: {
           vote_count: @topic.votes,
@@ -92,20 +92,20 @@ class TopicsController < ApplicationController
     vote_state = session[:votes][@topic.id.to_s]
 
     case vote_state
-    when 'down'
+    when "down"
       # Already downvoted, do nothing
-    when 'up'
+    when "up"
       @topic.votes = (@topic.votes || 0) - 1
       @topic.save!
       session[:votes].delete(@topic.id.to_s)
     else
       @topic.votes = (@topic.votes || 0) - 1
       @topic.save!
-      session[:votes][@topic.id.to_s] = 'down'
+      session[:votes][@topic.id.to_s] = "down"
     end
 
     respond_to do |format|
-      format.html { redirect_to [@socratic_seminar, :topics] }
+      format.html { redirect_to [ @socratic_seminar, :topics ] }
       format.json {
         render json: {
           vote_count: @topic.votes,

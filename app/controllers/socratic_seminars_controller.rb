@@ -56,7 +56,7 @@ class SocraticSeminarsController < ApplicationController
       end
       section.destroy!
     end
-    
+
     @socratic_seminar.destroy!
 
     respond_to do |format|
@@ -75,20 +75,20 @@ class SocraticSeminarsController < ApplicationController
   def delete_sections
     # Find all sections belonging to this socratic seminar
     sections = @socratic_seminar.sections
-    
+
     # Find all topics belonging to these sections
-    topic_ids = sections.joins(:topics).pluck('topics.id')
+    topic_ids = sections.joins(:topics).pluck("topics.id")
     topics = Topic.where(id: topic_ids)
-    
+
     # Find all payments belonging to these topics
-    payment_ids = topics.joins(:payments).pluck('payments.id')
+    payment_ids = topics.joins(:payments).pluck("payments.id")
     payments = Payment.where(id: payment_ids)
-    
+
     # Delete in the correct order to avoid foreign key constraint issues
     payments.destroy_all
     topics.destroy_all
     sections.destroy_all
-    
+
     redirect_to socratic_seminar_topics_path(@socratic_seminar), notice: "All sections, topics, and payments for this seminar have been deleted."
   end
 

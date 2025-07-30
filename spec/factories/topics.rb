@@ -6,4 +6,4 @@ FactoryBot.define do
     association :socratic_seminar
     association :section
   end
-end 
+end

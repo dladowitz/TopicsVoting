@@ -1,6 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 
-# This pulls in spec_helper.rb to get Rspec configs and then loads Rails. 
+# This pulls in spec_helper.rb to get Rspec configs and then loads Rails.
 # This is for testing things that are Rails specific, like controllers or models.
 # Since it loads Rails it's slower than spec_helper.rb.
 # You need to add require 'rails_helper' to the top of your Rspec files if you want this loaded.
@@ -44,7 +44,7 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_paths = [Rails.root.join('spec/fixtures')]
+  config.fixture_paths = [ Rails.root.join('spec/fixtures') ]
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

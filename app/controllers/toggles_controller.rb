@@ -8,12 +8,12 @@ class TogglesController < ApplicationController
       toggle.increment!(:count)
       render json: { success: true, count: toggle.count }
     else
-      render json: { success: false, error: 'Toggle not found' }, status: :not_found
+      render json: { success: false, error: "Toggle not found" }, status: :not_found
     end
   end
 
   def sats_vs_bitcoin
-    @btc_count = Toggle.find_by(name: 'btc_preference')&.count || 0
-    @sats_count = Toggle.find_by(name: 'sats_preference')&.count || 0
+    @btc_count = Toggle.find_by(name: "btc_preference")&.count || 0
+    @sats_count = Toggle.find_by(name: "sats_preference")&.count || 0
   end
-end 
+end

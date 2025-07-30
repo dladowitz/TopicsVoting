@@ -29,7 +29,7 @@ RSpec.describe TopicsController, type: :controller do
     context "with valid params" do
       it "creates a new Topic" do
         expect {
-          post :create, params: { 
+          post :create, params: {
             socratic_seminar_id: socratic_seminar.id,
             topic: valid_attributes
           }
@@ -65,4 +65,4 @@ RSpec.describe TopicsController, type: :controller do
       }.to change { topic.reload.votes }.by(-1)
     end
   end
-end 
+end

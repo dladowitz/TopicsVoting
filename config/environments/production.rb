@@ -92,8 +92,8 @@ Rails.application.configure do
   config.action_cable.allowed_request_origins = [
     # 'http://buildervoting.com',
     # 'http://www.buildervoting.com',
-    'https://buildervoting.com',
-    'https://www.buildervoting.com',
+    "https://buildervoting.com",
+    "https://www.buildervoting.com"
   ]
 
   # Fix orgiin vs base_url mismatch
