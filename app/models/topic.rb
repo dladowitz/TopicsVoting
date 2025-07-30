@@ -7,6 +7,11 @@ class Topic < ApplicationRecord
   has_many :payments
 
   validates :name, presence: true
+  validates :link, format: { 
+    with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
+    allow_blank: true,
+    message: "must be a valid HTTP or HTTPS URL"
+  }
 
   after_create :set_lnurl
   after_update_commit :broadcast_topic_update
