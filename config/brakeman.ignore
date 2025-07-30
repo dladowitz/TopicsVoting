@@ -1,0 +1,28 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "1d37869a69191ec6cdfd029a6ee532707e81079429fe24493328a4c0da8bd167",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/controllers/topics_controller.rb",
+      "line": 53,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`cd #{Rails.root} && bin/rails \"import:import_sections_and_topics[#{SocraticSeminar.find(params[:socratic_seminar_id]).seminar_number.to_s}]\" 2>&1`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TopicsController",
+        "method": "import_sections_and_topics"
+      },
+      "user_input": "SocraticSeminar.find(params[:socratic_seminar_id]).seminar_number",
+      "confidence": "High",
+      "cwe_id": [
+        77
+      ],
+      "note": ""
+    }
+  ],
+  "brakeman_version": "7.1.0"
+}
