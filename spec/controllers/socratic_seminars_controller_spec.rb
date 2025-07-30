@@ -34,7 +34,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       it "creates a new SocraticSeminar" do
         expect {
           post :create, params: { socratic_seminar: valid_attributes }
-        }.to change(SocraticSeminar, :count).by(2)
+        }.to change(SocraticSeminar, :count).by(1)
       end
 
       it "redirects to the created socratic_seminar" do
