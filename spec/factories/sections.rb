@@ -3,4 +3,4 @@ FactoryBot.define do
     name { Faker::Lorem.word }
     association :socratic_seminar
   end
-end 
+end

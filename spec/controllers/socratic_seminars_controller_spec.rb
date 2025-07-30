@@ -14,7 +14,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       seminar1 = create(:socratic_seminar)
       seminar2 = create(:socratic_seminar)
       get :index
-      expect(assigns(:socratic_seminars)).to match_array([seminar1, seminar2])
+      expect(assigns(:socratic_seminars)).to match_array([ seminar1, seminar2 ])
     end
   end
 
@@ -27,8 +27,8 @@ RSpec.describe SocraticSeminarsController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
-      let(:valid_attributes) { 
-        { seminar_number: 1, date: 1.month.from_now, builder_sf_link: "https://www.bitcoinbuildersf.com/builder-0#{1}/" } 
+      let(:valid_attributes) {
+        { seminar_number: 1, date: 1.month.from_now, builder_sf_link: "https://www.bitcoinbuildersf.com/builder-0#{1}/" }
       }
 
       it "creates a new SocraticSeminar" do
@@ -84,7 +84,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       expect {
         delete :destroy, params: { id: socratic_seminar_to_delete.id }
       }.to change(SocraticSeminar, :count).by(-1)
-      
+
       # Verify associations are destroyed
       expect(Section.where(id: section.id)).not_to exist
       expect(Topic.where(id: topic.id)).not_to exist

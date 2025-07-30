@@ -17,8 +17,8 @@ class TopicsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create topic" do
     assert_difference("Topic.count") do
-      post socratic_seminar_topics_url(@socratic_seminar), params: { 
-        topic: { 
+      post socratic_seminar_topics_url(@socratic_seminar), params: {
+        topic: {
           name: "Test Topic",
           section_id: sections(:one).id
         }

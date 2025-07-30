@@ -1,11 +1,11 @@
-# This is the general purpose Rspec config file. 
-# This is for plain ruby code. 
+# This is the general purpose Rspec config file.
+# This is for plain ruby code.
 # It doesn't load Rails so it keeps tests faster.
 # This file is automatically loaded by Rspec files because it is listed in the .rspec file.
-# This means you don't need to require it at the top of your Rspec files. 
+# This means you don't need to require it at the top of your Rspec files.
 # However, you might waht to add it still just to be explicit. Rails knows to not load it twice.
 
-# spec_helper.rb vs rails_helper.rb: 
+# spec_helper.rb vs rails_helper.rb:
 # rails_helper.rb is similiar, but loads rails.
 # Note that rails_helper.rb also loads this file.
 # You need to add require 'rails_helper' to the top of your Rspec files if you want Rails to be loaded.

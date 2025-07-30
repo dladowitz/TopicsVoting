@@ -22,4 +22,4 @@ RSpec.describe Topic, type: :model do
       expect(topic.sats_received).to eq(0)
     end
   end
-end 
+end
