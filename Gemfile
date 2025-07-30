@@ -62,6 +62,13 @@ group :development, :test do
 
   # Use sqlite3 as the database for Active Record
   gem "sqlite3", ">= 2.1"
+
+  # RSpec for Rails
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
 end
 
 group :development do

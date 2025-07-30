@@ -1,0 +1,5 @@
+# This sets a default to load spec_helper.rb to Rspec files.
+# It is the same as adding the foloowing to the top of an Rspec file: require 'spec_helper'
+# You can safely add require 'spec_helper' to the the top of your Rspec files if you want to be explicit.
+# Rails knows to not load it twice.
+--require spec_helper
