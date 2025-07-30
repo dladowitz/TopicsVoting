@@ -49,6 +49,14 @@ class SocraticSeminarsController < ApplicationController
 
   # DELETE /socratic_seminars/1 or /socratic_seminars/1.json
   def destroy
+    @socratic_seminar.sections.each do |section|
+      section.topics.each do |topic|
+        topic.payments.destroy_all
+        topic.destroy!
+      end
+      section.destroy!
+    end
+    
     @socratic_seminar.destroy!
 
     respond_to do |format|
