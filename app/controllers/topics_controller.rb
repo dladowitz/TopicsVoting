@@ -1,5 +1,5 @@
 class TopicsController < ApplicationController
-  require "net/http"
+  require 'net/http'
   require "uri"
   require "json"
   before_action :set_socratic_seminar
