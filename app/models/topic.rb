@@ -44,8 +44,4 @@ class Topic < ApplicationRecord
       }
     )
   end
-
-  def individial_payments
-    payments
-  end
 end
