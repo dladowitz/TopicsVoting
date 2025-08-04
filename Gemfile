@@ -80,7 +80,7 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
-  
+
   # Database cleaning for tests
   gem "database_cleaner-active_record"
 end
