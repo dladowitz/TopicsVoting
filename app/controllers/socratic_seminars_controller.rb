@@ -28,8 +28,8 @@ class SocraticSeminarsController < ApplicationController
         format.html { redirect_to @socratic_seminar, notice: "Socratic seminar was successfully created." }
         format.json { render :show, status: :created, location: @socratic_seminar }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @socratic_seminar.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_content }
+        format.json { render json: @socratic_seminar.errors, status: :unprocessable_content }
       end
     end
   end
@@ -41,8 +41,8 @@ class SocraticSeminarsController < ApplicationController
         format.html { redirect_to @socratic_seminar, notice: "Socratic seminar was successfully updated." }
         format.json { render :show, status: :ok, location: @socratic_seminar }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @socratic_seminar.errors, status: :unprocessable_entity }
+        format.html { render :edit, status: :unprocessable_content }
+        format.json { render json: @socratic_seminar.errors, status: :unprocessable_content }
       end
     end
   end
