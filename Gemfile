@@ -83,6 +83,9 @@ group :test do
 
   # Database cleaning for tests
   gem "database_cleaner-active_record"
+
+  # Code coverage
+  gem "simplecov", require: false
 end
 
 group :production do
