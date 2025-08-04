@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Skip RuboCop check if SKIP_RUBOCOP is set
+# Usage: SKIP_RUBOCOP=true git commit -m "Commit message"
+if [ "$SKIP_RUBOCOP" = "true" ]; then
+  echo "⏩ Skipping RuboCop check..."
+  exit 0
+fi
+
+# Get list of staged files that are Ruby files
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=d | grep -E '\.(rb|rake)$')
+
+if [ "$STAGED_FILES" = "" ]; then
+  exit 0
+fi
+
+echo "Running RuboCop on staged files..."
+
+# Run RuboCop on staged files (without auto-correct)
+bundle exec rubocop $STAGED_FILES
+
+# If RuboCop fails, prevent the commit
+if [ $? -ne 0 ]; then
+  echo "❌ RuboCop found issues. Please fix them before committing."
+  echo "   You can run 'rubocop -a <file>' to auto-correct issues"
+  echo "   Or use SKIP_RUBOCOP=true git commit ... to skip RuboCop check"
+  exit 1
+fi
+
+echo "✅ RuboCop passed. Proceeding with commit..."
+exit 0
