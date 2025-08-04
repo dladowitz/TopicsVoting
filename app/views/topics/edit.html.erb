@@ -1,0 +1,37 @@
+<div class="container">
+  <h1>Edit Topic</h1>
+
+  <%= form_with model: [@socratic_seminar, @topic], local: true do |form| %>
+    <% if @topic.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
+        <ul>
+          <% @topic.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :name %><br>
+      <%= form.text_area :name, rows: 2, cols: 60 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :link, "Link (optional)" %><br>
+      <%= form.text_field :link, size: 60 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :socratic_seminar_id %><br>
+      <%= form.text_field :socratic_seminar_id, size: 4, value: @topic.socratic_seminar_id %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Update Topic" %>
+    </div>
+  <% end %>
+
+  <%= link_to 'Back to Topic', socratic_seminar_topic_path(@socratic_seminar, @topic) %>
+</div> 

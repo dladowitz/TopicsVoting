@@ -1,12 +1,11 @@
 source "https://rubygems.org"
+ruby ">= 3.1", "< 3.4"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0.2"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", ">= 2.1"
-# Use the Puma web server [https://github.com/puma/puma]
+# Use the Puma web servergs [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
@@ -51,15 +50,25 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
-  gem "brakeman", require: false
+  gem "brakeman", ">=7.1.0", require: false
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
-  gem 'dotenv-rails', groups: [:development, :test]
+  gem "dotenv-rails", groups: [ :development, :test ]
 
-  gem 'pry', groups: [:development, :test]
-  gem 'pry-byebug', groups: [:development, :test]
+  gem "pry", groups: [ :development, :test ]
+  gem "pry-byebug", groups: [ :development, :test ]
+
+  # Use sqlite3 as the database for Active Record
+  gem "sqlite3", ">= 2.1"
+
+  # RSpec for Rails
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "shoulda-matchers"
+  gem "rails-controller-testing"
 end
 
 group :development do
@@ -71,4 +80,12 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+
+  # Database cleaning for tests
+  gem "database_cleaner-active_record"
+end
+
+group :production do
+  # Use postgresql as the database for Active Record
+  gem "pg", "~> 1.5.9"
 end

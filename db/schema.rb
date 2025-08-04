@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_01_181744) do
+ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -21,13 +21,48 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_01_181744) do
     t.index ["topic_id"], name: "index_payments_on_topic_id"
   end
 
+  create_table "sections", force: :cascade do |t|
+    t.string "name"
+    t.integer "socratic_seminar_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["socratic_seminar_id"], name: "index_sections_on_socratic_seminar_id"
+  end
+
+  create_table "socratic_seminars", force: :cascade do |t|
+    t.integer "seminar_number"
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "builder_sf_link"
+    t.index ["seminar_number"], name: "index_socratic_seminars_on_seminar_number", unique: true
+  end
+
+  create_table "toggles", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_toggles_on_name", unique: true
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "name", null: false
     t.string "lnurl"
     t.integer "sats_received", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "votes", default: 0, null: false
+    t.string "link"
+    t.integer "socratic_seminar_id", null: false
+    t.integer "section_id", null: false
+    t.index ["id"], name: "index_topics_on_id", unique: true
+    t.index ["section_id"], name: "index_topics_on_section_id"
+    t.index ["socratic_seminar_id"], name: "index_topics_on_socratic_seminar_id"
   end
 
   add_foreign_key "payments", "topics"
+  add_foreign_key "sections", "socratic_seminars"
+  add_foreign_key "topics", "sections"
+  add_foreign_key "topics", "socratic_seminars"
 end

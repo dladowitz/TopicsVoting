@@ -7,3 +7,6 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Toggle.find_or_create_by!(name: 'btc_preference') { |t| t.count = 0 }
+Toggle.find_or_create_by!(name: 'sats_preference') { |t| t.count = 0 }

@@ -1,0 +1,232 @@
+/* =========================
+   TOPICS STYLES
+   ========================= */
+
+/* Topic List Styles */
+.topic-list-header-row {
+  font-size: 1.1em;
+  font-weight: 400;
+  margin: 0 0 10px 5px;
+}
+
+.topic-list-item {
+  padding: 3px 15px 5px 15px;
+  margin-bottom: 5px;
+  border: none;
+}
+
+.topic-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 0;
+}
+
+.topic-name {
+  font-size: 1em;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.sats-received {
+  margin-left: -5px;
+  margin-bottom: 0;
+  font-weight: 600;
+}
+
+.sats-symbol {
+  margin-bottom: 0;
+}
+
+.sats-label {
+  margin-bottom: 0;
+}
+
+/* Topic Show Page Styles */
+.sats-received-row {
+  font-size: 1em;
+  font-weight: 400;
+  margin: 0 0 10px 5px;
+}
+
+.vote-using-lnurl {
+  font-size: 1.25em;
+  font-weight: 400;
+  margin: 0 0 10px 5px;
+  border: 1px solid #E0CBE9;
+  padding: 5px;
+  border-radius: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copy-lnurl {
+  font-size: 1.25em;
+  font-weight: 400;
+  margin: 0 0 10px 5px;
+  border: 1px solid #E0CBE9;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.lnurl-text {
+  font-size: 0.8em;
+  font-weight: 400;
+  margin: 5px 0 10px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  font-style: italic;
+}
+
+.or-text {
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 700;
+  margin: 0 0 10px 0;
+}
+
+@media (min-width: 768px) {
+  .or-text {
+    text-align: left;
+    margin-left: 25%;
+  }
+}
+
+.current-status-title {
+  font-size: 1.25em;
+}
+
+.current-status {
+  margin: 20px 0 10px 0;
+  border: 1px solid #E0CBE9;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.back-to-topic-list {
+  font-size: 1.25em;
+  font-weight: 400;
+  margin: 20px 0 20px 5px;
+}
+
+.topic-title {
+  margin: 10px 0 5px 0;
+}
+
+/* Topic Link Styles */
+.topic-link-desktop {
+  font-size: 0.85em;
+  color: #666;
+  margin-left: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.topic-link-desktop a {
+  font-size: 0.8em;
+  color: #d3961ae9;
+}
+
+@media (max-width: 600px) {
+  .topic-link-desktop {
+    display: none;
+  }
+}
+
+.topic-link-row {
+  margin-bottom: 1em;
+}
+
+.topic-link-show {
+  font-size: 0.95em;
+  word-break: break-all;
+}
+
+/* Voting Styles */
+.vote-buttons {
+  display: flex;
+  gap: 0.3em;
+  margin-top: 0;
+}
+
+.vote-button {
+  background: #f7931a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.15em 0.5em;
+  font-size: 0.8em;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  transition: background 0.2s, color 0.2s;
+  line-height: 1.2;
+}
+
+.vote-button:disabled {
+  background: #e5e7eb;
+  color: #b1b5bb;
+  cursor: not-allowed;
+}
+
+.vote-button:hover:not(:disabled) {
+  background: #ffb347;
+  color: #222;
+}
+
+.vote-arrow {
+  font-size: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  position: relative;
+  top: 3px;
+}
+
+.vote-info-label {
+  font-size: 1em;
+  font-weight: 400;
+}
+
+.vote-info-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.85em;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.vote-count {
+  font-weight: 600;
+}
+
+.send-btc-link {
+  color: #690e85;
+}
+
+/* Copy Button */
+.copy-button {
+  background: #f7931a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3em 0.6em;
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.copy-button:hover {
+  background: #ffb347;
+} 

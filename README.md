@@ -1,24 +1,14 @@
-# README
+Original Builder SF Site: https://www.bitcoinbuildersf.com/
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rake Task:
+bin/rails "import:import_sections_and_topics[:builder_number]" 
+bin/rails "import:import_sections_and_topics[2]" 
 
-Things you may want to cover:
+Exposing local server to web:
+ngrok http --url=enough-hound-destined.ngrok-free.app 3000
 
-* Ruby version
+Heroku logs:
+https://my.na-01.cloud.solarwinds.com/250644842656527360/logs
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Lightning backend
+https://demo.lnbits.com/

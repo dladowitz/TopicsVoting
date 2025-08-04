@@ -1,0 +1,23 @@
+<div class="container">
+<p style="color: green"><%= notice %></p>
+
+<%= render @socratic_seminar %>
+
+  <h2>Topics for this Seminar</h2>
+  <ul>
+    <% @socratic_seminar.topics.each do |topic| %>
+      <li>
+        <%= link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic) %>
+      </li>
+    <% end %>
+  </ul>
+
+<div>
+    <% if @admin_mode %>
+      <%= link_to "Edit this socratic seminar", edit_socratic_seminar_path(@socratic_seminar, mode: 'admin') %> |
+      <%= button_to "Destroy this socratic seminar", @socratic_seminar, method: :delete, class: 'button-danger', params: { mode: 'admin' } %> |
+    <% end %>
+    <%= link_to "Back to socratic seminars", socratic_seminars_path(mode: (@admin_mode ? 'admin' : nil)) %>
+    <%= link_to "Add Topic", new_socratic_seminar_topic_path(socratic_seminar_id: @socratic_seminar.id), class: "button" %>
+  </div>
+</div>

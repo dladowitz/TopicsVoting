@@ -87,4 +87,15 @@ Rails.application.configure do
   #
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
+
+  # Allow Action Cable requests from your custom domain (https only)
+  config.action_cable.allowed_request_origins = [
+    # 'http://buildervoting.com',
+    # 'http://www.buildervoting.com',
+    "https://buildervoting.com",
+    "https://www.buildervoting.com"
+  ]
+
+  # Fix orgiin vs base_url mismatch
+  # config.action_controller.forgery_protection_origin_check = false
 end

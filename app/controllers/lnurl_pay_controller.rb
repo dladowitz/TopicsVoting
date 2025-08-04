@@ -14,4 +14,4 @@ class LnurlPayController < ApplicationController
         commentAllowed: 0
       }
     end
-  end
+end

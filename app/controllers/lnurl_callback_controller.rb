@@ -25,11 +25,10 @@ class LnurlCallbackController < ApplicationController
       payment_hash: invoice_data["payment_hash"],
       amount: amount_sat
     )
-    
+
     puts "\n\n>>>> invoice_data: #{invoice_data}\n\n"
-    puts "\n\n>>>> json: { pr: #{invoice_data['bolt11']}, routes: [] }" 
-    
+    puts "\n\n>>>> json: { pr: #{invoice_data['bolt11']}, routes: [] }"
+
     render json: { pr: invoice_data["bolt11"], routes: [] }
   end
 end
-

@@ -1,0 +1,55 @@
+/* =========================
+   SOCRATIC SEMINARS STYLES
+   ========================= */
+
+/* Seminar Index Styles */
+.socratic-seminar-index-item {
+  font-size: 1.3em;
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.seminar-name {
+  font-weight: 700;
+  display: inline;
+  font-size: 1.2em;
+}
+
+.seminar-flex-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
+.seminar-date {
+  white-space: nowrap;
+  width: 170px;
+  display: inline-block;
+  font-weight: 700;
+}
+
+/* Seminar Show Page Styles */
+.seminar-title {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0 0 0 0;
+}
+
+.seminar-subtitle {
+  font-size: 1.2em;
+  font-weight: 600;
+  margin: 0 0 10px 0;
+}
+
+.disable-admin-button {
+  background: #e74c3c;
+  color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .socratic-seminar-index-item {
+    font-size: 1em;
+  }
+} 
