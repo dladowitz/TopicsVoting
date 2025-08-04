@@ -13,7 +13,7 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
   # Minimum coverage percentage required
-  minimum_coverage 30
+  minimum_coverage 75
 
   # Exclude certain files/directories from coverage analysis
   add_filter 'spec/'
