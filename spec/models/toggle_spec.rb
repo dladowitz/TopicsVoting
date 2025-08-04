@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Toggle, type: :model do
   describe "validations" do
+    subject { build(:toggle) }
+    
     it { should validate_presence_of(:name) }
     it { should validate_uniqueness_of(:name) }
   end
