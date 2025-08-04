@@ -6,8 +6,8 @@ class WebhookController < ApplicationController
 
     payment_hash = JSON.parse(JSON.parse(request.body.read))["payment_hash"] # Not sure why but this seems to be a double wrapped JSON string
     amount = JSON.parse(JSON.parse(request.body.read))["amount"] / 1000 # Comes in as millisats
-    puts "\n\n>>>> payment_hash: #{payment_hash}\n\n"
-    puts "\n\n>>>> amount: #{amount}\n\n"
+    # puts "\n\n>>>> payment_hash: #{payment_hash}\n\n"
+    # puts "\n\n>>>> amount: #{amount}\n\n"
 
     if payment_hash.present?
       payment = Payment.find_by(payment_hash: payment_hash)
