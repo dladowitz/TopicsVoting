@@ -7,6 +7,30 @@
 # If you don't need Rails, then just leave it off your Rspec files.
 # spec_helper.rb is loaded by default in Rspec files from the .rspec file.
 
+# Configure SimpleCov for Rails code coverage analysis
+# The coverage report is created by running `bundle exec rspec` in the terminal.
+# To view the coverage report, run `open coverage/index.html` in the terminal.
+require 'simplecov'
+SimpleCov.start 'rails' do
+  # Minimum coverage percentage required
+  minimum_coverage 75
+
+  # Exclude certain files/directories from coverage analysis
+  add_filter 'spec/'
+  add_filter 'config/'
+  add_filter 'lib/tasks/'
+  add_filter 'db/'
+  add_filter 'vendor/'
+
+  # Group files by type in the coverage report
+  add_group 'Models', 'app/models'
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Helpers', 'app/helpers'
+  add_group 'Mailers', 'app/mailers'
+  add_group 'Jobs', 'app/jobs'
+  add_group 'Channels', 'app/channels'
+end
+
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'

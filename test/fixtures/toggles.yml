@@ -1,9 +1,0 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  name: sats_preference
-  count: 1
-
-two:
-  name: btc_preference
-  count: 1
