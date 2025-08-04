@@ -34,7 +34,7 @@ class Topic < ApplicationRecord
   end
 
   def broadcast_topic_update
-    puts "[Topic] Broadcasting update for topic ##{id} (votes: #{votes}, sats: #{sats_received})"
+    # puts "[Topic] Broadcasting update for topic ##{id} (votes: #{votes}, sats: #{sats_received})"
     ActionCable.server.broadcast(
       "topics",
       {
