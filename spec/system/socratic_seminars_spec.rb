@@ -9,37 +9,44 @@ RSpec.describe "Socratic Seminars", type: :system do
 
   it "visiting the index" do
     visit socratic_seminars_path
-    expect(page).to have_selector("h1", text: "Socratic seminars")
+    expect(page).to have_selector(".seminar-title", text: "₿uilder Voting")
   end
 
-  it "creates a socratic seminar" do
-    visit socratic_seminars_path
-    click_on "New socratic seminar"
+  context "with admin mode" do
+    before do
+      # Enable admin mode by visiting with mode=admin
+      visit socratic_seminars_path(mode: 'admin')
+    end
 
-    fill_in "Date", with: socratic_seminar.date
-    fill_in "Seminar number", with: socratic_seminar.seminar_number
-    click_on "Create Socratic seminar"
+    it "creates a socratic seminar" do
+      visit socratic_seminars_path
+      click_on "New ₿uilder Seminar"
 
-    expect(page).to have_text("Socratic seminar was successfully created")
-    click_on "Back"
-  end
+      fill_in "Date", with: socratic_seminar.date
+      fill_in "Seminar number", with: socratic_seminar.seminar_number + 1
+      click_on "Create Socratic seminar"
 
-  it "updates a Socratic seminar" do
-    visit socratic_seminar_path(socratic_seminar)
-    click_on "Edit this socratic seminar", match: :first
+      expect(page).to have_text("Socratic seminar was successfully created")
+      click_on "Back to socratic seminars"
+    end
 
-    fill_in "Date", with: socratic_seminar.date
-    fill_in "Seminar number", with: socratic_seminar.seminar_number
-    click_on "Update Socratic seminar"
+    it "updates a Socratic seminar" do
+      visit socratic_seminar_path(socratic_seminar, mode: 'admin')
+      click_on "Edit this socratic seminar"
 
-    expect(page).to have_text("Socratic seminar was successfully updated")
-    click_on "Back"
-  end
+      fill_in "Date", with: socratic_seminar.date
+      fill_in "Seminar number", with: socratic_seminar.seminar_number
+      click_on "Update Socratic seminar"
 
-  it "destroys a Socratic seminar" do
-    visit socratic_seminar_path(socratic_seminar)
-    click_on "Destroy this socratic seminar", match: :first
+      expect(page).to have_text("Socratic seminar was successfully updated")
+      click_on "Back to socratic seminars"
+    end
 
-    expect(page).to have_text("Socratic seminar was successfully destroyed")
+    it "destroys a Socratic seminar" do
+      visit socratic_seminar_path(socratic_seminar, mode: 'admin')
+      click_button "Destroy this socratic seminar"
+
+      expect(page).to have_text("Socratic seminar was successfully destroyed")
+    end
   end
 end
