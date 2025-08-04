@@ -75,6 +75,13 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Verify Ruby version
+        run: |
+          echo "Ruby version:"
+          ruby -v
+          echo "Bundler version:"
+          bundle -v
+
       - name: Run Rspec
         env:
           RAILS_ENV: test
