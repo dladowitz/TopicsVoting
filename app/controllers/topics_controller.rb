@@ -46,13 +46,9 @@ class TopicsController < ApplicationController
   end
 
   def import_sections_and_topics
-    # Call the rake task with the seminar number
-    builder_number = @socratic_seminar.seminar_number.to_s
+    success, output = ImportService.import_sections_and_topics(@socratic_seminar.seminar_number.to_s)
 
-    # Capture the output from the rake task
-    output = `cd #{Rails.root} && bin/rails "import:import_sections_and_topics[#{builder_number}]" 2>&1`
-
-    if $?.success?
+    if success
       redirect_to [ @socratic_seminar, :topics ], notice: "Import completed successfully. #{output.lines.last}"
     else
       redirect_to [ @socratic_seminar, :topics ], alert: "Import failed: #{output.lines.last}"
