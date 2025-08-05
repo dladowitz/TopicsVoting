@@ -46,14 +46,9 @@ class TopicsController < ApplicationController
   end
 
   def import_sections_and_topics
-    # Call the rake task with the seminar number
-    builder_number = @socratic_seminar.seminar_number.to_s
-    command = "cd #{Rails.root} && bin/rails \"import:import_sections_and_topics[#{builder_number}]\" 2>&1"
+    success, output = ImportService.import_sections_and_topics(@socratic_seminar.seminar_number.to_s)
 
-    # Capture the output from the rake task
-    output = run_command(command)
-
-    if command_succeeded?
+    if success
       redirect_to [ @socratic_seminar, :topics ], notice: "Import completed successfully. #{output.lines.last}"
     else
       redirect_to [ @socratic_seminar, :topics ], alert: "Import failed: #{output.lines.last}"
@@ -116,11 +111,6 @@ class TopicsController < ApplicationController
     end
   end
 
-  # Make kernel public for testing
-  def kernel
-    Kernel
-  end
-
   private
 
   def set_socratic_seminar
@@ -133,13 +123,5 @@ class TopicsController < ApplicationController
 
   def topic_params
     params.require(:topic).permit(:name, :link, :socratic_seminar_id, :section_id)
-  end
-
-  def run_command(command)
-    kernel.`(command)
-  end
-
-  def command_succeeded?
-    kernel.eval("$?.success?")
   end
 end
