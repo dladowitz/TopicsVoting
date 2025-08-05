@@ -3,21 +3,21 @@
     {
       "warning_type": "Command Injection",
       "warning_code": 14,
-      "fingerprint": "1d37869a69191ec6cdfd029a6ee532707e81079429fe24493328a4c0da8bd167",
+      "fingerprint": "9d38c5c41d86f51b3390576c37ca87c78aec64d613397b3929e20c43a314e633",
       "check_name": "Execute",
       "message": "Possible command injection",
-      "file": "app/controllers/topics_controller.rb",
-      "line": 53,
+      "file": "app/services/import_service.rb",
+      "line": 10,
       "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
-      "code": "`cd #{Rails.root} && bin/rails \"import:import_sections_and_topics[#{SocraticSeminar.find(params[:socratic_seminar_id]).seminar_number.to_s}]\" 2>&1`",
+      "code": "Open3.capture2(\"cd #{Rails.root} && bin/rails \\\"import:import_sections_and_topics[#{seminar_number}]\\\" 2>&1\")",
       "render_path": null,
       "location": {
         "type": "method",
-        "class": "TopicsController",
+        "class": "ImportService",
         "method": "import_sections_and_topics"
       },
-      "user_input": "SocraticSeminar.find(params[:socratic_seminar_id]).seminar_number",
-      "confidence": "High",
+      "user_input": "seminar_number",
+      "confidence": "Medium",
       "cwe_id": [
         77
       ],
