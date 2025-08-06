@@ -11,7 +11,7 @@ class LnurlCallbackController < ApplicationController
     amount_sat = amount_msat / 1000
 
     if amount_sat <= 0
-      render json: { error: "Invalid amount" }, status: :unprocessable_entity
+      render json: { error: "Invalid amount" }, status: :unprocessable_content
       return
     end
 

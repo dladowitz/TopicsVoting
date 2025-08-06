@@ -2,5 +2,7 @@
 globs: *.rb
 alwaysApply: false
 ---
-Always use RuboCop to check for linter errors. Always pass in the autocorrect flag of "-a"
+When creating code use the Rubocop linting rules.
+When checking for linting errors always use RuboCop. 
+If there are any errors rerun RuboCop and pass in autocorrect flag of "-a"
 Example: "bundle exec rubocop -a spec/controllers/lnurl_callback_controller_spec.rb"

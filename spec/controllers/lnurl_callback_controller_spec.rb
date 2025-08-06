@@ -119,7 +119,7 @@ RSpec.describe LnurlCallbackController, type: :controller do
       it "returns error for invalid amount" do
         get :show, params: { id: topic.id, amount: "invalid" }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         json_response = JSON.parse(response.body)
         expect(json_response).to include("error" => "Invalid amount")
         expect(Payment.count).to eq(0)
