@@ -11,6 +11,11 @@
 # The coverage report is created by running `bundle exec rspec` in the terminal.
 # To view the coverage report, run `open coverage/index.html` in the terminal.
 require 'simplecov'
+require 'simplecov-console'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::Console
+])
 SimpleCov.start 'rails' do
   # Minimum coverage percentage required
   minimum_coverage 75
