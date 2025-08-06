@@ -86,6 +86,7 @@ group :test do
 
   # Code coverage
   gem "simplecov", require: false
+  gem "simplecov-console", require: false
 
   # HTTP request stubbing
   gem "webmock"

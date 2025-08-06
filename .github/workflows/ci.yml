@@ -90,6 +90,11 @@ jobs:
           bin/rails db:test:prepare
           bundle exec rspec
 
+      - name: Print Coverage Report
+        run: |
+          echo "Coverage Report Summary:"
+          ruby -e 'require "json"; puts "Line Coverage: #{JSON.parse(File.read("coverage/.last_run.json"))["result"]["line"]}%"'
+
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
         if: failure()
