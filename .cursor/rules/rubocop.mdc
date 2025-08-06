@@ -1,0 +1,5 @@
+---
+globs: *.rb
+alwaysApply: false
+---
+Always use RuboCop to check for linter errors
