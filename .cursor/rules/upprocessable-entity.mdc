@@ -1,6 +1,0 @@
----
-globs: *_controller.rb,*_controller_spec.rb
-alwaysApply: false
----
-Ensure we are not using :unprocessable_entity in Rails controllers or Rspec files. This is deprecated.
-Instead use :unprocessable_content
