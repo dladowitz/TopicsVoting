@@ -1,7 +1,5 @@
 .container{"data-controller" => "topics"}
-  %p{style: "color: green"}= notice
-  %p{style: "color: red"}= alert
-  
+
   .page-header-row
     %div{style: "display: flex; align-items: flex-start; gap: 1.2em; margin-bottom: 1em;"}
       .builder-logo-container
@@ -19,8 +17,8 @@
       = link_to 'Home', root_path, class: 'button projector-footer-btn'
       - if @admin_mode
         = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
-        = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar), 
-          method: :post, 
+        = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
+          method: :post,
           class: "button projector-footer-btn",
           data: { confirm: "This will import sections and topics from bitcoinbuildersf.com for Builder #{@socratic_seminar.seminar_number}. Continue?" }
         %button.button.projector-footer-btn.delete-content-btn{onclick: "showDeleteSectionsModal()"} Delete Topics
@@ -74,11 +72,11 @@
       %strong ALL Lightning Payments
       associated with the Topics.
     %p{style: "color: #e74c3c; font-weight: bold;"} This action cannot be undone!
-    
+
     %div{style: "margin-top: 20px; text-align: right;"}
       %button.button{onclick: "hideDeleteSectionsModal()", style: "margin-right: 10px;"} Cancel
-      = button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar), 
-        method: :delete, 
+      = button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar),
+        method: :delete,
         class: "button button-danger",
         data: { confirm: false }
 

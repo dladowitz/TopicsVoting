@@ -1,0 +1,12 @@
+.container
+  %h1 Profile
+
+  %p
+    %strong Email:
+    = current_user.email
+
+  %div{style: "margin-top: 1rem; display: flex; gap: 0.5rem;"}
+    = link_to 'Edit profile', edit_user_registration_path, class: 'button projector-footer-btn'
+    = button_to 'Logout', destroy_user_session_path, method: :delete, class: 'button button-danger'
+
+

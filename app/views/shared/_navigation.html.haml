@@ -1,14 +1,17 @@
 .navigation
   - if user_signed_in?
-    %span
-      Logged in as
-      %strong= current_user.email
-      (#{current_user.role})
-    = link_to 'Edit profile', edit_user_registration_path
-    = button_to 'Logout', destroy_user_session_path, method: :delete, class: 'button'
+    - if defined?(current_layout) && current_layout == "laptop"
+      = link_to 'Profile', profile_path, class: 'button'
+    - else
+      %span
+        Logged in as
+        %strong= current_user.email
+        (#{current_user.role})
+      = link_to 'Edit profile', edit_user_registration_path
+      = button_to 'Logout', destroy_user_session_path, method: :delete, class: 'button'
   - else
-    = link_to 'Sign up', new_user_registration_path
-    = link_to 'Login', new_user_session_path
+    = link_to 'Sign up', new_user_registration_path, class: 'button'
+    = link_to 'Login', new_user_session_path, class: 'button'
 
 - if notice
   %p.notice= notice
