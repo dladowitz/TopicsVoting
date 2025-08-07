@@ -1,0 +1,45 @@
+{
+  "files.associations": {
+    "*.haml": "haml",
+    "*.erb": "erb",
+    "Gemfile": "ruby",
+    "Rakefile": "ruby",
+    "*.rake": "ruby"
+  },
+  "emmet.includeLanguages": {
+    "haml": "html",
+    "erb": "html",
+    "ruby": "html"
+  },
+  "[haml]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.autoIndent": "advanced",
+    "editor.formatOnSave": true
+  },
+  "[ruby]": {
+    "editor.tabSize": 2,
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "rebornix.ruby",
+    "editor.semanticHighlighting.enabled": true
+  },
+  "ruby.useBundler": true,
+  "ruby.useLanguageServer": true,
+  "ruby.lint": {
+    "rubocop": {
+      "useBundler": true
+    }
+  },
+  "ruby.format": "rubocop",
+  "ruby.intellisense": "rubyLocate",
+  "ruby.codeCompletion": "rcodetools",
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "editor.renderWhitespace": "boundary",
+  "editor.wordWrapColumn": 120,
+  "editor.rulers": [120],
+  "workbench.colorCustomizations": {
+    "editorRuler.foreground": "#3d3d3d40"
+  }
+}
