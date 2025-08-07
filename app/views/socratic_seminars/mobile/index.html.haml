@@ -1,0 +1,22 @@
+.container
+  %p{style: "color: green"}= notice
+
+  .mobile-header
+    = image_tag 'logo.png', alt: 'Builder Voting Logo', style: 'height: 80px; width: 80px; border-radius: 10%; box-shadow: 0 2px 8px rgba(0,0,0,0.08);'
+    .seminar-title ₿uilder Voting
+    .seminar-subtitle Vote on topics for the next ₿uilder Meeting
+
+  .voting-instructions.mobile-instructions
+    %ul
+      %li Vote for free with the Up & Down arrows
+      %li Send ⚡ for additional votes
+      %li All payments help pay for pizza
+
+  #socratic_seminars.mobile-seminars
+    - @socratic_seminars.each do |socratic_seminar|
+      = render "socratic_seminars/mobile/socratic_seminar", socratic_seminar: socratic_seminar
+
+  %footer.sticky-footer
+    .container{style: "text-align: left; display: flex; gap: 1em;"}
+      = link_to 'Sats Vs Bitcoin', sats_vs_bitcoin_path, class: 'button projector-footer-btn'
+      = link_to 'Projector Mode', projector_path, class: 'button projector-footer-btn'

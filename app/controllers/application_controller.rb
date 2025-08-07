@@ -1,9 +1,12 @@
 class ApplicationController < ActionController::Base
+  include ScreenSizeConcern
+
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  before_action :set_admin_mode  # Must come before set_layout_by_screen_size
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_admin_mode
+  layout :current_layout
 
   # Handle CanCanCan authorization errors
   rescue_from CanCan::AccessDenied do |exception|
