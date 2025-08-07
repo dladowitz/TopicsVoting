@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   resources :socratic_seminars, path: "seminars" do
     resources :topics, path: "topics" do
       member do

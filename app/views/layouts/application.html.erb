@@ -31,6 +31,10 @@
       </div>
     <% end %>
     
-    <%= yield %>
+    <%= render 'shared/navigation' %>
+    
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>
