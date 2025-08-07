@@ -1,0 +1,14 @@
+.container
+  %p{style: "color: green"}= notice
+
+  = render "socratic_seminars/mobile/socratic_seminar", socratic_seminar: @socratic_seminar
+
+  %h2 Topics for this Seminar
+  %ul.mobile-topics-list
+    - @socratic_seminar.topics.each do |topic|
+      %li
+        = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
+
+  .mobile-actions
+    = link_to "Back to seminars", socratic_seminars_path(mode: (@admin_mode ? 'admin' : nil)), class: "button"
+    = link_to "Add Topic", new_socratic_seminar_topic_path(socratic_seminar_id: @socratic_seminar.id), class: "button"

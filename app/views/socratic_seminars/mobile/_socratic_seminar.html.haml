@@ -1,0 +1,5 @@
+%div{id: dom_id(socratic_seminar), class: "socratic-seminar-index-item mobile-seminar"}
+  %span.seminar-date= socratic_seminar.date.strftime("%b #{socratic_seminar.date.day.ordinalize}, %Y") if socratic_seminar.date
+  %span.seminar-name
+    = " -> "
+    = link_to "Builder #{socratic_seminar.seminar_number}", socratic_seminar_topics_path(socratic_seminar)

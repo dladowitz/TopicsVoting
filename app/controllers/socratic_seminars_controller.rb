@@ -1,13 +1,16 @@
 class SocraticSeminarsController < ApplicationController
+  include ScreenSizeConcern
   before_action :set_socratic_seminar, only: %i[ show edit update destroy delete_sections ]
 
   # GET /socratic_seminars or /socratic_seminars.json
   def index
     @socratic_seminars = SocraticSeminar.all.order(date: :desc)
+    render "socratic_seminars/#{current_layout}/index"
   end
 
   # GET /socratic_seminars/1 or /socratic_seminars/1.json
   def show
+    render "socratic_seminars/#{current_layout}/show"
   end
 
   # GET /socratic_seminars/new
