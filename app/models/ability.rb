@@ -80,7 +80,7 @@ class Ability
 
   def common_abilities
     # Public access
-    can :read, Topic, published: true
+    can :read, Topic
     can :read, Section
   end
 end
