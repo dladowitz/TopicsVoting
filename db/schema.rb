@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_07_001950) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -18,7 +18,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
     t.boolean "paid", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["topic_id"], name: "index_payments_on_topic_id"
+    t.index [ "topic_id" ], name: "index_payments_on_topic_id"
   end
 
   create_table "sections", force: :cascade do |t|
@@ -26,7 +26,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
     t.integer "socratic_seminar_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["socratic_seminar_id"], name: "index_sections_on_socratic_seminar_id"
+    t.index [ "socratic_seminar_id" ], name: "index_sections_on_socratic_seminar_id"
   end
 
   create_table "socratic_seminars", force: :cascade do |t|
@@ -35,7 +35,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "builder_sf_link"
-    t.index ["seminar_number"], name: "index_socratic_seminars_on_seminar_number", unique: true
+    t.index [ "seminar_number" ], name: "index_socratic_seminars_on_seminar_number", unique: true
   end
 
   create_table "toggles", force: :cascade do |t|
@@ -43,7 +43,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
     t.integer "count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_toggles_on_name", unique: true
+    t.index [ "name" ], name: "index_toggles_on_name", unique: true
   end
 
   create_table "topics", force: :cascade do |t|
@@ -56,9 +56,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_07_24_232558) do
     t.string "link"
     t.integer "socratic_seminar_id", null: false
     t.integer "section_id", null: false
-    t.index ["id"], name: "index_topics_on_id", unique: true
-    t.index ["section_id"], name: "index_topics_on_section_id"
-    t.index ["socratic_seminar_id"], name: "index_topics_on_socratic_seminar_id"
+    t.index [ "id" ], name: "index_topics_on_id", unique: true
+    t.index [ "section_id" ], name: "index_topics_on_section_id"
+    t.index [ "socratic_seminar_id" ], name: "index_topics_on_socratic_seminar_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index [ "email" ], name: "index_users_on_email", unique: true
+    t.index [ "reset_password_token" ], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "payments", "topics"
