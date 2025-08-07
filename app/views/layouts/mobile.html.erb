@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Builder Voting" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <%# Mobile-specific styles %>
+    <style>
+      body {
+        /* Optimize for mobile */
+        font-size: 16px;
+        line-height: 1.4;
+        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        overscroll-behavior-y: none; /* Prevent pull-to-refresh */
+      }
+
+      .container {
+        padding: 0.5rem;
+        max-width: 100%;
+      }
+
+      .topic-list-item {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .vote-button {
+        min-height: 44px; /* Better touch targets */
+        padding: 0.8rem;
+      }
+
+      /* Optimize for touch interactions */
+      button, 
+      [role="button"],
+      .clickable {
+        min-height: 44px;
+        min-width: 44px;
+      }
+
+      /* Remove hover states on mobile */
+      @media (hover: none) {
+        .vote-button:hover:not(:disabled) {
+          background: var(--primary-color);
+        }
+      }
+    </style>
+  </head>
+
+  <body class="mobile-device">
+    <%= yield %>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Builder Voting" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/090ca49637.js" crossorigin="anonymous"></script>
+
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+
+    <%# Laptop-specific styles %>
+    <style>
+      body {
+        /* Optimize for larger screens */
+        font-size: 18px;
+        line-height: 1.5;
+      }
+
+      .container {
+        max-width: 1200px;
+        padding: 2rem;
+        margin: 0 auto;
+      }
+
+      .topic-list-item {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        transition: background-color 0.2s;
+      }
+
+      .topic-list-item:hover {
+        background-color: rgba(247, 147, 26, 0.05);
+      }
+
+      .topic-name {
+        font-size: 1.2em;
+      }
+
+      /* Enhanced hover states for desktop */
+      .vote-button:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+
+      /* Keyboard focus styles */
+      *:focus-visible {
+        outline: 3px solid var(--primary-color);
+        outline-offset: 2px;
+      }
+    </style>
+  </head>
+
+  <body class="laptop-device">
+    <%= yield %>
+  </body>
+</html>

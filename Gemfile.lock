@@ -90,6 +90,7 @@ GEM
       msgpack (~> 1.2)
     brakeman (7.1.0)
       racc
+    browser (6.2.0)
     builder (3.3.0)
     byebug (12.0.0)
     cancancan (3.6.1)
@@ -473,6 +474,7 @@ DEPENDENCIES
   bech32
   bootsnap
   brakeman (>= 7.1.0)
+  browser
   cancancan
   capybara
   database_cleaner-active_record
