@@ -1,0 +1,17 @@
+.navigation
+  - if user_signed_in?
+    %span
+      Logged in as
+      %strong= current_user.email
+      (#{current_user.role})
+    = link_to 'Edit profile', edit_user_registration_path
+    = button_to 'Logout', destroy_user_session_path, method: :delete, class: 'button'
+  - else
+    = link_to 'Sign up', new_user_registration_path
+    = link_to 'Login', new_user_session_path
+
+- if notice
+  %p.notice= notice
+
+- if alert
+  %p.alert= alert

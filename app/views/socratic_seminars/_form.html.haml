@@ -1,0 +1,25 @@
+= form_with(model: socratic_seminar) do |form|
+  - if socratic_seminar.errors.any?
+    %div{style: "color: red"}
+      %h2
+        = pluralize(socratic_seminar.errors.count, "error")
+        prohibited this socratic_seminar from being saved:
+
+      %ul
+        - socratic_seminar.errors.each do |error|
+          %li= error.full_message
+
+  %div
+    = form.label :seminar_number, style: "display: block"
+    = form.number_field :seminar_number
+
+  %div
+    = form.label :date, style: "display: block"
+    = form.date_field :date
+
+  %div
+    = form.label :builder_sf_link, "Builder SF Link", style: "display: block"
+    = form.text_field :builder_sf_link
+
+  %div
+    = form.submit

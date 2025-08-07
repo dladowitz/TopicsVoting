@@ -1,0 +1,37 @@
+.container
+  %h1 New Topic
+
+  = form_with model: [@socratic_seminar, @topic], local: true do |form|
+    - if @topic.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@topic.errors.count, "error")
+          prohibited this topic from being saved:
+        %ul
+          - @topic.errors.full_messages.each do |message|
+            %li= message
+
+    .field
+      = form.label :name
+      %br
+      = form.text_area :name, rows: 2, cols: 60
+
+    .field
+      = form.label :link, "Link (optional)"
+      %br
+      = form.text_field :link, size: 60
+
+    .field
+      = form.label :socratic_seminar_id
+      %br
+      = form.text_field :socratic_seminar_id, size: 4, value: @topic.socratic_seminar_id
+
+    .field
+      = form.label :section_id, 'Section'
+      %br
+      = form.collection_select :section_id, @sections, :id, :name, {}, { required: true }
+
+    .actions
+      = form.submit "Create Topic"
+
+  = link_to 'Back to Topics', socratic_seminar_topics_path(@socratic_seminar)

@@ -1,0 +1,11 @@
+.container
+  - content_for :title, "New socratic seminar"
+
+  %h1 New socratic seminar
+  - if @admin_mode
+    = render "form", socratic_seminar: @socratic_seminar
+  - else
+    %p Admin mode required to create seminars.
+  %br
+  %div
+    = link_to "Back to socratic seminars", socratic_seminars_path(mode: (@admin_mode ? 'admin' : nil))
