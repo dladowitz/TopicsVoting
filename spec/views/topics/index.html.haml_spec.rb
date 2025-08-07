@@ -1,0 +1,98 @@
+require 'rails_helper'
+
+RSpec.describe "topics/index", type: :view do
+  let(:socratic_seminar) { create(:socratic_seminar) }
+  let(:section) { create(:section, socratic_seminar: socratic_seminar) }
+
+  before do
+    assign(:socratic_seminar, socratic_seminar)
+    assign(:sections, [ section ])
+    assign(:topics, [
+      create(:topic,
+        name: "First Topic",
+        votes: 10,
+        section: section,
+        socratic_seminar: socratic_seminar
+      ),
+      create(:topic,
+        name: "Second Topic",
+        votes: 5,
+        section: section,
+        socratic_seminar: socratic_seminar
+      )
+    ])
+    assign(:vote_states, {})
+    assign(:admin_mode, false)
+  end
+
+  context "basic layout" do
+    before { render }
+
+    it "displays the list of topics" do
+      expect(rendered).to have_css(".topic-list-item", count: 2)
+      expect(rendered).to have_content("First Topic")
+      expect(rendered).to have_content("Second Topic")
+    end
+
+    it "shows vote counts" do
+      expect(rendered).to have_css("[data-topics-target='voteCount']", text: "10")
+      expect(rendered).to have_css("[data-topics-target='voteCount']", text: "5")
+    end
+
+    it "has voting buttons" do
+      expect(rendered).to have_css(".vote-buttons", count: 2)
+      expect(rendered).to have_css(".vote-arrow", count: 4) # 2 up + 2 down
+    end
+
+    it "shows voting instructions" do
+      expect(rendered).to have_css(".voting-instructions")
+      expect(rendered).to have_content("Vote for free with the Up & Down arrows")
+    end
+  end
+
+  context "when topics have links" do
+    before do
+      assign(:topics, [
+        create(:topic,
+          name: "Topic with Link",
+          link: "https://example.com",
+          section: section,
+          socratic_seminar: socratic_seminar
+        )
+      ])
+      render
+    end
+
+    it "displays the link appropriately" do
+      expect(rendered).to have_css(".topic-link-desktop")
+      expect(rendered).to have_link(href: "https://example.com")
+    end
+  end
+
+  context "when in admin mode" do
+    before do
+      assign(:admin_mode, true)
+      render
+    end
+
+    it "shows admin controls" do
+      expect(rendered).to have_link("New Topic")
+      expect(rendered).to have_button("Import Topics")
+      expect(rendered).to have_button("Delete Topics")
+    end
+  end
+
+  context "with Lightning payments" do
+    before { render }
+
+    it "shows Lightning payment options" do
+      expect(rendered).to have_css(".send-btc-link")
+      expect(rendered).to have_css(".sats-received")
+    end
+
+    it "has sats/btc toggle" do
+      expect(rendered).to have_css(".sats-btc-toggle")
+      expect(rendered).to have_css("#satsBtcToggleSlider")
+    end
+  end
+end
