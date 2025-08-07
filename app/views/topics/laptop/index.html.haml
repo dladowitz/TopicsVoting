@@ -1,0 +1,85 @@
+.container{"data-controller" => "topics"}
+  %p{style: "color: green"}= notice
+  %p{style: "color: red"}= alert
+
+  .page-header-row
+    %div{style: "display: flex; align-items: flex-start; gap: 1.2em; margin-bottom: 1em;"}
+      .builder-logo-container
+        = image_tag 'logo.png', alt: 'Builder Voting Logo', style: 'width: 100%; height: 100%; object-fit: cover; object-position: center;'
+      %div{style: "display: flex; flex-direction: column; align-items: flex-start;"}
+        %h1.page-header-title{style: "margin-bottom: 0.2em;"}
+          ₿uilder #{@socratic_seminar.seminar_number}
+        .sats-btc-toggle{style: "margin-bottom: 0.2em;"}
+          = render 'topics/shared/sats_btc_toggle'
+    .header-actions{style: "display: flex; align-items: flex-start; gap: 0.5em;"}
+      = link_to 'Home', root_path, class: 'button projector-footer-btn'
+      - if @admin_mode
+        = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
+        = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
+          method: :post,
+          class: "button projector-footer-btn",
+          data: { confirm: "This will import sections and topics from bitcoinbuildersf.com for Builder #{@socratic_seminar.seminar_number}. Continue?" }
+        %button.button.projector-footer-btn.delete-content-btn{onclick: "showDeleteSectionsModal()"} Delete Topics
+
+  .voting-instructions
+    %ul
+      %li Vote for free with the Up & Down arrows. One vote per person.
+      %li Send Lightning payments for additional votes. Each individual payment counts as 1 vote. Unlimited Lighting votes per person.
+      %li All payments help pay for pizza.
+
+  - @sections.each do |section|
+    %h2.section-title= section.name
+    %ul
+      - @topics.select { |topic| topic.section_id == section.id }.each do |topic|
+        - vote_state = (@vote_states && @vote_states[topic.id.to_s])
+        %li.topic-list-item{"data-topic-id" => topic.id, "data-votes" => topic.votes || 0}
+          .topic-header-row
+            %span.topic-name
+              = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
+              - if topic.link.present?
+                %span.topic-link-desktop
+                  = link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener"
+          %span.vote-info-row
+            Votes:
+            .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
+            .vote-buttons{style: "display:inline-flex; vertical-align:middle; margin-left:0.1em;"}
+              = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state
+            |
+            = render 'topics/shared/sats_info', topic: topic
+
+#deleteSectionsModal{style: "display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);"}
+  %div{style: "background-color: white; margin: 15% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 500px;"}
+    %h3{style: "color: #e74c3c; margin-top: 0;"} ⚠️ Warning: You are deleting ALL Sections & Topics
+    %p
+      You are about to delete
+      %strong ALL
+      Sections and Topics for this Seminar.
+    %p
+      This will also delete
+      %strong ALL Lightning Payments
+      associated with the Topics.
+    %p{style: "color: #e74c3c; font-weight: bold;"} This action cannot be undone!
+
+    %div{style: "margin-top: 20px; text-align: right;"}
+      %button.button{onclick: "hideDeleteSectionsModal()", style: "margin-right: 10px;"} Cancel
+      = button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar),
+        method: :delete,
+        class: "button button-danger",
+        data: { confirm: false }
+
+:javascript
+  function showDeleteSectionsModal() {
+    document.getElementById('deleteSectionsModal').style.display = 'block';
+  }
+
+  function hideDeleteSectionsModal() {
+    document.getElementById('deleteSectionsModal').style.display = 'none';
+  }
+
+  // Close modal when clicking outside of it
+  window.onclick = function(event) {
+    var modal = document.getElementById('deleteSectionsModal');
+    if (event.target == modal) {
+      hideDeleteSectionsModal();
+    }
+  }

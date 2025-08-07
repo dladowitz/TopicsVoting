@@ -1,4 +1,5 @@
 class TopicsController < ApplicationController
+  include ScreenSizeConcern
   require "net/http"
   require "uri"
   require "json"
@@ -9,6 +10,9 @@ class TopicsController < ApplicationController
     @topics = @socratic_seminar.topics.order(Arel.sql("COALESCE(votes, 0) DESC"), :id)
     @sections = @socratic_seminar.sections.order(:id)
     @vote_states = session[:votes] || {}
+
+    # Render the appropriate view based on the layout
+    render "topics/#{current_layout}/index"
   end
 
   def show
