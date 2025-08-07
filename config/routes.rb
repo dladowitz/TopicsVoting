@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resource :profile, only: [ :show ]
   devise_for :users
   resources :socratic_seminars, path: "seminars" do
     resources :topics, path: "topics" do

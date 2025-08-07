@@ -1,7 +1,6 @@
 .navigation {
-  background: #f8f9fa;
-  padding: 1rem;
-  margin-bottom: 2rem;
+  /* background: #f8f9fa; */
+  padding: 0.5rem 1rem 0rem 0.5rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -10,8 +9,8 @@
 
 .navigation a {
   text-decoration: none;
-  color: #0066cc;
-  padding: 0.5rem 1rem;
+  color: #f7931a;
+  padding: 0.4rem 1rem;
 }
 
 .navigation a:hover {
@@ -19,34 +18,34 @@
 }
 
 .navigation .button {
-  background: #dc3545;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
+  font-size: 0.95em;
+  padding: 0.4em 1.2em;
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
+  border-radius: 8px;
+  box-shadow: none;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  text-decoration: none;
 }
 
-.navigation .button:hover {
-  background: #c82333;
+.navigation .button:hover, .button:focus {
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
 }
 
 .notice {
-  color: #155724;
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
+  color: #1B7E31;
+  padding: 0.25rem 3rem;
+  text-align: right;
 }
 
 .alert {
   color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  border-radius: 4px;
+  padding: 0.25rem 3rem;
+  text-align: right;
 }
 
 /* Devise forms */
