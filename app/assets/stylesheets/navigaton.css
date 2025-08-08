@@ -1,0 +1,44 @@
+/* Navigation specific styles */
+
+.navigation {
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem 1rem;
+  /* border: 1px solid grey; */
+}
+
+.navigation a {
+  text-decoration: none;
+  color: #f7931a;
+  padding: 0.4rem 1rem;
+}
+
+.navigation a:hover {
+  text-decoration: underline;
+}
+
+.navigation .button {
+  font-size: 0.95em;
+  padding: 0.4em 1.2em;
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
+  border-radius: 8px;
+  box-shadow: none;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  text-decoration: none;
+}
+
+.navigation .button:hover, .navigation .button:focus {
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
+}
+
+/* Add display flex to align items */
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}

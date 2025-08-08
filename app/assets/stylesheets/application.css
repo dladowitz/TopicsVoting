@@ -12,6 +12,8 @@
 /* =========================
    GENERAL PAGE LAYOUT
    ========================= */
+
+/* Elements */
 body {
   background: #fff;
   color: #222;
@@ -47,25 +49,6 @@ li:hover {
   border: 1.5px solid #b1b5bb;
 }
 
-.container {
-  max-width: 1000px;
-  margin: 1rem auto;
-  padding: 0 1rem;
-}
-
-.page-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.page-header-title {
-  font-size: 2em;
-  font-weight: 700;
-  margin: 0 0 0.5em 0;
-}
-
 a {
   color: #f68b08;
   font-weight: 600;
@@ -80,6 +63,27 @@ span {
   display: block;
   margin-bottom: 0.5em;
   font-size: 1.1em;
+}
+
+/* Classes */
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0rem 1rem;
+  /* border: 1px solid grey; */
+}
+
+.page-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.page-header-title {
+  font-size: 2em;
+  font-weight: 700;
+  margin: 0 0 0.5em 0;
 }
 
 .button, input[type="submit"] {

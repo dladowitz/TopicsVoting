@@ -36,6 +36,7 @@
   "ruby.codeCompletion": "rcodetools",
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
+  "editor.tabSize": 2,
   "editor.renderWhitespace": "boundary",
   "editor.wordWrapColumn": 120,
   "editor.rulers": [120],

@@ -13,6 +13,9 @@
     = link_to 'Sign up', new_user_registration_path, class: 'button'
     = link_to 'Login', new_user_session_path, class: 'button'
 
+  - unless current_page?(root_path) || current_page?('/seminars')
+    = link_to 'Home', root_path, class: 'button'
+
 - if notice
   %p.notice= notice
 
