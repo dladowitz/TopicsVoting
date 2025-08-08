@@ -29,8 +29,14 @@
   margin-bottom: 0;
 }
 
+.sats-info {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  margin-bottom: 0;
+}
+
 .sats-received {
-  margin-left: -5px;
   margin-bottom: 0;
   font-weight: 600;
 }

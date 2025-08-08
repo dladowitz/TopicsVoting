@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateSatsLabels(mode) {
   document.querySelectorAll('.sats-label').forEach(function(el) {
-    el.textContent = mode === 'sats' ? 'Sats:' : '₿';
+    el.textContent = mode === 'sats' ? 'Received: Sats' : 'Received: ₿';
   });
   document.querySelectorAll('.sats-symbol').forEach(function(el) {
     el.innerHTML = mode === 'sats' ? '<i class="fak fa-satoshisymbol-solid"></i>' : '₿';
