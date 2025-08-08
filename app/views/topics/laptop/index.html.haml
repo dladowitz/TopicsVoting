@@ -1,5 +1,4 @@
-.container{"data-controller" => "topics"}
-
+.topics{"data-controller" => "topics"}
   .page-header-row
     %div{style: "display: flex; align-items: flex-start; gap: 1.2em; margin-bottom: 1em;"}
       .builder-logo-container
@@ -10,7 +9,7 @@
         .sats-btc-toggle{style: "margin-bottom: 0.2em;"}
           = render 'topics/shared/sats_btc_toggle'
     .header-actions{style: "display: flex; align-items: flex-start; gap: 0.5em;"}
-      = link_to 'Home', root_path, class: 'button projector-footer-btn'
+
       - if @admin_mode
         = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
         = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
