@@ -1,11 +1,16 @@
+# Controller for managing topics within Socratic Seminars
+# Handles CRUD operations, voting, and importing topics
 class TopicsController < ApplicationController
   include ScreenSizeConcern
   require "net/http"
   require "uri"
   require "json"
+
   before_action :set_socratic_seminar
   before_action :set_topic, only: [ :show, :edit, :update, :destroy, :upvote, :downvote ]
 
+  # Lists all topics for a seminar, ordered by vote count
+  # @return [void]
   def index
     @topics = @socratic_seminar.topics.order(Arel.sql("COALESCE(votes, 0) DESC"), :id)
     @sections = @socratic_seminar.sections.order(:id)
@@ -15,15 +20,21 @@ class TopicsController < ApplicationController
     render "topics/#{current_layout}/index"
   end
 
+  # Shows details for a specific topic
+  # @return [void]
   def show
   end
 
+  # Displays form for creating a new topic
+  # @return [void]
   def new
     @topic = @socratic_seminar.topics.new
     @topic.socratic_seminar_id = params[:socratic_seminar_id] if params[:socratic_seminar_id]
     @sections = @socratic_seminar.sections
   end
 
+  # Creates a new topic
+  # @return [void]
   def create
     @topic = @socratic_seminar.topics.new(topic_params)
     if @topic.save
@@ -33,9 +44,13 @@ class TopicsController < ApplicationController
     end
   end
 
+  # Displays form for editing a topic
+  # @return [void]
   def edit
   end
 
+  # Updates an existing topic
+  # @return [void]
   def update
     if @topic.update(topic_params)
       redirect_to [ @socratic_seminar, @topic ], notice: "Topic was successfully updated."
@@ -44,11 +59,15 @@ class TopicsController < ApplicationController
     end
   end
 
+  # Deletes a topic
+  # @return [void]
   def destroy
     @topic.destroy!
     redirect_to [ @socratic_seminar, :topics ], notice: "Topic was successfully destroyed."
   end
 
+  # Imports sections and topics from bitcoinbuildersf.com
+  # @return [void]
   def import_sections_and_topics
     success, output = ImportService.import_sections_and_topics(@socratic_seminar.seminar_number.to_s)
 
@@ -59,6 +78,9 @@ class TopicsController < ApplicationController
     end
   end
 
+  # Upvotes a topic
+  # @note Handles vote state transitions and updates session
+  # @return [void]
   def upvote
     session[:votes] ||= {}
     vote_state = session[:votes][@topic.id.to_s]
@@ -87,6 +109,9 @@ class TopicsController < ApplicationController
     end
   end
 
+  # Downvotes a topic
+  # @note Handles vote state transitions and updates session
+  # @return [void]
   def downvote
     session[:votes] ||= {}
     vote_state = session[:votes][@topic.id.to_s]
@@ -117,14 +142,20 @@ class TopicsController < ApplicationController
 
   private
 
+  # Sets the current socratic seminar from params
+  # @return [void]
   def set_socratic_seminar
     @socratic_seminar = SocraticSeminar.find(params[:socratic_seminar_id])
   end
 
+  # Sets the current topic from params
+  # @return [void]
   def set_topic
     @topic = @socratic_seminar.topics.find(params[:id])
   end
 
+  # Whitelists allowed topic parameters
+  # @return [ActionController::Parameters] Permitted parameters
   def topic_params
     params.require(:topic).permit(:name, :link, :socratic_seminar_id, :section_id)
   end
