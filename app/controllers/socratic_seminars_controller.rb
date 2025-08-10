@@ -1,28 +1,35 @@
+# Controller for managing Socratic Seminars
+# Handles CRUD operations and section management for seminars
 class SocraticSeminarsController < ApplicationController
   include ScreenSizeConcern
   before_action :set_socratic_seminar, only: %i[ show edit update destroy delete_sections ]
 
-  # GET /socratic_seminars or /socratic_seminars.json
+  # Lists all seminars, ordered by date descending
+  # @return [void]
   def index
     @socratic_seminars = SocraticSeminar.all.order(date: :desc)
     render "socratic_seminars/#{current_layout}/index"
   end
 
-  # GET /socratic_seminars/1 or /socratic_seminars/1.json
+  # Shows details for a specific seminar
+  # @return [void]
   def show
     render "socratic_seminars/#{current_layout}/show"
   end
 
-  # GET /socratic_seminars/new
+  # Displays form for creating a new seminar
+  # @return [void]
   def new
     @socratic_seminar = SocraticSeminar.new
   end
 
-  # GET /socratic_seminars/1/edit
+  # Displays form for editing a seminar
+  # @return [void]
   def edit
   end
 
-  # POST /socratic_seminars or /socratic_seminars.json
+  # Creates a new seminar
+  # @return [void]
   def create
     @socratic_seminar = SocraticSeminar.new(socratic_seminar_params)
 
@@ -37,7 +44,8 @@ class SocraticSeminarsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /socratic_seminars/1 or /socratic_seminars/1.json
+  # Updates an existing seminar
+  # @return [void]
   def update
     respond_to do |format|
       if @socratic_seminar.update(socratic_seminar_params)
@@ -50,7 +58,9 @@ class SocraticSeminarsController < ApplicationController
     end
   end
 
-  # DELETE /socratic_seminars/1 or /socratic_seminars/1.json
+  # Deletes a seminar and all associated records
+  # @note Also deletes all sections, topics, and payments
+  # @return [void]
   def destroy
     @socratic_seminar.sections.each do |section|
       section.topics.each do |topic|
@@ -68,13 +78,16 @@ class SocraticSeminarsController < ApplicationController
     end
   end
 
-  # POST /socratic_seminars/disable_admin_mode
+  # Disables admin mode and redirects to seminars list
+  # @return [void]
   def disable_admin_mode_action
     disable_admin_mode
     redirect_to socratic_seminars_path, notice: "Admin mode has been disabled."
   end
 
-  # DELETE /socratic_seminars/:id/delete_sections
+  # Deletes all sections (and associated topics/payments) for a seminar
+  # @note Maintains referential integrity by deleting in correct order
+  # @return [void]
   def delete_sections
     # Find all sections belonging to this socratic seminar
     sections = @socratic_seminar.sections
@@ -96,13 +109,16 @@ class SocraticSeminarsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_socratic_seminar
-      @socratic_seminar = SocraticSeminar.find(params.expect(:id))
-    end
 
-    # Only allow a list of trusted parameters through.
-    def socratic_seminar_params
-      params.expect(socratic_seminar: [ :seminar_number, :date ])
-    end
+  # Sets the current seminar from params
+  # @return [void]
+  def set_socratic_seminar
+    @socratic_seminar = SocraticSeminar.find(params.expect(:id))
+  end
+
+  # Whitelists allowed seminar parameters
+  # @return [ActionController::Parameters] Permitted parameters
+  def socratic_seminar_params
+    params.expect(socratic_seminar: [ :seminar_number, :date ])
+  end
 end

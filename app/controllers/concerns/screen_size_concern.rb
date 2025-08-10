@@ -1,3 +1,5 @@
+# Concern for handling responsive layouts based on screen size
+# Provides methods for determining device type and setting appropriate layouts
 module ScreenSizeConcern
   extend ActiveSupport::Concern
 
@@ -8,6 +10,9 @@ module ScreenSizeConcern
 
   private
 
+  # Determines if the current device has a mobile-width screen
+  # @return [Boolean] true if screen width is <= 768px
+  # @note Uses cookies to store screen width, defaults to laptop in test env
   def mobile_width?
     screen_width = if Rails.env.test?
       1024  # Default to laptop width in tests
@@ -23,6 +28,8 @@ module ScreenSizeConcern
     screen_width <= 768
   end
 
+  # Gets the current layout based on screen width
+  # @return [String] "mobile" or "laptop"
   def current_layout
     @current_layout ||= mobile_width? ? "mobile" : "laptop"
   end

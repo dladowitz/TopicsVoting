@@ -1,33 +1,11 @@
-# frozen_string_literal: true
-
+# Defines authorization rules using CanCanCan
+# @see https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
 class Ability
   include CanCan::Ability
 
-  # Define abilities for the user here. For example:
-  #
-  #   return unless user.present?
-  #   can :read, :all
-  #   return unless user.admin?
-  #   can :manage, :all
-  #
-  # The first argument to `can` is the action you are giving the user
-  # permission to do.
-  # If you pass :manage it will apply to every action. Other common actions
-  # here are :read, :create, :update and :destroy.
-  #
-  # The second argument is the resource the user can perform the action on.
-  # If you pass :all it will apply to every resource. Otherwise pass a Ruby
-  # class of the resource.
-  #
-  # The third argument is an optional hash of conditions to further filter the
-  # objects.
-  # For example, here the user can only update published articles.
-  #
-  #   can :update, Article, published: true
-  #
-  # See the wiki for details:
-  # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
-
+  # Initializes abilities based on user role
+  # @param [User, nil] user The current user (or nil for guest)
+  # @return [void]
   def initialize(user)
     # Set up guest user (not logged in)
     user ||= User.new
@@ -46,11 +24,17 @@ class Ability
 
   private
 
+  # Defines admin abilities
+  # @note Admins can manage all resources
+  # @return [void]
   def admin_abilities
     # Admins can manage everything
     can :manage, :all
   end
 
+  # Defines moderator abilities
+  # @note Moderators can manage topics and sections, but not admin users
+  # @return [void]
   def moderator_abilities
     # Moderators can read everything
     can :read, :all
@@ -64,6 +48,10 @@ class Ability
     cannot :manage, User, role: "admin"
   end
 
+  # Defines participant abilities
+  # @param [User] user The participant user
+  # @note Participants can manage their own content and read public content
+  # @return [void]
   def participant_abilities(user)
     # Topics
     can :read, Topic
@@ -78,6 +66,9 @@ class Ability
     can :update, User, id: user.id
   end
 
+  # Defines abilities common to all users (including guests)
+  # @note Everyone can read topics and sections
+  # @return [void]
   def common_abilities
     # Public access
     can :read, Topic

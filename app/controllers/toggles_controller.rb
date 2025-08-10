@@ -1,6 +1,9 @@
+# Controller for managing feature toggles and preferences
 class TogglesController < ApplicationController
   protect_from_forgery with: :null_session
 
+  # Increments the count for a named toggle
+  # @return [Hash] JSON response with updated count or error
   def increment
     name = params[:name]
     toggle = Toggle.find_by(name: name)
@@ -12,6 +15,8 @@ class TogglesController < ApplicationController
     end
   end
 
+  # Shows statistics for sats vs bitcoin display preference
+  # @return [void]
   def sats_vs_bitcoin
     @btc_count = Toggle.find_by(name: "btc_preference")&.count || 0
     @sats_count = Toggle.find_by(name: "sats_preference")&.count || 0

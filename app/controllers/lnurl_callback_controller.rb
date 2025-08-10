@@ -1,10 +1,20 @@
-# GET /lnurl-callback?topic_id=42&amount=1000
+# Controller for handling LNURL callback requests
+# Processes Lightning Network payment requests and generates invoices
 class LnurlCallbackController < ApplicationController
+  # Base URL for LNBits API
+  # @see https://github.com/lnbits/lnbits
   LNBits_API_URL = "https://demo.lnbits.com/api/v1/payments"
+
+  # Gets the LNBits admin API key from environment
+  # @return [String] LNBits API key
   def lnbits_api_key
     ENV["LNBITS_ADMIN_API_KEY"]
   end
 
+  # Handles LNURL callback requests and generates Lightning invoices
+  # @return [Hash] Lightning invoice data including payment request
+  # @raise [ActionController::ParameterMissing] if required parameters are missing
+  # @raise [ActiveRecord::RecordNotFound] if topic is not found
   def show
     topic = Topic.find(params[:id])
     amount_msat = params[:amount].to_i
@@ -32,9 +42,6 @@ class LnurlCallbackController < ApplicationController
       payment_hash: invoice_data["payment_hash"],
       amount: amount_sat
     )
-
-    # puts "\n\n>>>> invoice_data: #{invoice_data}\n\n"
-    # puts "\n\n>>>> json: { pr: #{invoice_data['bolt11']}, routes: [] }"
 
     render json: { pr: invoice_data["bolt11"], routes: [] }
   end
