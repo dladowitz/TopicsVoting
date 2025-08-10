@@ -1,5 +1,12 @@
 HOSTNAME = ENV["HOSTNAME"] # Make sure there is no "/" trailing slash in the ENV VAR
 
+# A Topic represents a discussion item within a Socratic Seminar
+# @attr [String] name The name/title of the topic
+# @attr [String] link Optional URL related to the topic
+# @attr [Integer] votes Number of votes for this topic
+# @attr [Integer] sats_received Number of satoshis received for this topic
+# @attr [String] lnurl Lightning Network URL for payments
+
 class Topic < ApplicationRecord
   # TODO: Remove from SocraticSeminar. Should beong to through a section
   belongs_to :socratic_seminar
@@ -16,16 +23,22 @@ class Topic < ApplicationRecord
   after_create :set_lnurl
   after_update_commit :broadcast_topic_update
 
+  # @return [Integer] The number of completed payments for this topic
   def completed_payments_count
     payments.where(paid: true).count
   end
 
   private
 
+  # Sets the LNURL for this topic after creation
+  # @return [void]
   def set_lnurl
     update_column(:lnurl, generate_lnurl(self.id))
   end
 
+  # Generates a LNURL for the given topic ID
+  # @param [Integer] topic_id The ID of the topic
+  # @return [String] The generated LNURL
   def generate_lnurl(topic_id)
     url = "#{HOSTNAME}/lnurl-pay/#{topic_id}"
     data = url.unpack("C*")
@@ -33,6 +46,8 @@ class Topic < ApplicationRecord
     Bech32.encode("lnurl", words, :bech32)
   end
 
+  # Broadcasts topic updates via ActionCable
+  # @return [void]
   def broadcast_topic_update
     # puts "[Topic] Broadcasting update for topic ##{id} (votes: #{votes}, sats: #{sats_received})"
     ActionCable.server.broadcast(
