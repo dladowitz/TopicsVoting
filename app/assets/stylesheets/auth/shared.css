@@ -2,16 +2,36 @@
    SHARED AUTH STYLES
    ========================= */
 
-.notice {
-  color: #1B7E31;
-  padding: 0.25rem 3rem;
-  text-align: right;
+/* Toast Notifications */
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 300px;
+  opacity: 0;
+  transform: translateX(100%);
+  pointer-events: none; /* Allows clicking through the notification */
 }
 
-.alert {
+.toast-notification.notice {
+  border-left: 4px solid #1B7E31;
+  color: #1B7E31;
+}
+
+.toast-notification.alert {
+  border-left: 4px solid #721c24;
   color: #721c24;
-  padding: 0.25rem 3rem;
-  text-align: right;
+}
+
+.toast-notification.show-notification {
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.3s ease-out;
 }
 
 /* Devise forms - shared styles */
