@@ -1,3 +1,7 @@
+/* =========================
+   SHARED AUTH STYLES
+   ========================= */
+
 .notice {
   color: #1B7E31;
   padding: 0.25rem 3rem;
@@ -10,7 +14,7 @@
   text-align: right;
 }
 
-/* Devise forms */
+/* Devise forms - shared styles */
 .field {
   margin-bottom: 1rem;
 }
@@ -24,25 +28,34 @@
 .field input[type="email"],
 .field input[type="password"],
 .field select {
-  width: 100%;
-  padding: 0.5rem;
   border: 1px solid #ced4da;
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
-.actions {
-  margin-top: 1.5rem;
+/* Remember me checkbox styling */
+.field input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.field input[type="checkbox"] + label {
+  display: inline;
+  font-weight: normal;
 }
 
 .actions input[type="submit"] {
-  background: #007bff;
+  background: #f7931a;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
   cursor: pointer;
+  font-weight: 600;
 }
 
 .actions input[type="submit"]:hover {
-  background: #0056b3;
+  background: #ffb347;
+}
+
+/* Links styling */
+.shared-links a {
+  color: #f7931a;
+  text-decoration: none;
 }

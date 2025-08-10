@@ -1,0 +1,35 @@
+/* =========================
+   LAPTOP AUTH STYLES
+   ========================= */
+
+.field {
+  max-width: 400px;
+  margin-bottom: 1.5rem;
+}
+
+.field input[type="email"],
+.field input[type="password"],
+.field select {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  max-width: 400px;
+}
+
+.actions input[type="submit"] {
+  padding: 0.5rem 2rem;
+  border-radius: 6px;
+  width: auto;
+}
+
+.shared-links {
+  margin-top: 1.5rem;
+}
+
+.shared-links a {
+  display: inline-block;
+  margin-right: 1rem;
+}
