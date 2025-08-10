@@ -1,0 +1,16 @@
+/* =========================
+   MOBILE SOCRATIC SEMINARS STYLES
+   ========================= */
+
+.mobile-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.mobile-header-titles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
