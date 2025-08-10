@@ -1,3 +1,5 @@
+# Base controller for the application
+# @abstract Subclass and add your own functionality
 class ApplicationController < ActionController::Base
   include ScreenSizeConcern
 
@@ -9,6 +11,8 @@ class ApplicationController < ActionController::Base
   layout :current_layout
 
   # Handle CanCanCan authorization errors
+  # @param [CanCan::AccessDenied] exception The authorization error that was raised
+  # @return [void]
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
       format.html do
@@ -22,6 +26,8 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  # Configures permitted parameters for Devise
+  # @return [void]
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: [ :role ])
     devise_parameter_sanitizer.permit(:account_update, keys: [ :role ])
@@ -29,6 +35,8 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # Sets admin mode based on URL parameter or cookie
+  # @return [void]
   def set_admin_mode
     # Enable admin mode if mode=admin is in URL params
     if params[:mode] == "admin"
@@ -39,6 +47,8 @@ class ApplicationController < ActionController::Base
     @admin_mode = cookies[:admin_mode] == "true"
   end
 
+  # Disables admin mode by removing the cookie
+  # @return [void]
   def disable_admin_mode
     cookies.delete(:admin_mode)
     @admin_mode = false
