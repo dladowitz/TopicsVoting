@@ -7,9 +7,3 @@
 
   - unless current_page?(root_path) || current_page?('/seminars')
     = link_to 'Home', root_path, class: 'button'
-
-- if notice
-  %p.notice= notice
-
-- if alert
-  %p.alert= alert
