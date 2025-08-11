@@ -1,0 +1,104 @@
+/* =========================
+   LAPTOP TOPICS STYLES
+   ========================= */
+.laptop-container {
+  .topics {
+    /* Header Layout */
+    .page-header-row {
+      margin-bottom: 1em;
+    }
+
+    .page-header-container {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2em;
+      margin-bottom: 1em;
+    }
+
+    .builder-logo-container {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+    }
+
+    .builder-logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .page-header-title {
+      margin-bottom: 0.2em;
+    }
+
+    .sats-btc-toggle {
+      margin-bottom: 0.2em;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5em;
+    }
+
+    /* Sections */
+    .section-title {
+      margin-top: 0.9em;
+      margin-bottom: 0.25em;
+    }
+
+    /* Vote Buttons */
+    .vote-buttons {
+      display: inline-flex;
+      vertical-align: middle;
+      margin-left: 0.1em;
+    }
+
+    /* Delete Modal Styles */
+    #deleteSectionsModal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+
+    .delete-modal-content {
+      background-color: white;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 500px;
+    }
+
+    .delete-modal-header {
+      color: #e74c3c;
+      margin-top: 0;
+    }
+
+    .delete-modal-warning {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .delete-modal-actions {
+      margin-top: 20px;
+      text-align: right;
+    }
+
+    .delete-modal-cancel {
+      margin-right: 10px;
+    }
+  }
+}

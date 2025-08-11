@@ -1,14 +1,8 @@
 /* =========================
-   TOPICS STYLES
+   SHARED TOPICS STYLES
    ========================= */
 
 /* Topic List Styles */
-.topic-list-header-row {
-  font-size: 1.1em;
-  font-weight: 400;
-  margin: 0 0 10px 5px;
-}
-
 .topic-list-item {
   padding: 3px 15px 5px 15px;
   margin-bottom: 5px;
@@ -29,6 +23,7 @@
   margin-bottom: 0;
 }
 
+/* Sats Info Styles */
 .sats-info {
   display: flex;
   align-items: center;
@@ -39,87 +34,6 @@
 .sats-received {
   margin-bottom: 0;
   font-weight: 600;
-}
-
-.sats-symbol {
-  margin-bottom: 0;
-}
-
-.sats-label {
-  margin-bottom: 0;
-}
-
-/* Topic Show Page Styles */
-.sats-received-row {
-  font-size: 1em;
-  font-weight: 400;
-  margin: 0 0 10px 5px;
-}
-
-.vote-using-lnurl {
-  font-size: 1.25em;
-  font-weight: 400;
-  margin: 0 0 10px 5px;
-  border: 1px solid #E0CBE9;
-  padding: 5px;
-  border-radius: 5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.copy-lnurl {
-  font-size: 1.25em;
-  font-weight: 400;
-  margin: 0 0 10px 5px;
-  border: 1px solid #E0CBE9;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.lnurl-text {
-  font-size: 0.8em;
-  font-weight: 400;
-  margin: 5px 0 10px 0;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-  font-style: italic;
-}
-
-.or-text {
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: 700;
-  margin: 0 0 10px 0;
-}
-
-@media (min-width: 768px) {
-  .or-text {
-    text-align: left;
-    margin-left: 25%;
-  }
-}
-
-.current-status-title {
-  font-size: 1.25em;
-}
-
-.current-status {
-  margin: 20px 0 10px 0;
-  border: 1px solid #E0CBE9;
-  padding: 5px;
-  border-radius: 5px;
-}
-
-.back-to-topic-list {
-  font-size: 1.25em;
-  font-weight: 400;
-  margin: 20px 0 20px 5px;
-}
-
-.topic-title {
-  margin: 10px 0 5px 0;
 }
 
 /* Topic Link Styles */
@@ -144,15 +58,6 @@
   .topic-link-desktop {
     display: none;
   }
-}
-
-.topic-link-row {
-  margin-bottom: 1em;
-}
-
-.topic-link-show {
-  font-size: 0.95em;
-  word-break: break-all;
 }
 
 /* Voting Styles */
@@ -199,11 +104,6 @@
   top: 3px;
 }
 
-.vote-info-label {
-  font-size: 1em;
-  font-weight: 400;
-}
-
 .vote-info-row {
   display: flex;
   align-items: center;
@@ -215,24 +115,4 @@
 
 .vote-count {
   font-weight: 600;
-}
-
-.send-btc-link {
-  color: #690e85;
-}
-
-/* Copy Button */
-.copy-button {
-  background: #f7931a;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  padding: 0.3em 0.6em;
-  font-size: 0.9em;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.copy-button:hover {
-  background: #ffb347;
 }

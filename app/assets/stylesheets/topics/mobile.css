@@ -1,0 +1,46 @@
+/* =========================
+   MOBILE TOPICS STYLES
+   ========================= */
+.mobile-container {
+  .topics {
+    /* Header Layout */
+    .mobile-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1em;
+      margin-bottom: 1em;
+      width: 100%; /* Ensure full width */
+    }
+
+    .builder-logo-container {
+      flex-shrink: 0; /* Prevent logo from shrinking */
+      width: 80px; /* Set fixed width */
+      height: 80px; /* Set fixed height */
+    }
+
+    .builder-logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .mobile-header-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2em;
+      align-items: flex-start;
+      flex: 1; /* Allow content to take remaining space */
+    }
+
+    .mobile-header .page-header-title {
+      margin: 0;
+      font-size: 1.5em; /* Adjust size as needed */
+    }
+
+    .mobile-header .sats-btc-toggle {
+      margin: 0;
+    }
+  }
+}
+
