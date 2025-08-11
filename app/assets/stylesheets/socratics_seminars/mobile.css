@@ -1,16 +1,22 @@
 /* =========================
    MOBILE SOCRATIC SEMINARS STYLES
    ========================= */
+.mobile-container {
+  .socratic-seminars {
+    .mobile-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1em;
+      margin-bottom: 1em;
+    }
 
-.mobile-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 1em;
-  margin-bottom: 1em;
-}
-
-.mobile-header-titles {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+    .mobile-header-titles {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .socratic-seminar-index-item {
+      font-size: 1em;
+    }
+  }
 }
