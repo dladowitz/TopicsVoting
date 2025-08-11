@@ -86,18 +86,18 @@ span {
   margin: 0 0 0.5em 0;
 }
 
+/* Buttons */
 .button, input[type="submit"] {
-  background: #f7931a;
-  color: #fff;
-  border: none;
+  font-size: 0.95em;
+  padding: 0.4em 1.2em;
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
   border-radius: 8px;
-  padding: 0.6em 1.4em;
-  font-size: 1.1em;
+  box-shadow: none;
   font-weight: 600;
-  cursor: pointer;
-  margin-right: 0.5em;
-  margin-top: 0.5em;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  text-decoration: none;
 }
 
 .button:disabled, input[type="submit"][disabled] {
@@ -107,8 +107,14 @@ span {
 }
 
 .button:hover:not(:disabled), input[type="submit"]:hover:not([disabled]) {
-  background: #ffb347;
-  color: #222;
+  background: #fff;
+  color: #f7931a;
+  border: 1.5px solid #f7931a;
+}
+
+button:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .button-new-topic {
@@ -126,17 +132,16 @@ span {
 }
 
 .button-danger, input[type="submit"].button-danger {
-  background: #e74c3c;
-  color: #fff;
-  border: none;
+  font-size: 0.95em;
+  padding: 0.4em 1.2em;
+  background: #fff;
+  color: #e74c3c;
+  border: 1.5px solid #e74c3c;
   border-radius: 8px;
-  /* padding: 0.4em 1em; */
-  /* font-size: 0.9em; */
+  box-shadow: none;
   font-weight: 600;
-  cursor: pointer;
-  margin-right: 0.5em;
-  margin-top: 0.5em;
-  transition: background 0.2s, color 0.2s;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  text-decoration: none;
 }
 
 .button-danger:disabled, input[type="submit"].button-danger[disabled] {
@@ -146,9 +151,12 @@ span {
 }
 
 .button-danger:hover:not(:disabled), input[type="submit"].button-danger:hover:not([disabled]) {
-  background: #c0392b;
-  color: #fff;
+  background: #fff;
+  color: #e74c3c;
+  border: 1.5px solid #e74c3c;
 }
+/* Buttons */
+
 
 .header-actions {
   display: flex;

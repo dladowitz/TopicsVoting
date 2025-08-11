@@ -2,6 +2,22 @@
    SHARED AUTH STYLES
    ========================= */
 
+/* Header Row */
+.auth-header-row {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  margin: 1em 0;
+}
+
+.auth-header-row h2 {
+  margin: 0;
+}
+
+.auth-header-row .button {
+  font-size: 0.8em;
+}
+
 /* Toast Notifications */
 .toast-notification {
   position: fixed;

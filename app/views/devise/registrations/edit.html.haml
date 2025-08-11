@@ -1,5 +1,6 @@
-%h2
-  Edit #{resource_name.to_s.humanize}
+.auth-header-row
+  %h2 Edit #{resource_name.to_s.humanize}
+  = link_to "Back", :back, class: 'button'
 
 = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
   = render "devise/shared/error_messages", resource: resource
@@ -15,7 +16,7 @@
 
   .field
     = f.label :password
-    %i (leave blank if you don't want to change it)
+    %i (leave blank if no change)
     %br
     = f.password_field :password, autocomplete: "new-password"
     - if @minimum_password_length
@@ -31,7 +32,7 @@
 
   .field
     = f.label :current_password
-    %i (we need your current password to confirm your changes)
+    %i (current password to confirm changes)
     %br
     = f.password_field :current_password, autocomplete: "current-password"
 
@@ -44,10 +45,7 @@
   .actions
     = f.submit "Update"
 
-%h3 Cancel my account
-
+%h3 Delete my account
 %div
-  Unhappy?
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete
+  = button_to "Delete my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete, class: 'button button-danger'
 
-= link_to "Back", :back
