@@ -54,11 +54,14 @@
       margin-bottom: 0.25em;
     }
 
-    /* Vote Buttons */
+    /* Voting */
     .vote-buttons {
       display: inline-flex;
       vertical-align: middle;
       margin-left: 0.1em;
+    }
+    .vote-info-row {
+      font-size: 0.95em;
     }
 
     /* Delete Modal Styles */
