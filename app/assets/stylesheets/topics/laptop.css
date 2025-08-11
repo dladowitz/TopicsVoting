@@ -58,45 +58,46 @@
     .vote-info-row {
       font-size: 0.95em;
     }
+  }
 
-    /* Delete Modal Styles */
-    #deleteSectionsModal {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5);
-    }
+  /* Delete Modal Styles  */
+  /* Note, these are not inside the .topics class. */
+  #deleteSectionsModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+  }
 
-    .delete-modal-content {
-      background-color: white;
-      margin: 15% auto;
-      padding: 20px;
-      border-radius: 8px;
-      width: 80%;
-      max-width: 500px;
-    }
+  .delete-modal-content {
+    background-color: white;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 500px;
+  }
 
-    .delete-modal-header {
-      color: #e74c3c;
-      margin-top: 0;
-    }
+  .delete-modal-header {
+    color: #e74c3c;
+    margin-top: 0;
+  }
 
-    .delete-modal-warning {
-      color: #e74c3c;
-      font-weight: bold;
-    }
+  .delete-modal-warning {
+    color: #e74c3c;
+    font-weight: bold;
+  }
 
-    .delete-modal-actions {
-      margin-top: 20px;
-      text-align: right;
-    }
+  .delete-modal-actions {
+    margin-top: 20px;
+    text-align: right;
+  }
 
-    .delete-modal-cancel {
-      margin-right: 10px;
-    }
+  .delete-modal-cancel {
+    margin-right: 10px;
   }
 }

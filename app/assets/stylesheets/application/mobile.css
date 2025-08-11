@@ -1,4 +1,8 @@
 /* This class is set on the body element */
 .mobile-layout {
+  /* Note there is a navigation class at this level, however it has it's own css file */
 
+  .mobile-container {
+
+  }
 }
