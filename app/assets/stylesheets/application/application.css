@@ -13,6 +13,22 @@
    GENERAL PAGE LAYOUT
    ========================= */
 
+
+/* Markup Structure
+set in layouts/laptop.html.haml or layouts/mobile.html.haml
+
+<Body class=laptop-layout or mobile-layout>
+  <div class=navigation laptop-navigation or mobile-navigation> content </div>
+  <div class=container laptop-container or mobile-container> content </div>
+    <%= controller yield %>
+</Body>
+*/
+
+
+
+/* TODO: We should move some of these styles to the laptop and mobile stylesheets.
+It's not clear what is actually shared and which are specific to the laptop and mobile layouts. */
+
 /* Elements */
 body {
   background: #fff;
