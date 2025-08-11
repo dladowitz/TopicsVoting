@@ -137,4 +137,4 @@ export default class extends Controller {
       label.textContent = 'Sats';
     }
   }
-} 
+}

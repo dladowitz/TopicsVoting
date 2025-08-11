@@ -1,15 +1,14 @@
 .topics{"data-controller" => "topics"}
   .page-header-row
-    %div{style: "display: flex; align-items: flex-start; gap: 1.2em; margin-bottom: 1em;"}
+    .page-header-container
       .builder-logo-container
-        = image_tag 'logo.png', alt: 'Builder Voting Logo', style: 'width: 100%; height: 100%; object-fit: cover; object-position: center;'
-      %div{style: "display: flex; flex-direction: column; align-items: flex-start;"}
-        %h1.page-header-title{style: "margin-bottom: 0.2em;"}
+        = image_tag 'logo.png', alt: 'Builder Voting Logo'
+      .header-content
+        %h1.page-header-title
           ₿uilder #{@socratic_seminar.seminar_number}
-        .sats-btc-toggle{style: "margin-bottom: 0.2em;"}
+        .sats-btc-toggle
           = render 'topics/shared/sats_btc_toggle'
-    .header-actions{style: "display: flex; align-items: flex-start; gap: 0.5em;"}
-
+    .header-actions
       - if @admin_mode
         = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
         = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
@@ -39,14 +38,13 @@
           %span.vote-info-row
             Votes:
             .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
-            .vote-buttons{style: "display:inline-flex; vertical-align:middle; margin-left:0.1em;"}
-              = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state
+            = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state
             |
             = render 'topics/shared/sats_info', topic: topic
 
-#deleteSectionsModal{style: "display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);"}
-  %div{style: "background-color: white; margin: 15% auto; padding: 20px; border-radius: 8px; width: 80%; max-width: 500px;"}
-    %h3{style: "color: #e74c3c; margin-top: 0;"} ⚠️ Warning: You are deleting ALL Sections & Topics
+#deleteSectionsModal
+  .delete-modal-content
+    %h3.delete-modal-header ⚠️ Warning: You are deleting ALL Sections & Topics
     %p
       You are about to delete
       %strong ALL
@@ -55,28 +53,11 @@
       This will also delete
       %strong ALL Lightning Payments
       associated with the Topics.
-    %p{style: "color: #e74c3c; font-weight: bold;"} This action cannot be undone!
+    %p.delete-modal-warning This action cannot be undone!
 
-    %div{style: "margin-top: 20px; text-align: right;"}
-      %button.button{onclick: "hideDeleteSectionsModal()", style: "margin-right: 10px;"} Cancel
+    .delete-modal-actions
+      %button.button.delete-modal-cancel{onclick: "hideDeleteSectionsModal()"} Cancel
       = button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar),
         method: :delete,
         class: "button button-danger",
         data: { confirm: false }
-
-:javascript
-  function showDeleteSectionsModal() {
-    document.getElementById('deleteSectionsModal').style.display = 'block';
-  }
-
-  function hideDeleteSectionsModal() {
-    document.getElementById('deleteSectionsModal').style.display = 'none';
-  }
-
-  // Close modal when clicking outside of it
-  window.onclick = function(event) {
-    var modal = document.getElementById('deleteSectionsModal');
-    if (event.target == modal) {
-      hideDeleteSectionsModal();
-    }
-  }

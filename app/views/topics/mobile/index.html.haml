@@ -1,11 +1,12 @@
-.container{"data-controller" => "topics"}
-
+.topics{"data-controller" => "topics"}
   .page-header-row.mobile-header
     .builder-logo-container
-      = image_tag 'logo.png', alt: 'Builder Voting Logo', style: 'width: 100%; height: 100%; object-fit: cover; object-position: center;'
-    %h1.page-header-title
-      ₿uilder #{@socratic_seminar.seminar_number}
-    = render 'topics/shared/sats_btc_toggle'
+      = image_tag 'logo.png', alt: 'Builder Voting Logo'
+    .mobile-header-content
+      %h1.page-header-title
+        ₿uilder #{@socratic_seminar.seminar_number}
+      .sats-btc-toggle
+        = render 'topics/shared/sats_btc_toggle'
 
   .voting-instructions.mobile-instructions
     %ul

@@ -1,0 +1,11 @@
+/* =========================
+   LAPTOP SOCRATIC SEMINARS STYLES
+   ========================= */
+
+.laptop-container {
+  .socratic-seminars {
+    .socratic-seminar-index-item {
+      font-size: 1.5em;
+    }
+  }
+}
