@@ -3,6 +3,6 @@
   .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
   |
   = link_to "Vote with ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
-    class: "send-btc-link #{local_assigns[:mobile] ? 'mobile-lightning-button' : ''}",
+    class: "send-btc-link mobile-lightning-button",
     target: "_blank",
     rel: "noopener"
