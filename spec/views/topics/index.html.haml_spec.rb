@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "topics/index", type: :view do
+RSpec.describe "topics/laptop/index", type: :view do
   let(:socratic_seminar) { create(:socratic_seminar) }
   let(:section) { create(:section, socratic_seminar: socratic_seminar) }
 

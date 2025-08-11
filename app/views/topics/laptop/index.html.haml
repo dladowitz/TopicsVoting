@@ -38,8 +38,7 @@
           %span.vote-info-row
             Votes:
             .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
-            .vote-buttons
-              = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state
+            = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state
             |
             = render 'topics/shared/sats_info', topic: topic
 
