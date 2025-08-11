@@ -29,4 +29,4 @@
               .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
             = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state, mobile: true
           .mobile-payment-row
-            = render 'topics/shared/sats_info', topic: topic, mobile: true
+            = render 'topics/mobile/sats_info', topic: topic, mobile: true

@@ -40,7 +40,7 @@
             .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
             = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state
             |
-            = render 'topics/shared/sats_info', topic: topic
+            = render 'topics/laptop/sats_info', topic: topic
 
 #deleteSectionsModal
   .delete-modal-content

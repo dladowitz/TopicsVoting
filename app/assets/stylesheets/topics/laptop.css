@@ -3,16 +3,11 @@
    ========================= */
 .laptop-container {
   .topics {
-    /* Header Layout */
-    .page-header-row {
-      margin-bottom: 1em;
-    }
-
     .page-header-container {
       display: flex;
       align-items: flex-start;
       gap: 1.2em;
-      margin-bottom: 1em;
+      margin-bottom: 0.5em;
     }
 
     .builder-logo-container {
@@ -54,11 +49,14 @@
       margin-bottom: 0.25em;
     }
 
-    /* Vote Buttons */
+    /* Voting */
     .vote-buttons {
       display: inline-flex;
       vertical-align: middle;
       margin-left: 0.1em;
+    }
+    .vote-info-row {
+      font-size: 0.95em;
     }
 
     /* Delete Modal Styles */
