@@ -8,9 +8,8 @@ HOSTNAME = ENV["HOSTNAME"] # Make sure there is no "/" trailing slash in the ENV
 # @attr [String] lnurl Lightning Network URL for payments
 
 class Topic < ApplicationRecord
-  # TODO: Remove from SocraticSeminar. Should beong to through a section
-  belongs_to :socratic_seminar
   belongs_to :section
+  has_one :socratic_seminar, through: :section
   has_many :payments
 
   validates :name, presence: true

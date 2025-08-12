@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Topic, type: :model do
   describe "associations" do
-    it { should belong_to(:socratic_seminar) }
     it { should belong_to(:section) }
+    it { should have_one(:socratic_seminar).through(:section) }
     it { should have_many(:payments) }
   end
 
