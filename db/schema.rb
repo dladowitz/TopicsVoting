@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_12_024700) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_12_142117) do
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+    t.string "city"
+    t.string "country", limit: 2
+    t.string "website"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
