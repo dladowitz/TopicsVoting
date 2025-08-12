@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_07_001950) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_12_024700) do
   create_table "payments", force: :cascade do |t|
     t.integer "topic_id"
     t.string "payment_hash"
@@ -54,11 +54,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_07_001950) do
     t.datetime "updated_at", null: false
     t.integer "votes", default: 0, null: false
     t.string "link"
-    t.integer "socratic_seminar_id", null: false
     t.integer "section_id", null: false
     t.index [ "id" ], name: "index_topics_on_id", unique: true
     t.index [ "section_id" ], name: "index_topics_on_section_id"
-    t.index [ "socratic_seminar_id" ], name: "index_topics_on_socratic_seminar_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -77,5 +75,4 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_07_001950) do
   add_foreign_key "payments", "topics"
   add_foreign_key "sections", "socratic_seminars"
   add_foreign_key "topics", "sections"
-  add_foreign_key "topics", "socratic_seminars"
 end

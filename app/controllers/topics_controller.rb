@@ -28,18 +28,18 @@ class TopicsController < ApplicationController
   # Displays form for creating a new topic
   # @return [void]
   def new
-    @topic = @socratic_seminar.topics.new
-    @topic.socratic_seminar_id = params[:socratic_seminar_id] if params[:socratic_seminar_id]
+    @topic = Topic.new
     @sections = @socratic_seminar.sections
   end
 
   # Creates a new topic
   # @return [void]
   def create
-    @topic = @socratic_seminar.topics.new(topic_params)
+    @topic = Topic.new(topic_params)
     if @topic.save
       redirect_to [ @socratic_seminar, :topics ]
     else
+      @sections = @socratic_seminar.sections
       render :new
     end
   end
@@ -157,6 +157,6 @@ class TopicsController < ApplicationController
   # Whitelists allowed topic parameters
   # @return [ActionController::Parameters] Permitted parameters
   def topic_params
-    params.require(:topic).permit(:name, :link, :socratic_seminar_id, :section_id)
+    params.require(:topic).permit(:name, :link, :section_id)
   end
 end
