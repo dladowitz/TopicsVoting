@@ -8,7 +8,7 @@
       display: flex;
       align-items: flex-start;
       gap: 1em;
-      margin-bottom: 1em;
+      margin-bottom: 0.5em;
       width: 100%; /* Ensure full width */
     }
 
@@ -42,18 +42,103 @@
       margin: 0;
     }
 
+    /* Sections */
+    .section-title {
+      margin-top: 0.6em;
+      margin-bottom: 0.25em;
+    }
+
+    /* Topics */
+    .topic-list-item {
+      padding: 3px 15px 5px 15px;
+      margin-bottom: 5px;
+      border: none !important;
+      background-color: #eff1f66f;
+    }
+
+    .topic-list-item.flash-border {
+      animation: flash-border 0.7s cubic-bezier(.23,1.5,.32,1) both;
+      border-radius: 8px;
+    }
+
     /* Voting */
-    .vote-info {
-      font-size: 0.8em;
-      /* display: flex;
+    .vote-row {
+      font-size: 0.9em;
+      display: flex;
       align-items: center;
       gap: 0.5em;
       font-weight: 400;
-      margin-bottom: 0; */
+      margin-bottom: 0.25em;
     }
 
-    .mobile-sats-info {
+    .vote-row .vote-count {
+      margin-right: 0.5em;
+    }
+
+    .vote-buttons {
+      display: flex;
+      gap: 0.3em;
+      margin-top: 0;
+    }
+
+    .vote-button {
+      background: #f7931a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.15em 1.5em;
       font-size: 0.8em;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.2em;
+      transition: background 0.2s, color 0.2s;
+      line-height: 1.2;
+    }
+
+    .vote-button:disabled {
+      background: #e5e7eb;
+      color: #b1b5bb;
+      cursor: not-allowed;
+    }
+
+    .vote-button:hover:not(:disabled) {
+      background: #ffb347;
+      color: #222;
+    }
+
+    .vote-arrow {
+      font-size: 1em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+      position: relative;
+      top: 3px;
+    }
+
+    .vote-count {
+      font-weight: 600;
+    }
+
+
+    /* Sats / Payment */
+    .payment-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+
+    .sats-info {
+      font-size: 0.85em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
+    .sats-received {
+      margin-bottom: 0;
+      font-weight: 600;
     }
   }
 }

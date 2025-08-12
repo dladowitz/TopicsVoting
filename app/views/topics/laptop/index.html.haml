@@ -33,9 +33,9 @@
             %span.topic-name
               = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
               - if topic.link.present?
-                %span.topic-link-desktop
+                %span.topic-link
                   = link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener"
-          .vote-info
+          .vote-and-sats-info
             Votes:
             .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
 
@@ -54,10 +54,6 @@
                 form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
                 %span.vote-arrow
                   %i.fas.fa-arrow-down
-
-
-
-
 
 
             |
