@@ -1,0 +1,137 @@
+.laptop-container {
+  .organizations {
+    /* Organization Index Page */
+    .index-actions {
+      margin-bottom: 1rem;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.75rem 0;
+    }
+
+    td {
+      padding: 0.5rem 0;
+    }
+
+    /* Organization Show Page */
+    .actions {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+      color: #333;
+      font-size: 2rem;
+      font-weight: 600;
+    }
+
+    /* Organization Form Styles */
+    .organization-form {
+      max-width: 600px;
+      margin: 2rem 0;
+      padding: 2rem;
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .organization-form h1 {
+      margin-bottom: 2rem;
+      color: #333;
+      font-size: 1.8rem;
+      text-align: left;
+    }
+
+    .organization-form .field {
+      margin-bottom: 1.5rem;
+    }
+
+    .organization-form label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .organization-form input[type="text"], .organization-form select {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 1rem;
+      transition: border-color 0.2s ease;
+      background-color: white;
+    }
+
+    .organization-form input[type="text"]:focus, .organization-form select:focus {
+      border-color: #4a90e2;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    }
+
+    .organization-form .field.country select {
+      max-width: 400px;
+    }
+
+    .organization-form .actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .organization-form .button {
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+    }
+
+    .organization-form .button:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Error Styles */
+    .organization-form #error_explanation {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background: #fff5f5;
+      border: 1px solid #feb2b2;
+      border-radius: 4px;
+    }
+
+    .organization-form #error_explanation h2 {
+      margin-bottom: 1rem;
+      color: #c53030;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .organization-form #error_explanation ul {
+      margin-left: 1rem;
+      color: #c53030;
+      list-style-type: disc;
+    }
+
+    .organization-form input[type="text"].field_with_errors {
+      border-color: #c53030;
+    }
+
+    /* Field Hints */
+    .field-hint {
+      margin-top: 0.25rem;
+      color: #666;
+      font-size: 0.875rem;
+      font-style: italic;
+    }
+  }
+}
