@@ -1,0 +1,22 @@
+.container
+  %h1 Organizations
+
+  - if current_user.admin?
+    .actions{style: "margin-bottom: 1rem;"}
+      = link_to 'New Organization', new_organization_path, class: 'button'
+
+  %table{style: "width: 100%;"}
+    %thead
+      %tr
+        %th Name
+        %th City
+        %th Country
+        %th Website
+
+    %tbody
+      - @organizations.each do |organization|
+        %tr
+          %td= organization.name
+          %td= organization.city
+          %td= organization.country
+          %td= link_to organization.website, organization.website, target: '_blank' if organization.website.present?

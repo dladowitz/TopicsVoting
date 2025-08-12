@@ -1,0 +1,21 @@
+.container
+  %h1= @organization.name
+
+  .details
+    %p
+      %strong City:
+      = @organization.city
+
+    %p
+      %strong Country:
+      = @organization.country
+
+    - if @organization.website.present?
+      %p
+        %strong Website:
+        = link_to @organization.website, @organization.website, target: '_blank'
+
+  .actions{style: "margin-top: 1rem;"}
+    = link_to 'Edit', edit_organization_path(@organization), class: 'button'
+    = link_to 'Back to Organizations', organizations_path, class: 'button'
+    = button_to 'Delete', organization_path(@organization), method: :delete, class: 'button button-danger', data: { confirm: 'Are you sure?' }
