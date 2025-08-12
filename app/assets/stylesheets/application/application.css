@@ -273,20 +273,6 @@ button:hover {
   100% { box-shadow: 0 0 0 0 transparent; border-color: transparent; border-width: 0; }
 }
 
-.topic-list-item {
-  border: none !important;
-}
-
-.topic-list-item.flash-border {
-  animation: flash-border 0.7s cubic-bezier(.23,1.5,.32,1) both;
-  border-radius: 8px;
-}
-
-.vote-buttons button {
-  font-size: 0.6em;
-  padding: 0.5em 0.8em;
-}
-
 .projector-footer-btn {
   font-size: 0.95em;
   padding: 0.4em 1.2em;

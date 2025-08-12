@@ -64,7 +64,7 @@ RSpec.describe "topics/laptop/index", type: :view do
     end
 
     it "displays the link appropriately" do
-      expect(rendered).to have_css(".topic-link-desktop")
+      expect(rendered).to have_css(".topic-link")
       expect(rendered).to have_link(href: "https://example.com")
     end
   end
