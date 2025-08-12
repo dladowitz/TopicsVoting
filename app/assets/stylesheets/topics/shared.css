@@ -104,15 +104,6 @@
   top: 3px;
 }
 
-.vote-info-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.85em;
-  font-weight: 400;
-  margin-bottom: 0;
-}
-
 .vote-count {
   font-weight: 600;
 }

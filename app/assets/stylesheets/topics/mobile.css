@@ -41,6 +41,20 @@
     .mobile-header .sats-btc-toggle {
       margin: 0;
     }
+
+    /* Voting */
+    .vote-info {
+      font-size: 0.8em;
+      /* display: flex;
+      align-items: center;
+      gap: 0.5em;
+      font-weight: 400;
+      margin-bottom: 0; */
+    }
+
+    .mobile-sats-info {
+      font-size: 0.8em;
+    }
   }
 }
 
