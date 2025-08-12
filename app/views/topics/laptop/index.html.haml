@@ -35,12 +35,40 @@
               - if topic.link.present?
                 %span.topic-link-desktop
                   = link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener"
-          %span.vote-info-row
+          .vote-info
             Votes:
             .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
-            = render 'topics/shared/voting_buttons', topic: topic, vote_state: vote_state
+
+            .vote-buttons
+              = button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic),
+                method: :post,
+                class: "vote-button",
+                disabled: (vote_state == 'up'),
+                form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
+                %span.vote-arrow
+                  %i.fas.fa-arrow-up
+              = button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic),
+                method: :post,
+                class: "vote-button",
+                disabled: (vote_state == 'down'),
+                form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
+                %span.vote-arrow
+                  %i.fas.fa-arrow-down
+
+
+
+
+
+
             |
-            = render 'topics/laptop/sats_info', topic: topic
+            .sats-info
+              .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
+              .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
+              |
+              = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
+                class: "send-btc-link",
+                target: "_blank",
+                rel: "noopener"
 
 #deleteSectionsModal
   .delete-modal-content
