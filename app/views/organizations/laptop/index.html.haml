@@ -1,11 +1,11 @@
-.container
+.organizations
   %h1 Organizations
 
   - if current_user.admin?
-    .actions{style: "margin-bottom: 1rem;"}
+    .actions.index-actions
       = link_to 'New Organization', new_organization_path, class: 'button'
 
-  %table{style: "width: 100%;"}
+  %table
     %thead
       %tr
         %th Name
