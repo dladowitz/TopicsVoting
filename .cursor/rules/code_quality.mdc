@@ -1,0 +1,68 @@
+---
+globs: *.rb,*.rake
+alwaysApply: false
+---
+Rule Name: code_quality
+Apply: always
+Description:
+1. ALWAYS run RuboCop after making changes to Ruby files (*.rb, *.rake):
+   - Run: bundle exec rubocop [modified_files]
+   - If errors exist, run: bundle exec rubocop -a [modified_files]
+   - Verify all issues are fixed
+   - Only proceed to testing after linting passes
+
+2. Never skip linting checks - this is a mandatory step before any code can be considered complete.
+
+3. Order of operations:
+   a. Make code changes
+   b. Run RuboCop
+   c. Fix linting issues
+   d. Run tests
+
+4. Example usage:
+   ```bash
+   # After modifying files
+   bundle exec rubocop app/models/user.rb
+   # If errors found
+   bundle exec rubocop -a app/models/user.rb
+   # Verify fixes
+   bundle exec rubocop app/models/user.rb
+   ```
+
+5. Common scenarios:
+   - When editing multiple files, include all in the RuboCop check
+   - When creating new files, always run RuboCop before committing
+   - When modifying existing files, run RuboCop on the modified files
+   - When running tests that pass but RuboCop fails, fix RuboCop issues before considering the task complete
+Rule Name: code_quality
+Apply: always
+Description:
+1. ALWAYS run RuboCop after making ANY code changes:
+   - Run: bundle exec rubocop [modified_files]
+   - If errors exist, run: bundle exec rubocop -a [modified_files]
+   - Verify all issues are fixed
+   - Only proceed to testing after linting passes
+
+2. Never skip linting checks - this is a mandatory step before any code can be considered complete.
+
+3. Order of operations:
+   a. Make code changes
+   b. Run RuboCop
+   c. Fix linting issues
+   d. Run tests
+
+4. Example usage:
+   ```bash
+   # After modifying files
+   bundle exec rubocop app/models/user.rb
+   # If errors found
+   bundle exec rubocop -a app/models/user.rb
+   # Verify fixes
+   bundle exec rubocop app/models/user.rb
+   ```
+
+5. Common scenarios:
+   - When editing multiple files, include all in the RuboCop check
+   - When creating new files, always run RuboCop before committing
+   - When modifying existing files, run RuboCop on the modified files
+   - When running tests that pass but RuboCop fails, fix RuboCop issues before considering the task complete

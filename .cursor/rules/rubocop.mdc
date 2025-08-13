@@ -1,9 +1,0 @@
----
-globs: *.rb
-alwaysApply: false
----
-1. When creating code use the Rubocop linting rules.
-
-2. When checking for linting errors always use RuboCop. 
-If there are any errors rerun RuboCop and pass in autocorrect flag of "-a"
-Example: "bundle exec rubocop -a spec/controllers/lnurl_callback_controller_spec.rb"
