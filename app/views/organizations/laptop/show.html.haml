@@ -21,4 +21,25 @@
   .actions
     - if current_user.admin?
       = link_to 'Edit', edit_organization_path(@organization), class: 'button'
-      = button_to 'Delete', organization_path(@organization), method: :delete, class: 'button button-danger', data: { confirm: 'Are you sure?' }, class: 'button button-danger'
+      -# = button_to 'Delete', "organization_path(@organization)", method: :delete, class: 'button button-danger', data: { confirm: 'Are you sure?' }, class: 'button button-danger'
+
+  .seminars-section
+    .section-header
+      .header-group
+        %h2 Socratic Seminars
+        - if current_user.admin?
+          = link_to 'Create Seminar', new_socratic_seminar_path(organization_id: @organization.id), class: 'button'
+    - if @organization.socratic_seminars.any?
+      .seminars-list
+        - @organization.socratic_seminars.order(date: :desc).each do |seminar|
+          .seminar-card
+            %h3 Seminar ##{seminar.seminar_number}
+            %p
+              %strong Date:
+              = seminar.date.strftime('%B %d, %Y')
+            - if seminar.builder_sf_link.present?
+              %p
+                = link_to 'View on Bitcoin Builders SF', seminar.builder_sf_link, target: '_blank', class: 'button'
+            = link_to 'View Details', socratic_seminar_path(seminar), class: 'button'
+    - else
+      %p No seminars scheduled yet.
