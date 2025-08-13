@@ -30,6 +30,32 @@ RSpec.describe Organization, type: :model do
     end
   end
 
+  describe 'website normalization' do
+    it 'removes trailing forward slash from website URL' do
+      organization = build(:organization, website: 'https://example.com/')
+      organization.save
+      expect(organization.website).to eq('https://example.com')
+    end
+
+    it 'handles website URLs without trailing slash' do
+      organization = build(:organization, website: 'https://example.com')
+      organization.save
+      expect(organization.website).to eq('https://example.com')
+    end
+
+    it 'handles nil website' do
+      organization = build(:organization, website: nil)
+      expect { organization.save }.not_to raise_error
+      expect(organization.website).to be_nil
+    end
+
+    it 'handles blank website' do
+      organization = build(:organization, website: '')
+      expect { organization.save }.not_to raise_error
+      expect(organization.website).to eq('')
+    end
+  end
+
   describe '#country_name' do
     it 'returns the full country name for valid codes' do
       organization = build(:organization, country: 'US')

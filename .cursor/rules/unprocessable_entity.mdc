@@ -1,5 +1,5 @@
 ---
-globs: *_spec.rb
+globs: *_spec.rb,*_controller.rb
 alwaysApply: false
 ---
 1. Ensure we are not using :unprocessable_entity in Rails controllers or Rspec files. This is deprecated.
