@@ -1,5 +1,70 @@
 .laptop-container {
   .organizations {
+    /* Seminars Section */
+    .seminars-section {
+      margin-top: 3rem;
+      border: 1px solid #f7931a;
+      border-radius: 8px;
+      padding: 1rem;
+      padding-bottom: 1.5rem;
+
+      .section-header {
+        margin-bottom: 1.5rem;
+
+        .header-group {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        h2 {
+          margin: 0;
+          color: #333;
+          font-size: 1.5rem;
+          font-weight: 600;
+        }
+
+        .button {
+          margin-left: 1rem;
+        }
+      }
+
+      .seminars-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .seminar-card {
+        padding: 1rem;
+        background: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h3 {
+          margin-top: 0rem;
+          margin-bottom: 1rem;
+          color: #333;
+          font-size: 1.2rem;
+          font-weight: 600;
+        }
+
+        p {
+          margin-bottom: 1rem;
+          color: #555;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
     /* Organization Index Page */
     .index-actions {
       margin-bottom: 1rem;

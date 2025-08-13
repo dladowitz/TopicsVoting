@@ -8,7 +8,7 @@
         = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
 
   %div
-    - if @admin_mode
+    - if can? :manage, SocraticSeminar
       = link_to "Edit this socratic seminar", edit_socratic_seminar_path(@socratic_seminar), class: 'button'
       |
       = button_to "Destroy this socratic seminar", @socratic_seminar, method: :delete, class: 'button-danger'

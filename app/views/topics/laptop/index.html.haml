@@ -9,7 +9,7 @@
         .sats-btc-toggle
           = render 'topics/shared/sats_btc_toggle'
     .header-actions
-      - if @admin_mode
+      - if can? :manage, Topic
         = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
         = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
           method: :post,
