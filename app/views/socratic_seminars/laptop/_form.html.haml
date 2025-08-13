@@ -1,0 +1,42 @@
+= form_with(model: socratic_seminar, local: true, class: 'seminar-form') do |f|
+  - if socratic_seminar.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(socratic_seminar.errors.count, "error")} prohibited this seminar from being saved:"
+      %ul
+        - socratic_seminar.errors.full_messages.each do |msg|
+          %li= msg
+
+  .field.seminar-number
+    = f.label :seminar_number, "Seminar Number"
+    = f.number_field :seminar_number, required: true, min: 1, max: 999, class: 'narrow-field'
+    .field-hint
+      - if @next_seminar_message
+        = @next_seminar_message
+      - else
+        Required field (1-999)
+
+  .field
+    = f.label :date, "Date"
+    = f.date_field :date, required: true
+    .field-hint Required field
+
+  .field
+    = f.label :builder_sf_link, "Topic List URL"
+    = f.text_field :builder_sf_link, placeholder: (@organization ? "#{@organization.website}/seminar-XX" : "https://example.com/seminar-XX")
+    .field-hint
+      Optional:
+      %br
+      If you already have a topic list in mardkdown format enter the url here.
+      You can use the import feature on the next page.
+
+  - if @organization
+    = f.hidden_field :organization_id, value: @organization.id
+  - else
+    .field
+      = f.label :organization_id, "Organization"
+      = f.collection_select :organization_id, Organization.all, :id, :name, { prompt: "Select an organization" }, required: true
+      .field-hint Required field
+
+  .actions
+    = f.submit class: 'button'
+    = link_to 'Cancel', socratic_seminars_path, class: 'button button-secondary'

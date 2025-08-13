@@ -1,11 +1,158 @@
-/* =========================
-   LAPTOP SOCRATIC SEMINARS STYLES
-   ========================= */
-
 .laptop-container {
-  .socratic-seminars {
-    .socratic-seminar-index-item {
-      font-size: 1.5em;
+  .seminars {
+    h1 {
+      margin-bottom: 2rem;
+      color: #333;
+      font-size: 2rem;
+      font-weight: 600;
+
+      a {
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    /* Seminar Show Page */
+    .socratic-seminars {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+
+      .seminar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 2px solid #f7931a;
+
+        .title-section {
+          .socratic-seminar-index-item {
+            font-size: 1.5rem;
+
+            .seminar-date {
+              color: #333;
+            }
+
+            .seminar-name {
+              a {
+                color: #f7931a;
+                text-decoration: none;
+                font-weight: 600;
+
+                &:hover {
+                  text-decoration: underline;
+                }
+              }
+            }
+          }
+        }
+
+        .header-actions {
+          display: flex;
+          gap: 1rem;
+        }
+      }
+
+      .topics-section {
+        margin-bottom: 3rem;
+
+        .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 2rem;
+
+          h2 {
+            margin: 0;
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 600;
+          }
+        }
+
+        .topics-list {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 1.5rem;
+
+          .topic-item {
+            padding: 1.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+
+            &:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            a {
+              color: #333;
+              text-decoration: none;
+              font-size: 1.1rem;
+              font-weight: 500;
+
+              &:hover {
+                color: #f7931a;
+              }
+            }
+          }
+        }
+
+        .no-topics {
+          padding: 2rem;
+          text-align: center;
+          background: #f9f9f9;
+          border-radius: 8px;
+          color: #666;
+        }
+      }
+
+      .footer-actions {
+        display: flex;
+        justify-content: flex-start;
+        gap: 1rem;
+      }
+    }
+
+    /* Shared Button Styles */
+    .button {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+      background-color: #f7931a;
+      color: white;
+
+      &:hover {
+        transform: translateY(-1px);
+        background-color: #e88a18;
+      }
+
+      &.button-secondary {
+        background-color: #6c757d;
+
+        &:hover {
+          background-color: #5a6268;
+        }
+      }
+
+      &.button-danger {
+        background-color: #dc3545;
+
+        &:hover {
+          background-color: #c82333;
+        }
+      }
     }
   }
 }

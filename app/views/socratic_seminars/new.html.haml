@@ -1,11 +1,16 @@
-.container
-  - content_for :title, "New socratic seminar"
+.seminars
+  - content_for :title, "New Socratic Seminar"
 
-  %h1 New socratic seminar
-  - if @admin_mode
-    = render "form", socratic_seminar: @socratic_seminar
+  %h1
+    - if @organization
+      New Socratic Seminar for #{link_to @organization.name, organization_path(@organization)}
+    - else
+      New Socratic Seminar
+  - if can? :create, SocraticSeminar
+    = render "socratic_seminars/laptop/form", socratic_seminar: @socratic_seminar
   - else
-    %p Admin mode required to create seminars.
-  %br
-  %div
-    = link_to "Back to socratic seminars", socratic_seminars_path(mode: (@admin_mode ? 'admin' : nil))
+    .access-denied
+      %p You need admin privileges to create seminars.
+
+  .actions
+    = link_to "Back to Seminars", socratic_seminars_path, class: 'button'
