@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SocraticSeminarsController, type: :controller do
-  let(:socratic_seminar) { create(:socratic_seminar) }
+  let(:organization) { create(:organization) }
+  let(:socratic_seminar) { create(:socratic_seminar, organization: organization) }
 
   describe "GET #index" do
     it "returns a successful response" do
@@ -10,19 +11,11 @@ RSpec.describe SocraticSeminarsController, type: :controller do
     end
 
     it "assigns all socratic_seminars as @socratic_seminars in descending date order" do
-      seminar1 = create(:socratic_seminar, date: 1.day.ago)
-      seminar2 = create(:socratic_seminar, date: Time.current)
+      seminar1 = create(:socratic_seminar, date: 1.day.ago, organization: organization)
+      seminar2 = create(:socratic_seminar, date: Time.current, organization: organization)
       get :index
       expect(assigns(:socratic_seminars)).to eq([ seminar2, seminar1 ])
     end
-
-    # Don't think we need this
-    # it "returns JSON when requested" do
-    #   create(:socratic_seminar)
-    #   get :index, format: :json
-    #   expect(response.content_type).to include('application/json')
-    #   expect(response).to be_successful
-    # end
   end
 
   describe "GET #new" do
@@ -40,7 +33,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
   describe "POST #create" do
     context "with valid params" do
       let(:valid_attributes) {
-        { seminar_number: 1, date: 1.month.from_now, builder_sf_link: "https://www.bitcoinbuildersf.com/builder-01/" }
+        { seminar_number: 1, date: 1.month.from_now, builder_sf_link: "https://www.bitcoinbuildersf.com/builder-01/", organization_id: organization.id }
       }
 
       it "creates a new SocraticSeminar" do

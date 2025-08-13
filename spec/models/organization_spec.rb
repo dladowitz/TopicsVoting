@@ -72,4 +72,16 @@ RSpec.describe Organization, type: :model do
       expect(organization.country_name).to be_nil
     end
   end
+
+  describe '#seminars' do
+    let(:organization) { create(:organization) }
+    let!(:seminar1) { create(:socratic_seminar, organization: organization) }
+    let!(:seminar2) { create(:socratic_seminar, organization: organization) }
+    let!(:other_seminar) { create(:socratic_seminar) }
+
+    it 'returns only seminars belonging to this organization' do
+      expect(organization.seminars).to match_array([ seminar1, seminar2 ])
+      expect(organization.seminars).not_to include(other_seminar)
+    end
+  end
 end

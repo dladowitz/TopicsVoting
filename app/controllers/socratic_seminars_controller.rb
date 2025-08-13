@@ -113,12 +113,12 @@ class SocraticSeminarsController < ApplicationController
   # Sets the current seminar from params
   # @return [void]
   def set_socratic_seminar
-    @socratic_seminar = SocraticSeminar.find(params.expect(:id))
+    @socratic_seminar = SocraticSeminar.find(params.require(:id))
   end
 
   # Whitelists allowed seminar parameters
   # @return [ActionController::Parameters] Permitted parameters
   def socratic_seminar_params
-    params.expect(socratic_seminar: [ :seminar_number, :date ])
+    params.require(:socratic_seminar).permit(:seminar_number, :date, :builder_sf_link, :organization_id)
   end
 end
