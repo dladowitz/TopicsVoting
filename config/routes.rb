@@ -19,8 +19,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # Admin mode control
-  post "seminars/disable_admin_mode", to: "socratic_seminars#disable_admin_mode_action", as: :disable_admin_mode
 
   get "webhook/receive"
 

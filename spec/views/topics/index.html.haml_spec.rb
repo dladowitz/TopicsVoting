@@ -22,7 +22,7 @@ RSpec.describe "topics/laptop/index", type: :view do
       )
     ])
     assign(:vote_states, {})
-    assign(:admin_mode, false)
+    allow(view).to receive(:can?).and_return(false)
   end
 
   context "basic layout" do
@@ -69,9 +69,9 @@ RSpec.describe "topics/laptop/index", type: :view do
     end
   end
 
-  context "when in admin mode" do
+  context "when user can manage topics" do
     before do
-      assign(:admin_mode, true)
+      allow(view).to receive(:can?).with(:manage, Topic).and_return(true)
       render
     end
 

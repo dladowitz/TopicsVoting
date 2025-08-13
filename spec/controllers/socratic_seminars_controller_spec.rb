@@ -184,23 +184,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
     end
   end
 
-  describe "POST #disable_admin_mode_action" do
-    before do
-      cookies[:admin_mode] = 'true'
-    end
 
-    it "disables admin mode" do
-      post :disable_admin_mode_action
-      expect(cookies[:admin_mode]).to be_nil
-      expect(assigns(:admin_mode)).to be false
-    end
-
-    it "redirects to socratic seminars index" do
-      post :disable_admin_mode_action
-      expect(response).to redirect_to(socratic_seminars_path)
-      expect(flash[:notice]).to eq("Admin mode has been disabled.")
-    end
-  end
 
   describe "DELETE #delete_sections" do
     let!(:seminar) { create(:socratic_seminar) }

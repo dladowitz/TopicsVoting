@@ -78,12 +78,6 @@ class SocraticSeminarsController < ApplicationController
     end
   end
 
-  # Disables admin mode and redirects to seminars list
-  # @return [void]
-  def disable_admin_mode_action
-    disable_admin_mode
-    redirect_to socratic_seminars_path, notice: "Admin mode has been disabled."
-  end
 
   # Deletes all sections (and associated topics/payments) for a seminar
   # @note Maintains referential integrity by deleting in correct order
