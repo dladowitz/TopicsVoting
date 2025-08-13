@@ -1,0 +1,5 @@
+---
+globs:
+alwaysApply: false
+---
+When creating or updating model files keep them documented for YARD.

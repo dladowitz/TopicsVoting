@@ -1,5 +1,7 @@
 FactoryBot.define do
   factory :socratic_seminar do
+    association :organization
+
     after(:build) do |seminar, evaluator|
       n = FactoryBot.generate(:seminar_sequence)
       seminar.seminar_number = n

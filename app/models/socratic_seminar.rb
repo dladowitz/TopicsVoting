@@ -11,6 +11,11 @@ class SocraticSeminar < ApplicationRecord
   #   @return [Array<Topic>] Topics to be discussed in this seminar, through sections
   has_many :topics, through: :sections
 
+  # @!attribute organization
+  #   @return [Organization] The organization that owns this seminar
+  belongs_to :organization
+
   validates :seminar_number, presence: true, uniqueness: true
   validates :date, presence: true
+  validates :organization, presence: true
 end
