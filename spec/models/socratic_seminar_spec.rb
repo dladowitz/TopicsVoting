@@ -10,7 +10,7 @@ RSpec.describe SocraticSeminar, type: :model do
     subject { build(:socratic_seminar) }
 
     it { should validate_presence_of(:seminar_number) }
-    it { should validate_uniqueness_of(:seminar_number) }
+    it { should validate_uniqueness_of(:seminar_number).scoped_to(:organization_id) }
     it { should validate_presence_of(:date) }
   end
 

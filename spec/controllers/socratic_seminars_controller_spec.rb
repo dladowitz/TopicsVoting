@@ -28,6 +28,29 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       get :new
       expect(assigns(:socratic_seminar)).to be_a_new(SocraticSeminar)
     end
+
+    context "with organization_id parameter" do
+      let(:organization) { create(:organization) }
+
+      it "assigns the organization" do
+        get :new, params: { organization_id: organization.id }
+        expect(assigns(:organization)).to eq(organization)
+      end
+
+      it "sets the next seminar number when organization has no seminars" do
+        get :new, params: { organization_id: organization.id }
+        expect(assigns(:socratic_seminar).seminar_number).to eq(1)
+        expect(assigns(:next_seminar_message)).to eq("Your next seminar number is 1")
+      end
+
+      it "sets the next seminar number based on existing seminars" do
+        existing_seminar = create(:socratic_seminar, organization: organization)
+        get :new, params: { organization_id: organization.id }
+        expected_number = existing_seminar.seminar_number + 1
+        expect(assigns(:socratic_seminar).seminar_number).to eq(expected_number)
+        expect(assigns(:next_seminar_message)).to eq("Your next seminar number is #{expected_number}")
+      end
+    end
   end
 
   describe "POST #create" do

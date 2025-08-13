@@ -15,7 +15,7 @@ class SocraticSeminar < ApplicationRecord
   #   @return [Organization] The organization that owns this seminar
   belongs_to :organization
 
-  validates :seminar_number, presence: true, uniqueness: true
+  validates :seminar_number, presence: true, uniqueness: { scope: :organization_id }
   validates :date, presence: true
   validates :organization, presence: true
 end

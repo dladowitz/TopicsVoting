@@ -20,7 +20,15 @@ class SocraticSeminarsController < ApplicationController
   # Displays form for creating a new seminar
   # @return [void]
   def new
-    @socratic_seminar = SocraticSeminar.new
+    @organization = Organization.find(params[:organization_id]) if params[:organization_id]
+    @socratic_seminar = SocraticSeminar.new(organization: @organization)
+
+    if @organization
+      last_seminar = @organization.socratic_seminars.order(seminar_number: :desc).first
+      next_number = last_seminar ? last_seminar.seminar_number + 1 : 1
+      @socratic_seminar.seminar_number = next_number
+      @next_seminar_message = "Your next seminar number is #{next_number}"
+    end
   end
 
   # Displays form for editing a seminar

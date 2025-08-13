@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_13_163828) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_13_194919) do
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.string "city"
@@ -45,8 +45,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_13_163828) do
     t.datetime "updated_at", null: false
     t.string "builder_sf_link"
     t.integer "organization_id", null: false
+    t.index ["organization_id", "seminar_number"], name: "index_socratic_seminars_on_organization_id_and_seminar_number", unique: true
     t.index ["organization_id"], name: "index_socratic_seminars_on_organization_id"
-    t.index ["seminar_number"], name: "index_socratic_seminars_on_seminar_number", unique: true
   end
 
   create_table "toggles", force: :cascade do |t|
