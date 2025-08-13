@@ -29,7 +29,7 @@ class OrganizationsController < ApplicationController
     if @organization.save
       redirect_to @organization, notice: "Organization was successfully created."
     else
-      render "organizations/#{current_layout}/new", status: :unprocessable_entity
+      render "organizations/#{current_layout}/new", status: :unprocessable_content
     end
   end
 
@@ -37,7 +37,7 @@ class OrganizationsController < ApplicationController
     if @organization.update(organization_params)
       redirect_to @organization, notice: "Organization was successfully updated."
     else
-      render "organizations/#{current_layout}/edit", status: :unprocessable_entity
+      render "organizations/#{current_layout}/edit", status: :unprocessable_content
     end
   end
 

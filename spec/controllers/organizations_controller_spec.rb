@@ -55,7 +55,7 @@ RSpec.describe OrganizationsController, type: :controller do
       context 'with invalid params' do
         it 'returns a success response (i.e. to display the new template)' do
           post :create, params: { organization: invalid_attributes }
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe OrganizationsController, type: :controller do
       context 'with invalid params' do
         it 'returns a success response (i.e. to display the edit template)' do
           put :update, params: { id: organization.to_param, organization: invalid_attributes }
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
     end
