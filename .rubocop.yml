@@ -22,3 +22,4 @@ Layout/SpaceInsideArrayLiteralBrackets:
   Exclude:
     - 'db/schema.rb'
     - 'db/**/*_schema.rb'
+    - 'db/migrate/*'

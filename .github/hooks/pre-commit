@@ -17,12 +17,13 @@ fi
 echo "Running RuboCop on staged files..."
 
 # Run RuboCop on staged files (without auto-correct)
-bundle exec rubocop $STAGED_FILES
+# Use --force-exclusion to ensure .rubocop.yml exclusions are respected
+bundle exec rubocop --force-exclusion $STAGED_FILES
 
 # If RuboCop fails, prevent the commit
 if [ $? -ne 0 ]; then
   echo "❌ RuboCop found issues. Please fix them before committing."
-  echo "   You can run 'rubocop -a <file>' to auto-correct issues"
+  echo "   You can run 'bundle exec rubocop --force-exclusion -a <file>' to auto-correct issues"
   echo "   Or use SKIP_RUBOCOP=true git commit ... to skip RuboCop check"
   exit 1
 fi
