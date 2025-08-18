@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
-  let(:admin) { create(:user, role: 'admin') }
-  let(:user) { create(:user, role: 'participant') }
+  let(:admin) { create(:user, :admin) }
+  let(:user) { create(:user) }
   let(:valid_attributes) { attributes_for(:organization) }
   let(:invalid_attributes) { { name: '' } }
   let(:organization) { create(:organization) }

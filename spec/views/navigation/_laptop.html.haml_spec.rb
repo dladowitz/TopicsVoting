@@ -17,7 +17,7 @@ RSpec.describe "navigation/_laptop", type: :view do
 
     context "when user is an admin" do
       before do
-        user.update(role: "admin")
+        create(:site_role, user: user, role: 'admin')
       end
 
       it "displays the organizations link" do
@@ -27,9 +27,7 @@ RSpec.describe "navigation/_laptop", type: :view do
     end
 
     context "when user is not an admin" do
-      before do
-        user.update(role: "participant")
-      end
+      # No need for before block as users are non-admin by default
 
       it "does not display the organizations link" do
         render

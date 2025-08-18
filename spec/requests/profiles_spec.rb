@@ -11,7 +11,7 @@ RSpec.describe 'Profiles', type: :request do
         expect(response).to have_http_status(:ok)
         expect(response).to render_template(:show)
         expect(response.body).to include(user.email)
-        expect(response.body).to include(user.role.titleize)
+        expect(response.body).to include('User')
       end
     end
 

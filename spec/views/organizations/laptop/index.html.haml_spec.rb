@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe "organizations/laptop/index", type: :view do
   let(:organization) { create(:organization) }
-  let(:admin_user) { create(:user, role: 'admin') }
-  let(:regular_user) { create(:user, role: 'participant') }
+  let(:admin_user) { create(:user, :admin) }
+  let(:regular_user) { create(:user) }
 
   before do
     assign(:organizations, [ organization ])

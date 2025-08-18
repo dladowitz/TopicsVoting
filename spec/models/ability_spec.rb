@@ -12,40 +12,19 @@ RSpec.describe Ability do
   end
 
   describe "as admin" do
-    let(:user) { build(:user, role: "admin") }
+    let(:user) { create(:user, :admin) }
 
     it { is_expected.to be_able_to(:manage, :all) }
   end
 
-  describe "as moderator" do
-    let(:user) { build(:user, role: "moderator") }
-    let(:admin_user) { build(:user, role: "admin") }
-    let(:regular_user) { build(:user, role: "participant") }
+  describe "as regular user" do
+    let(:user) { create(:user) }
+    let(:other_user) { create(:user) }
 
-    it { is_expected.to be_able_to(:read, :all) }
-    it { is_expected.to be_able_to(:manage, Topic) }
-    it { is_expected.to be_able_to(:manage, Section) }
-
-    it { is_expected.to be_able_to(:read, regular_user) }
-    it { is_expected.not_to be_able_to(:manage, admin_user) }
-  end
-
-  describe "as participant" do
-    let(:user) { create(:user, role: "participant") }
-
-    context "with topics" do
-      it { is_expected.to be_able_to(:read, Topic) }
-      it { is_expected.to be_able_to(:create, Topic) }
-    end
-
-    context "with sections" do
-      it { is_expected.to be_able_to(:read, Section) }
-    end
-
-    context "with users" do
-      it { is_expected.to be_able_to(:read, User) }
-      it { is_expected.to be_able_to(:update, user) }
-      it { is_expected.not_to be_able_to(:update, create(:user)) }
-    end
+    it { is_expected.to be_able_to(:read, Topic) }
+    it { is_expected.to be_able_to(:read, Section) }
+    it { is_expected.to be_able_to(:read, User) }
+    it { is_expected.to be_able_to(:update, user) }
+    it { is_expected.not_to be_able_to(:update, other_user) }
   end
 end

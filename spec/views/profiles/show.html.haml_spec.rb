@@ -12,8 +12,14 @@ RSpec.describe "profiles/show", type: :view do
     expect(rendered).to have_content(user.email)
   end
 
-  it "displays the user's role" do
-    expect(rendered).to have_content(user.role.titleize)
+  it "displays the user's role as User by default" do
+    expect(rendered).to have_content("User")
+  end
+
+  it "displays Admin role for admin users" do
+    create(:site_role, user: user, role: 'admin')
+    render
+    expect(rendered).to have_content("Admin")
   end
 
   it "contains edit profile link" do
@@ -22,15 +28,5 @@ RSpec.describe "profiles/show", type: :view do
 
   it "contains logout button" do
     expect(rendered).to have_button("Logout")
-  end
-
-  context "with different roles" do
-    User::ROLES.each do |role|
-      it "displays the #{role} role correctly" do
-        user.update(role: role)
-        render
-        expect(rendered).to have_content(role.titleize)
-      end
-    end
   end
 end

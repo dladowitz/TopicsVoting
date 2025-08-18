@@ -8,38 +8,17 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  # Available roles for users
-  # @return [Array<String>] List of valid roles
-  ROLES = %w[admin moderator participant].freeze
+  has_one :site_role, dependent: :destroy
 
-  validates :role, inclusion: { in: ROLES }, presence: true
-
-  # Set default role before creation
-  before_validation :set_default_role, on: :create
+  # Gets the user's role from their site_role
+  # @return [String, nil] The user's role or nil if no site_role exists
+  def site_role_name
+    site_role&.role
+  end
 
   # Checks if the user has admin role
   # @return [Boolean] true if user is an admin
   def admin?
-    role == "admin"
-  end
-
-  # Checks if the user has moderator role
-  # @return [Boolean] true if user is a moderator
-  def moderator?
-    role == "moderator"
-  end
-
-  # Checks if the user has participant role
-  # @return [Boolean] true if user is a participant
-  def participant?
-    role == "participant"
-  end
-
-  private
-
-  # Sets the default role to 'participant' if no role is specified
-  # @return [void]
-  def set_default_role
-    self.role ||= "participant"
+    site_role_name == "admin"
   end
 end
