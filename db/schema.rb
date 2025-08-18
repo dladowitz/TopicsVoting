@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_13_194919) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_18_180015) do
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.string "city"
@@ -36,6 +36,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_13_194919) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["socratic_seminar_id"], name: "index_sections_on_socratic_seminar_id"
+  end
+
+  create_table "site_roles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "role"], name: "index_site_roles_on_user_id_and_role", unique: true
+    t.index ["user_id"], name: "index_site_roles_on_user_id"
   end
 
   create_table "socratic_seminars", force: :cascade do |t|
@@ -76,7 +85,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_13_194919) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -85,6 +93,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_13_194919) do
 
   add_foreign_key "payments", "topics"
   add_foreign_key "sections", "socratic_seminars"
+  add_foreign_key "site_roles", "users"
   add_foreign_key "socratic_seminars", "organizations"
   add_foreign_key "topics", "sections"
 end
