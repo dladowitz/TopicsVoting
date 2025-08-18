@@ -18,6 +18,14 @@ class Ability
     # All users can view organizations
     can [ :index, :show ], Organization
 
+    # Organization admins can manage their organizations' settings and roles
+    can [ :settings ], Organization do |org|
+      @user.admin_of?(org)
+    end
+    can [ :create, :destroy ], OrganizationRole do |role|
+      @user.admin_of?(role.organization)
+    end
+
     # Common abilities for all users (including guests)
     common_abilities
   end

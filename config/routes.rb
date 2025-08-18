@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
-  resources :organizations
+  resources :organizations do
+    member do
+      get :settings
+    end
+    resources :organization_roles, path: "roles", only: [ :create, :destroy ]
+  end
   resource :profile, only: [ :show ]
   devise_for :users
   resources :socratic_seminars, path: "seminars" do

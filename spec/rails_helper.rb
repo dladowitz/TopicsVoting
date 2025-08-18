@@ -103,6 +103,11 @@ RSpec.configure do |config|
   # Include Factory Bot syntax methods
   config.include FactoryBot::Syntax::Methods
 
+  # Include Devise test helpers
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
+  config.include Warden::Test::Helpers
+
   # You can uncomment this line to turn off ActiveRecord support entirely.
   # config.use_active_record = false
 

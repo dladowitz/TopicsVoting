@@ -1,0 +1,48 @@
+.organizations
+  %h1= @organization.name
+
+  - if current_user.admin?
+    .tabs
+      = link_to 'Overview', organization_path(@organization), class: "tab #{active_tab?('overview')}"
+      = link_to 'Settings', settings_organization_path(@organization), class: "tab #{active_tab?('settings')}"
+
+  .tab-content
+    .settings-section
+      %h2 Role Management
+
+      .role-management
+        %h3 Organization Admins
+        .user-list
+          - @organization.admins.each do |user|
+            .user-item
+              = user.email
+              = button_to 'Remove Admin', organization_organization_role_path(@organization, user, role: 'admin'),
+                method: :delete,
+                class: 'button button-danger small'
+
+        .add-user
+          = form_with url: organization_organization_roles_path(@organization), local: true do |f|
+            .field
+              = f.label :email, 'User Email'
+              = f.email_field :email, placeholder: 'Enter user email'
+            = f.hidden_field :role, value: 'admin'
+            .actions
+              = f.submit 'Add Admin', class: 'button'
+
+        %h3 Organization Moderators
+        .user-list
+          - @organization.moderators.each do |user|
+            .user-item
+              = user.email
+              = button_to 'Remove Moderator', organization_organization_role_path(@organization, user, role: 'moderator'),
+                method: :delete,
+                class: 'button button-danger small'
+
+        .add-user
+          = form_with url: organization_organization_roles_path(@organization), local: true do |f|
+            .field
+              = f.label :email, 'User Email'
+              = f.email_field :email, placeholder: 'Enter user email'
+            = f.hidden_field :role, value: 'moderator'
+            .actions
+              = f.submit 'Add Moderator', class: 'button'

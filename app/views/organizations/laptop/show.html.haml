@@ -1,6 +1,11 @@
 .organizations
   %h1= @organization.name
 
+  - if can?(:settings, @organization)
+    .tabs
+      = link_to 'Overview', organization_path(@organization), class: "tab #{active_tab?('overview')}"
+      = link_to 'Settings', settings_organization_path(@organization), class: "tab #{active_tab?('settings')}"
+
   .details
     %p
       %strong City:
