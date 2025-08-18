@@ -22,7 +22,7 @@ RSpec.describe "OrganizationRoles", type: :request do
     end
 
     context "as a site admin" do
-      before(:each) { sign_in site_admin }
+      before(:each) { login_as site_admin, scope: :user }
 
       it "creates a new organization role" do
         expect {
@@ -59,7 +59,7 @@ RSpec.describe "OrganizationRoles", type: :request do
     end
 
     context "as an organization admin" do
-      before(:each) { sign_in org_admin }
+      before(:each) { login_as org_admin, scope: :user }
 
       it "creates a new organization role" do
         expect {
@@ -96,7 +96,7 @@ RSpec.describe "OrganizationRoles", type: :request do
     end
 
     context "as a regular user" do
-      before(:each) { sign_in regular_user }
+      before(:each) { login_as regular_user, scope: :user }
 
       it "does not create a new organization role" do
         expect {
@@ -112,7 +112,7 @@ RSpec.describe "OrganizationRoles", type: :request do
     let!(:role_to_delete) { create(:organization_role, organization: organization, user: target_user, role: "moderator") }
 
     context "as a site admin" do
-      before(:each) { sign_in site_admin }
+      before(:each) { login_as site_admin, scope: :user }
 
       it "deletes the organization role" do
         expect {
@@ -129,7 +129,7 @@ RSpec.describe "OrganizationRoles", type: :request do
     end
 
     context "as an organization admin" do
-      before(:each) { sign_in org_admin }
+      before(:each) { login_as org_admin, scope: :user }
 
       it "deletes the organization role" do
         expect {
@@ -146,7 +146,7 @@ RSpec.describe "OrganizationRoles", type: :request do
     end
 
     context "as a regular user" do
-      before(:each) { sign_in regular_user }
+      before(:each) { login_as regular_user, scope: :user }
 
       it "does not delete the organization role" do
         expect {

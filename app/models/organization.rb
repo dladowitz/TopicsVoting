@@ -7,7 +7,7 @@ class Organization < ApplicationRecord
   #   @return [Array<SocraticSeminar>] The seminars that belong to this organization
   has_many :socratic_seminars, dependent: :restrict_with_error
   has_many :organization_roles, dependent: :destroy
-  has_many :users, through: :organization_roles
+  has_many :users, -> { distinct }, through: :organization_roles
 
   # Gets all users with a specific role in this organization
   # @param role [String] The role to filter by

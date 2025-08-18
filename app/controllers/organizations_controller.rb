@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class OrganizationsController < ApplicationController
   include ScreenSizeConcern
   layout :current_layout
   before_action :authenticate_user!
-  before_action :set_organization, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_organization, only: [ :show, :edit, :update, :destroy, :settings ]
   load_and_authorize_resource except: [ :index, :settings ]
 
   def index
@@ -16,9 +18,9 @@ class OrganizationsController < ApplicationController
   end
 
   def settings
-    @organization = Organization.find(params[:id])
     authorize! :settings, @organization
     @active_tab = "settings"
+    @found_user = User.find_by(email: params[:email]) if params[:email].present?
     render "organizations/#{current_layout}/settings"
   end
 

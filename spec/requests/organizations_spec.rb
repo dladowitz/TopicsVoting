@@ -32,6 +32,19 @@ RSpec.describe "Organizations", type: :request do
         get settings_organization_path(organization)
         expect(response).to be_successful
       end
+
+      it 'finds a user by email' do
+        user = create(:user)
+        get settings_organization_path(organization, email: user.email)
+        expect(response).to be_successful
+        expect(assigns(:found_user)).to eq(user)
+      end
+
+      it 'returns nil for non-existent user' do
+        get settings_organization_path(organization, email: 'nonexistent@example.com')
+        expect(response).to be_successful
+        expect(assigns(:found_user)).to be_nil
+      end
     end
 
     describe 'GET /organizations/new' do
@@ -135,6 +148,19 @@ RSpec.describe "Organizations", type: :request do
         get settings_organization_path(organization)
         expect(response).to be_successful
       end
+
+      it 'finds a user by email' do
+        user = create(:user)
+        get settings_organization_path(organization, email: user.email)
+        expect(response).to be_successful
+        expect(assigns(:found_user)).to eq(user)
+      end
+
+      it 'returns nil for non-existent user' do
+        get settings_organization_path(organization, email: 'nonexistent@example.com')
+        expect(response).to be_successful
+        expect(assigns(:found_user)).to be_nil
+      end
     end
 
     describe 'accessing other actions' do
@@ -179,6 +205,12 @@ RSpec.describe "Organizations", type: :request do
     describe 'GET /organizations/:id/settings' do
       it 'redirects to root path' do
         get settings_organization_path(organization)
+        expect(response).to redirect_to(root_path)
+        expect(flash[:alert]).to eq('You are not authorized to access this page.')
+      end
+
+      it 'redirects to root path when searching users' do
+        get settings_organization_path(organization, email: 'test@example.com')
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq('You are not authorized to access this page.')
       end
