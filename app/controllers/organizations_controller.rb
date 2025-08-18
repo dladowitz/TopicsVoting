@@ -3,15 +3,23 @@ class OrganizationsController < ApplicationController
   layout :current_layout
   before_action :authenticate_user!
   before_action :set_organization, only: [ :show, :edit, :update, :destroy ]
-  load_and_authorize_resource except: :index
+  load_and_authorize_resource except: [ :index, :settings ]
 
   def index
-    @organizations = Organization.all
+    @organizations = Organization.accessible_by(current_ability)
     render "organizations/#{current_layout}/index"
   end
 
   def show
+    @active_tab = "overview"
     render "organizations/#{current_layout}/show"
+  end
+
+  def settings
+    @organization = Organization.find(params[:id])
+    authorize! :settings, @organization
+    @active_tab = "settings"
+    render "organizations/#{current_layout}/settings"
   end
 
   def new
