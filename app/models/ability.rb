@@ -15,6 +15,9 @@ class Ability
       can :manage, :all
     end
 
+    # All users can view organizations
+    can [ :index, :show ], Organization
+
     # Common abilities for all users (including guests)
     common_abilities
   end

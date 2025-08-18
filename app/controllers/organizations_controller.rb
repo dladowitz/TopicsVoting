@@ -2,8 +2,8 @@ class OrganizationsController < ApplicationController
   include ScreenSizeConcern
   layout :current_layout
   before_action :authenticate_user!
-  before_action :ensure_admin
   before_action :set_organization, only: [ :show, :edit, :update, :destroy ]
+  load_and_authorize_resource except: :index
 
   def index
     @organizations = Organization.all
@@ -54,11 +54,5 @@ class OrganizationsController < ApplicationController
 
   def organization_params
     params.require(:organization).permit(:name, :city, :country, :website)
-  end
-
-  def ensure_admin
-    unless current_user.admin?
-      redirect_to root_path, alert: "Access denied. Admin privileges required."
-    end
   end
 end

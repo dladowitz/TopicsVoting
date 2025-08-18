@@ -100,22 +100,28 @@ RSpec.describe OrganizationsController, type: :controller do
     end
   end
 
-  context 'as a non-admin user' do
+  context 'as a regular user' do
     before { sign_in user }
 
     describe 'GET #index' do
-      it 'redirects to root path' do
+      it 'returns a success response' do
         get :index
-        expect(response).to redirect_to(root_path)
-        expect(flash[:alert]).to eq('Access denied. Admin privileges required.')
+        expect(response).to be_successful
       end
     end
 
-    [ :show, :new, :edit, :create, :update, :destroy ].each do |action|
+    describe 'GET #show' do
+      it 'returns a success response' do
+        get :show, params: { id: organization.to_param }
+        expect(response).to be_successful
+      end
+    end
+
+    [ :new, :edit, :create, :update, :destroy ].each do |action|
       describe "accessing ##{action}" do
         it 'redirects to root path' do
           case action
-          when :show, :edit, :update, :destroy
+          when :edit, :update, :destroy
             get action, params: { id: organization.to_param }
           when :create
             post action, params: { organization: valid_attributes }
@@ -123,7 +129,7 @@ RSpec.describe OrganizationsController, type: :controller do
             get action
           end
           expect(response).to redirect_to(root_path)
-          expect(flash[:alert]).to eq('Access denied. Admin privileges required.')
+          expect(flash[:alert]).to eq('You are not authorized to access this page.')
         end
       end
     end
