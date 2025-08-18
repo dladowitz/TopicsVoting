@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_18_180015) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_18_184436) do
+  create_table "organization_roles", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "organization_id", null: false
+    t.string "role", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_roles_on_organization_id"
+    t.index ["user_id", "organization_id", "role"], name: "index_org_roles_on_user_org_and_role", unique: true
+    t.index ["user_id"], name: "index_organization_roles_on_user_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.string "city"
@@ -91,6 +102,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_180015) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "organization_roles", "organizations"
+  add_foreign_key "organization_roles", "users"
   add_foreign_key "payments", "topics"
   add_foreign_key "sections", "socratic_seminars"
   add_foreign_key "site_roles", "users"

@@ -14,15 +14,26 @@ if [ "$STAGED_FILES" = "" ]; then
   exit 0
 fi
 
+# Filter out files that are excluded in .rubocop.yml
+FILTERED_FILES=$(echo "$STAGED_FILES" | grep -v -E 'db/(schema|migrate).*\.rb$' | grep -v -E '(bin|node_modules|tmp|vendor|log)/')
+
 echo "Running RuboCop on staged files..."
+echo "Files to check:"
+echo "$FILTERED_FILES"
 
 # Run RuboCop on staged files (without auto-correct)
-bundle exec rubocop $STAGED_FILES
+# Use --force-exclusion to ensure .rubocop.yml exclusions are respected
+if [ "$FILTERED_FILES" = "" ]; then
+  echo "No files to check after filtering"
+  exit 0
+fi
+
+echo "$FILTERED_FILES" | tr '\n' '\0' | xargs -0 bundle exec rubocop
 
 # If RuboCop fails, prevent the commit
 if [ $? -ne 0 ]; then
   echo "❌ RuboCop found issues. Please fix them before committing."
-  echo "   You can run 'rubocop -a <file>' to auto-correct issues"
+  echo "   You can run 'bundle exec rubocop -a <file>' to auto-correct issues"
   echo "   Or use SKIP_RUBOCOP=true git commit ... to skip RuboCop check"
   exit 1
 fi

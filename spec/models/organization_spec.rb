@@ -84,4 +84,49 @@ RSpec.describe Organization, type: :model do
       expect(organization.seminars).not_to include(other_seminar)
     end
   end
+
+  describe "role methods" do
+    let(:organization) { create(:organization) }
+    let(:admin_user) { create(:user) }
+    let(:moderator_user) { create(:user) }
+    let(:regular_user) { create(:user) }
+
+    before do
+      create(:organization_role, :admin, user: admin_user, organization: organization)
+      create(:organization_role, :moderator, user: moderator_user, organization: organization)
+    end
+
+    describe "#users_with_role" do
+      it "returns users with the specified role" do
+        expect(organization.users_with_role("admin")).to contain_exactly(admin_user)
+        expect(organization.users_with_role("moderator")).to contain_exactly(moderator_user)
+      end
+
+      it "returns empty relation when no users have the role" do
+        expect(organization.users_with_role("invalid_role")).to be_empty
+      end
+    end
+
+    describe "#admins" do
+      it "returns all admin users" do
+        expect(organization.admins).to contain_exactly(admin_user)
+      end
+
+      it "does not include moderators or regular users" do
+        expect(organization.admins).not_to include(moderator_user)
+        expect(organization.admins).not_to include(regular_user)
+      end
+    end
+
+    describe "#moderators" do
+      it "returns all moderator users" do
+        expect(organization.moderators).to contain_exactly(moderator_user)
+      end
+
+      it "does not include admins or regular users" do
+        expect(organization.moderators).not_to include(admin_user)
+        expect(organization.moderators).not_to include(regular_user)
+      end
+    end
+  end
 end

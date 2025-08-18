@@ -6,6 +6,27 @@ class Organization < ApplicationRecord
   # @!attribute socratic_seminars
   #   @return [Array<SocraticSeminar>] The seminars that belong to this organization
   has_many :socratic_seminars, dependent: :restrict_with_error
+  has_many :organization_roles, dependent: :destroy
+  has_many :users, through: :organization_roles
+
+  # Gets all users with a specific role in this organization
+  # @param role [String] The role to filter by
+  # @return [ActiveRecord::Relation<User>] Users with the specified role
+  def users_with_role(role)
+    users.where(organization_roles: { role: role })
+  end
+
+  # Gets all admins of this organization
+  # @return [ActiveRecord::Relation<User>] Admin users
+  def admins
+    users_with_role("admin")
+  end
+
+  # Gets all moderators of this organization
+  # @return [ActiveRecord::Relation<User>] Moderator users
+  def moderators
+    users_with_role("moderator")
+  end
 
   validates :name, presence: true
   validates :country, inclusion: { in: ISO3166::Country.all.map(&:alpha2), message: "must be a valid ISO 3166-1 alpha-2 code" }, allow_blank: true
