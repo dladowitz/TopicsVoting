@@ -6,8 +6,8 @@
     = current_user.email
 
   %p
-    %strong Role:
-    = current_user.role.titleize
+    %strong Site Role:
+    = current_user.site_role_name&.titleize || 'User'
 
   %div{style: "margin-top: 1rem; display: flex; gap: 0.5rem;"}
     = link_to 'Edit profile', edit_user_registration_path, class: 'button'
