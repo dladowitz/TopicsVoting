@@ -12,8 +12,8 @@
 
     .builder-logo-container {
       flex-shrink: 0;
-      width: 80px;
-      height: 80px;
+      width: 150px;
+      height: 150px;
     }
 
     .builder-logo-container img {
