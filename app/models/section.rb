@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents a section within a Socratic Seminar that groups related topics
 # @attr [String] name The name of the section
 # @attr [Integer] socratic_seminar_id ID of the seminar this section belongs to
@@ -8,5 +10,5 @@ class Section < ApplicationRecord
 
   # @!attribute topics
   #   @return [Array<Topic>] The topics that belong to this section
-  has_many :topics
+  has_many :topics, dependent: :destroy
 end

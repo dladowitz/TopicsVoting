@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # Landing page
+  root "landing_page#show"
+  resource :landing_page, only: :show, controller: :landing_page
+
   resources :organizations do
     member do
       get :settings
@@ -11,8 +15,13 @@ Rails.application.routes.draw do
   resource :profile, only: [ :show ]
   devise_for :users
 
-  resources :socratic_seminars, path: "seminars" do
-    resources :topics, path: "topics" do
+  # Topics and voting
+  resources :socratic_seminars do
+    member do
+      delete :delete_sections
+    end
+
+    resources :topics do
       member do
         post "upvote"
         post "downvote"
@@ -21,10 +30,6 @@ Rails.application.routes.draw do
       collection do
         post "import_sections_and_topics"
       end
-    end
-
-    member do
-      delete "delete_sections"
     end
   end
 
@@ -40,7 +45,9 @@ Rails.application.routes.draw do
   post "/toggles/increment", to: "toggles#increment", as: :increment_toggle
   get "/sats_vs_bitcoin", to: "toggles#sats_vs_bitcoin", as: :sats_vs_bitcoin
 
-  root "socratic_seminars#index"
+  # Admin mode toggle
+  post "/admin_mode/disable", to: "admin_mode#disable", as: :disable_admin_mode
+  post "/admin_mode/enable", to: "admin_mode#enable", as: :enable_admin_mode
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

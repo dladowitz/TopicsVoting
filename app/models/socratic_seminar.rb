@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Represents a Socratic Seminar event where topics are discussed
 # @attr [Integer] seminar_number Unique identifier for the seminar
 # @attr [DateTime] date When the seminar takes place
@@ -18,4 +20,7 @@ class SocraticSeminar < ApplicationRecord
   validates :seminar_number, presence: true, uniqueness: { scope: :organization_id }
   validates :date, presence: true
   validates :organization, presence: true
+
+  scope :upcoming, -> { where("date >= ?", Time.current).order(date: :asc) }
+  scope :past, -> { where("date < ?", Time.current).order(date: :desc) }
 end

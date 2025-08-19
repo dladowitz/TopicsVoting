@@ -22,11 +22,6 @@
       = form.text_field :link, size: 60
 
     .field
-      = form.label :socratic_seminar_id
-      %br
-      = form.text_field :socratic_seminar_id, size: 4, value: @topic.socratic_seminar_id
-
-    .field
       = form.label :section_id, 'Section'
       %br
       = form.collection_select :section_id, @sections, :id, :name, {}, { required: true }
@@ -34,4 +29,4 @@
     .actions
       = form.submit "Create Topic"
 
-  = link_to 'Back to Topics', socratic_seminar_topics_path(@socratic_seminar)
+  = link_to 'Back to Topics', socratic_seminar_path(@socratic_seminar)
