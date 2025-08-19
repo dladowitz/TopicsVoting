@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "landing_page/laptop/show", type: :view do
+RSpec.describe "landing_page/mobile/show", type: :view do
   let(:organization) { create(:organization, name: "Bitcoin Builders", city: "San Francisco") }
   let!(:upcoming_seminar) { create(:socratic_seminar, :with_topics, date: 1.day.from_now, organization: organization) }
   let!(:future_seminar) { create(:socratic_seminar, :with_topics, date: 2.days.from_now, organization: organization) }
@@ -23,7 +23,7 @@ RSpec.describe "landing_page/laptop/show", type: :view do
   end
 
   it "displays the Lightning Voting subtitle" do
-    expect(rendered).to have_content("Vote on discussion topics with Lightning")
+    expect(rendered).to have_content("Vote on topics with Bitcoin Lightning ⚡️")
   end
 
   it "displays upcoming events section" do
