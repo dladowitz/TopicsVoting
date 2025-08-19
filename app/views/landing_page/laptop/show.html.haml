@@ -1,20 +1,11 @@
 .landing-page
   .hero-section
-    %div{style: "display: flex; align-items: center; gap: 1.2em; margin-bottom: 1em;"}
-      = image_tag 'logo.png', alt: 'Lightning Voting Logo', style: 'height: 100px; width: 100px; border-radius: 10%; box-shadow: 0 2px 8px rgba(0,0,0,0.08);'
+    .hero-content
+      = image_tag 'lightning-bitcoin-logo.png', alt: 'Lightning Voting Logo', class: 'hero-logo'
       %div
         .seminar-title ⚡️ Lightning Voting
-        .seminar-subtitle Vote on topics with Bitcoin Lightning ⚡️
+        .seminar-subtitle Vote on discussion topics with Lightning
 
-  - if can?(:create, SocraticSeminar)
-    .header-actions
-      = link_to "New Event", new_socratic_seminar_path, class: "button"
-
-  .voting-instructions
-    %ul
-      %li Vote for free with the Up & Down arrows. One vote per person.
-      %li Send Lightning payments for additional votes. Each individual payment counts as 1 vote.
-      %li All payments help support the community.
 
   .events-section
     %section.upcoming-events

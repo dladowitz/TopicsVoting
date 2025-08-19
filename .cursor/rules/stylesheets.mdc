@@ -1,0 +1,5 @@
+---
+globs: *.haml
+alwaysApply: false
+---
+Do not add CSS directly to HAML files. Instead add them to CSS files. 

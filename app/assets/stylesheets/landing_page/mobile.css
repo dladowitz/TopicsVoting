@@ -1,4 +1,4 @@
-.laptop-container {
+.mobile-container {
   .landing-page {
     min-height: 100vh;
     display: flex;
@@ -7,7 +7,7 @@
     position: relative; /* For absolute footer positioning */
 
     .hero-section {
-      margin-bottom: 3rem;
+      margin-bottom: 2rem;
       padding: 1rem;
       background-color: #070b10;
       border-radius: 1rem;
@@ -17,80 +17,40 @@
 
       .hero-content {
         display: flex;
+        flex-direction: column;
         align-items: center;
+        text-align: center;
         gap: 1.2em;
         margin-bottom: 1em;
       }
 
       .hero-logo {
-        height: 250px;
-        width: 250px;
+        height: 200px;
+        width: 200px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
 
       .seminar-title {
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 700;
         margin-bottom: 0.5rem;
       }
 
       .seminar-subtitle {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         opacity: 0.9;
-      }
-    }
-
-    .header-actions {
-      margin-bottom: 1.5rem;
-      flex-shrink: 0;
-
-      .button {
-        padding: 0.75rem 1.5rem;
-        font-weight: 500;
-      }
-    }
-
-    .voting-instructions {
-      margin-bottom: 3rem;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 0.5rem;
-      border: 1px solid #e9ecef;
-      flex-shrink: 0;
-
-      ul {
-        list-style-type: none;
-        padding: 0;
-        margin: 0;
-
-        li {
-          margin-bottom: 0.5rem;
-          padding-left: 1.5rem;
-          position: relative;
-
-          &:before {
-            content: "⚡️";
-            position: absolute;
-            left: 0;
-          }
-
-          &:last-child {
-            margin-bottom: 0;
-          }
-        }
       }
     }
 
     .events-section {
       flex: 1;
       overflow-y: auto;
-      padding-right: 1rem;
-      margin-right: -1rem;
+      padding: 0 1rem;
 
       h2 {
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 600;
-        margin: 2rem 0 1rem;
+        margin: 1.5rem 0 1rem;
         color: #333;
         padding-bottom: 0.5rem;
         border-bottom: 2px solid #f7931a;
@@ -106,23 +66,13 @@
           border: 1px solid #e9ecef;
           border-radius: 0.5rem;
           margin-bottom: 1rem;
-          transition: all 0.2s ease;
           background: white;
 
-          &:hover {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-            transform: translateY(-1px);
-          }
-
           .event-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 1rem;
-
             .event-title {
               font-weight: 600;
-              font-size: 1.1rem;
+              font-size: 1rem;
+              margin-bottom: 0.5rem;
 
               a {
                 color: #333;
@@ -136,8 +86,8 @@
 
             .event-details {
               display: flex;
-              align-items: center;
-              gap: 1rem;
+              flex-direction: column;
+              gap: 0.5rem;
               color: #666;
               font-size: 0.9rem;
 
@@ -159,7 +109,7 @@
         }
 
         .no-events {
-          padding: 2rem;
+          padding: 1.5rem;
           text-align: center;
           color: #666;
           background: #f8f9fa;
@@ -174,20 +124,21 @@
       bottom: 0;
       left: 0;
       right: 0;
-      padding: 1.5rem;
+      padding: 1rem;
       background: white;
       border-top: 1px solid #e9ecef;
       z-index: 10;
 
       .container {
         display: flex;
-        gap: 1rem;
-        max-width: 1200px;
-        margin: 0 auto;
+        flex-direction: column;
+        gap: 0.5rem;
       }
 
       .button {
-        padding: 0.75rem 1.5rem;
+        width: 100%;
+        padding: 0.75rem;
+        text-align: center;
         font-weight: 500;
       }
     }
