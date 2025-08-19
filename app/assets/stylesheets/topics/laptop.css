@@ -31,6 +31,17 @@
 
     .page-header-title {
       margin-bottom: 0.2em;
+      font-size: 1.8em;
+      font-weight: 600;
+      color: #333;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5em;
+
+      .seminar-number {
+        font-size: 0.9em;
+        color: #666;
+      }
     }
 
     .sats-btc-toggle {

@@ -5,7 +5,8 @@
         = image_tag 'logo.png', alt: 'Builder Voting Logo'
       .header-content
         %h1.page-header-title
-          ₿uilder #{@socratic_seminar.seminar_number}
+          = @socratic_seminar.organization.name
+          %span.seminar-number ##{@socratic_seminar.seminar_number}
         .sats-btc-toggle
           = render 'topics/shared/sats_btc_toggle'
     .header-actions

@@ -1,145 +1,172 @@
-/* =========================
-   MOBILE TOPICS STYLES
-   ========================= */
 .mobile-container {
   .topics {
-    /* Header Layout */
     .mobile-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 1em;
-      margin-bottom: 0.5em;
-      width: 100%; /* Ensure full width */
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: #fff;
+      border-bottom: 1px solid #e9ecef;
+
+      .builder-logo-container {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 0.5rem;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          object-position: center;
+        }
+      }
+
+      .mobile-header-content {
+        .page-header-title {
+          font-size: 1.5em;
+          font-weight: 600;
+          color: #333;
+          margin-bottom: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          gap: 0.2em;
+
+          .seminar-number {
+            font-size: 0.9em;
+            color: #666;
+          }
+        }
+      }
     }
 
-    .builder-logo-container {
-      flex-shrink: 0; /* Prevent logo from shrinking */
-      width: 80px; /* Set fixed width */
-      height: 80px; /* Set fixed height */
+    .mobile-instructions {
+      padding: 1rem;
+      margin-bottom: 1rem;
+      background-color: #f8f9fa;
+      border-radius: 0.5rem;
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          margin-bottom: 0.5rem;
+          font-size: 0.9rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
     }
 
-    .builder-logo-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .mobile-header-content {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2em;
-      align-items: flex-start;
-      flex: 1; /* Allow content to take remaining space */
-    }
-
-    .mobile-header .page-header-title {
-      margin: 0;
-      font-size: 1.5em; /* Adjust size as needed */
-    }
-
-    .mobile-header .sats-btc-toggle {
-      margin: 0;
-    }
-
-    /* Sections */
     .section-title {
-      margin-top: 0.6em;
-      margin-bottom: 0.25em;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 1.5rem 0 0.5rem;
+      padding: 0 1rem;
     }
 
-    /* Topics */
     .topic-list-item {
-      padding: 3px 15px 5px 15px;
-      margin-bottom: 5px;
-      border: none !important;
-      background-color: #eff1f66f;
-    }
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      background-color: #fff;
+      border-bottom: 1px solid #e9ecef;
 
-    .topic-list-item.flash-border {
-      animation: flash-border 0.7s cubic-bezier(.23,1.5,.32,1) both;
-      border-radius: 8px;
-    }
+      .topic-header-row {
+        margin-bottom: 0.5rem;
 
-    /* Voting */
-    .vote-row {
-      font-size: 0.9em;
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-      font-weight: 400;
-      margin-bottom: 0.25em;
-    }
+        .topic-name {
+          font-size: 1rem;
+          font-weight: 500;
 
-    .vote-row .vote-count {
-      margin-right: 0.5em;
-    }
+          a {
+            color: #333;
+            text-decoration: none;
 
-    .vote-buttons {
-      display: flex;
-      gap: 0.3em;
-      margin-top: 0;
-    }
+            &:hover {
+              color: #f7931a;
+            }
+          }
+        }
+      }
 
-    .vote-button {
-      background: #f7931a;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      padding: 0.15em 1.5em;
-      font-size: 0.8em;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2em;
-      transition: background 0.2s, color 0.2s;
-      line-height: 1.2;
-    }
+      .vote-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
 
-    .vote-button:disabled {
-      background: #e5e7eb;
-      color: #b1b5bb;
-      cursor: not-allowed;
-    }
+        .vote-count {
+          font-weight: 600;
+        }
 
-    .vote-button:hover:not(:disabled) {
-      background: #ffb347;
-      color: #222;
-    }
+        .vote-buttons {
+          display: flex;
+          gap: 0.3rem;
+        }
 
-    .vote-arrow {
-      font-size: 1em;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      line-height: 1;
-      position: relative;
-      top: 3px;
-    }
+        .vote-button {
+          background: #f7931a;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          padding: 0.2em 1em;
+          font-size: 0.9em;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.2em;
+          transition: background 0.2s, color 0.2s;
 
-    .vote-count {
-      font-weight: 600;
-    }
+          &:disabled {
+            background: #e5e7eb;
+            color: #b1b5bb;
+            cursor: not-allowed;
+          }
 
+          &:hover:not(:disabled) {
+            background: #ffb347;
+            color: #222;
+          }
 
-    /* Sats / Payment */
-    .payment-row {
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-    }
+          .vote-arrow {
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+          }
+        }
+      }
 
-    .sats-info {
-      font-size: 0.85em;
-      display: flex;
-      align-items: center;
-      gap: 0.5em;
-    }
-    .sats-received {
-      margin-bottom: 0;
-      font-weight: 600;
+      .payment-row {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.85rem;
+
+        .sats-info {
+          display: flex;
+          align-items: center;
+          gap: 0.3rem;
+
+          .sats-received {
+            font-weight: 600;
+          }
+        }
+
+        .mobile-lightning-button {
+          color: #f7931a;
+          text-decoration: none;
+          font-weight: 500;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
     }
   }
 }
-
