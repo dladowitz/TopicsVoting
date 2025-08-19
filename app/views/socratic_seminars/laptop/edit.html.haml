@@ -1,0 +1,20 @@
+.seminars
+  .socratic-seminars
+    %h1 Edit Event
+
+    = form_with(model: @socratic_seminar, local: true, class: "seminar-form") do |f|
+      .field
+        = f.label :organization_id, "Organization"
+        = f.collection_select :organization_id, Organization.all, :id, :name
+
+      .field
+        = f.label :seminar_number, "Event Number"
+        = f.number_field :seminar_number
+
+      .field
+        = f.label :date, "Event Date"
+        = f.date_field :date
+
+      .actions
+        = f.submit "Update Event", class: "button"
+        = link_to "Cancel", socratic_seminar_path(@socratic_seminar), class: "button button-secondary"

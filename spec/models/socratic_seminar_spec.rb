@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe SocraticSeminar, type: :model do
@@ -37,6 +39,35 @@ RSpec.describe SocraticSeminar, type: :model do
 
     it "has topics" do
       expect(socratic_seminar.topics).to include(topic)
+    end
+  end
+
+  describe "scopes" do
+    let!(:past_seminar) { create(:socratic_seminar, date: 1.day.ago) }
+    let!(:upcoming_seminar) { create(:socratic_seminar, date: 1.day.from_now) }
+    let!(:future_seminar) { create(:socratic_seminar, date: 2.days.from_now) }
+
+    describe ".upcoming" do
+      it "returns seminars with dates in the future" do
+        expect(described_class.upcoming).to include(upcoming_seminar, future_seminar)
+        expect(described_class.upcoming).not_to include(past_seminar)
+      end
+
+      it "orders seminars by date ascending" do
+        expect(described_class.upcoming.to_a).to eq([ upcoming_seminar, future_seminar ])
+      end
+    end
+
+    describe ".past" do
+      it "returns seminars with dates in the past" do
+        expect(described_class.past).to include(past_seminar)
+        expect(described_class.past).not_to include(upcoming_seminar, future_seminar)
+      end
+
+      it "orders seminars by date descending" do
+        old_seminar = create(:socratic_seminar, date: 2.days.ago)
+        expect(described_class.past.to_a).to eq([ past_seminar, old_seminar ])
+      end
     end
   end
 end
