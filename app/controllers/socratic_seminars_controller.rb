@@ -13,17 +13,20 @@ class SocraticSeminarsController < ApplicationController
   end
 
   def new
+    @organization = Organization.find(params[:organization_id])
     @socratic_seminar = SocraticSeminar.new
   end
 
   def edit
+    render "socratic_seminars/#{current_layout}/edit"
   end
 
   def create
     @socratic_seminar = SocraticSeminar.new(socratic_seminar_params)
+    @organization = @socratic_seminar.organization
 
     if @socratic_seminar.save
-      redirect_to @socratic_seminar, notice: "Event was successfully created."
+      redirect_to @organization, notice: "Event was successfully created."
     else
       render :new, status: :ok
     end

@@ -1,7 +1,7 @@
 .laptop-container {
   .seminars {
     h1 {
-      margin-bottom: 2rem;
+      margin-top: 0.5rem;
       color: #333;
       font-size: 2rem;
       font-weight: 600;
@@ -19,7 +19,6 @@
     .socratic-seminars {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 2rem;
 
       .seminar-header {
         display: flex;
@@ -145,8 +144,6 @@
       /* Form Styles */
       .seminar-form {
         max-width: 600px;
-        margin: 0 auto;
-
         .field {
           margin-bottom: 1.5rem;
 
@@ -173,6 +170,16 @@
               box-shadow: 0 0 0 2px rgba(247, 147, 26, 0.2);
             }
           }
+        }
+
+        .field-hint {
+          /* font-size: 0.8rem; */
+          color: #666;
+          margin-top: 0.5rem;
+        }
+
+        .narrow-field {
+          width: 100px !important;
         }
 
         .actions {
