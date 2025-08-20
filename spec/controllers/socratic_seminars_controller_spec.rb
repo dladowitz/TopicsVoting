@@ -39,7 +39,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
 
   describe "GET #new" do
     it "returns a successful response" do
-      get :new
+      get :new, params: { organization_id: organization.id }
       expect(response).to be_successful
     end
   end
@@ -61,9 +61,9 @@ RSpec.describe SocraticSeminarsController, type: :controller do
         }.to change(SocraticSeminar, :count).by(1)
       end
 
-      it "redirects to the created socratic_seminar" do
+      it "redirects to the organization page" do
         post :create, params: { socratic_seminar: valid_attributes }
-        expect(response).to redirect_to(SocraticSeminar.last)
+        expect(response).to redirect_to(organization)
       end
     end
 
