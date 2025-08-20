@@ -1,16 +1,20 @@
 .seminars
   - content_for :title, "New Socratic Seminar"
 
-  %h1
-    - if @organization
-      New Socratic Seminar for #{link_to @organization.name, organization_path(@organization)}
+  .socratic-seminars
+    %h1
+      - if @organization
+        New Socratic Seminar for #{link_to @organization.name, organization_path(@organization)}
+      - else
+        New Socratic Seminar
+    - if can? :create, SocraticSeminar
+      = render "socratic_seminars/laptop/form", socratic_seminar: @socratic_seminar
     - else
-      New Socratic Seminar
-  - if can? :create, SocraticSeminar
-    = render "socratic_seminars/laptop/form", socratic_seminar: @socratic_seminar
-  - else
-    .access-denied
-      %p You need admin privileges to create seminars.
+      .access-denied
+        %p You need admin privileges to create seminars.
 
-  .actions
-    = link_to "Back to Seminars", socratic_seminars_path, class: 'button'
+    .actions
+      - if @organization
+        = link_to "Back to Organization", organization_path(@organization), class: 'button'
+      - else
+        = link_to "Back to Seminars", socratic_seminars_path, class: 'button'
