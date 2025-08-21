@@ -57,6 +57,6 @@ class SocraticSeminarsController < ApplicationController
   end
 
   def socratic_seminar_params
-    params.require(:socratic_seminar).permit(:seminar_number, :date, :organization_id)
+    params.require(:socratic_seminar).permit(:seminar_number, :date, :organization_id, :topics_list_url)
   end
 end
