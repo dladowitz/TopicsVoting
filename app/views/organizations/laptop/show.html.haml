@@ -38,14 +38,15 @@
       .seminars-list
         - @organization.socratic_seminars.order(date: :desc).each do |seminar|
           .seminar-card
-            %h3 Seminar ##{seminar.seminar_number}
+            %h3
+              = link_to "Seminar ##{seminar.seminar_number}", socratic_seminar_path(seminar) + "/topics"
             %p
               %strong Date:
               = seminar.date.strftime('%B %d, %Y')
-            = link_to 'View Details', socratic_seminar_path(seminar) + "/topics", class: 'button'
+            = link_to 'Edit', edit_socratic_seminar_path(seminar), class: 'button'
             - if seminar.topics_list_url.present?
               %p
-                = link_to seminar.topics_list_url, seminar.topics_list_url, target: '_blank', class: 'seminar-link'
+                = link_to "External Topic List", seminar.topics_list_url, target: '_blank', class: 'seminar-link'
 
     - else
       %p No seminars scheduled yet.

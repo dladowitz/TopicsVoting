@@ -6,19 +6,17 @@
       .header-content
         %h1.page-header-title
           = @socratic_seminar.organization.name
-          %span.seminar-number ##{@socratic_seminar.seminar_number}
+          .seminar-number ##{@socratic_seminar.seminar_number}
+        .header-actions
+          - if can? :manage, @socratic_seminar
+            = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
+            = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
+              method: :post,
+              class: "button projector-footer-btn",
+              data: { confirm: "This will import sections and topics from bitcoinbuildersf.com for Builder #{@socratic_seminar.seminar_number}. Continue?" }
+            %button.button.projector-footer-btn.delete-content-btn{onclick: "showDeleteSectionsModal()"} Delete Topics
         .sats-btc-toggle
           = render 'topics/shared/sats_btc_toggle'
-    .header-actions
-      - if can? :manage, @socratic_seminar
-        = link_to 'Edit Seminar', edit_socratic_seminar_path(@socratic_seminar), class: 'button projector-footer-btn'
-      - if can? :manage, Topic
-        = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
-        = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
-          method: :post,
-          class: "button projector-footer-btn",
-          data: { confirm: "This will import sections and topics from bitcoinbuildersf.com for Builder #{@socratic_seminar.seminar_number}. Continue?" }
-        %button.button.projector-footer-btn.delete-content-btn{onclick: "showDeleteSectionsModal()"} Delete Topics
 
   .voting-instructions
     %ul
