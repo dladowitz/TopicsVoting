@@ -1,0 +1,39 @@
+.container.mt-4
+  %h1.mb-4 Import Topics
+
+  - if @socratic_seminar.topics_list_url.present?
+    %p.mb-4
+      Import topics from
+      = link_to @socratic_seminar.topics_list_url, @socratic_seminar.topics_list_url, target: "_blank"
+
+    .card.mb-4
+      .card-body
+        %h5.card-title Import Instructions
+        %ul.list-unstyled
+          %li ✓ Topics will be imported from the provided URL
+          %li ✓ Existing sections and topics will be skipped
+          %li ✓ New sections and topics will be created
+          %li ✓ Links will be preserved if present
+
+    = form_tag socratic_seminar_import_topics_path(@socratic_seminar),
+      method: :post,
+      class: "mb-4",
+      data: { turbo_stream: true } do
+      .d-flex.gap-2
+        = submit_tag "Start Import",
+          class: "btn btn-primary",
+          data: { confirm: "Are you sure you want to import topics?" }
+        = link_to "Back to Seminar",
+          socratic_seminar_topics_path(@socratic_seminar),
+          class: "button"
+
+    #import_results
+
+  - else
+    .alert.alert-warning
+      %h5.alert-heading Missing Topics List URL
+      %p
+        Cannot import topics without an Topics List URL.
+        %br
+        = link_to "Add a link here", edit_socratic_seminar_path(@socratic_seminar)
+

@@ -1,6 +1,7 @@
 # Service for importing sections and topics from bitcoinbuildersf.com
-# @see lib/tasks/import_sections_and_topics.rake for the actual import logic
 class ImportService
+  SECTIONS_TO_SKIP = [ "intro" ]
+
   # Class method wrapper for instance method
   # @param [SocraticSeminar] socratic_seminar The seminar to import topics for
   # @return [Array<Boolean, String>] Success status and output message
@@ -11,10 +12,142 @@ class ImportService
   # Imports sections and topics for a specific seminar
   # @param [SocraticSeminar] socratic_seminar The seminar to import topics for
   # @return [Array<Boolean, String>] Success status and output message
-  # @note Executes a Rake task in a subprocess to perform the import
   def import_sections_and_topics(socratic_seminar)
-    command = "cd #{Rails.root} && bin/rails \"import:import_sections_and_topics[#{socratic_seminar.id}]\" 2>&1"
-    output, status = Open3.capture2(command)
-    [ status.success?, output ]
+    require "open-uri"
+    require "nokogiri"
+
+    @output = []
+    @success = true
+    @stats = {
+      sections_created: 0,
+      sections_skipped: 0,
+      topics_created: 0,
+      topics_skipped: 0
+    }
+
+    begin
+      fetch_and_parse_html(socratic_seminar)
+      process_sections
+      log_final_stats if @success
+      [ @success, @output.join("\n") ]
+    rescue StandardError => e
+      @success = false
+      @output << "Error: #{e.message}"
+      @output << e.backtrace.first(5).join("\n") if e.backtrace
+      [ false, @output.join("\n") ]
+    end
+  end
+
+  private
+
+  def fetch_and_parse_html(socratic_seminar)
+    @seminar = socratic_seminar
+    log "Fetching: #{@seminar.topics_list_url}"
+    response = Net::HTTP.get_response(URI(@seminar.topics_list_url))
+    unless response.is_a?(Net::HTTPSuccess)
+      raise OpenURI::HTTPError.new("#{response.code} Not Found", StringIO.new)
+    end
+    html = response.body
+    @doc = Nokogiri::HTML(html)
+  end
+
+  def process_sections
+    @doc.css("h2").each do |h2|
+      section_id = h2["id"]
+      next unless section_id.present?
+
+      # Humanize the section name
+      section_name = section_id.gsub("-", " ").split.map(&:capitalize).join(" ")
+
+      if SECTIONS_TO_SKIP.include?(section_name.split.first.downcase)
+        log "Skipping. Section in Skip List: #{section_name}"
+        next
+      end
+
+      process_section(section_name, h2)
+    end
+    log "Import complete."
+  end
+
+  def process_section(section_name, h2)
+    section = Section.find_by(name: section_name, socratic_seminar: @seminar)
+    if section
+      @stats[:sections_skipped] += 1
+      log "Skipping Section (already exists): #{section.name}"
+    else
+      section = Section.create!(name: section_name, socratic_seminar: @seminar)
+      @stats[:sections_created] += 1
+      log "Created Section: #{section.name}"
+    end
+
+    # Find the next sibling <ul> or <ol> (the list of topics)
+    list = h2.xpath("following-sibling::*").find { |el| el.name == "ul" || el.name == "ol" }
+    process_list_items(list, section) if list
+  end
+
+  def process_list_items(list, section, parent_topic = nil)
+    list.css("> li").each do |li|
+      # Create a copy of the li element and remove nested <ul> and <ol> elements
+      li_copy = li.dup
+      li_copy.css("ul, ol").remove
+
+      # Get all visible text content of this <li> (including text from <a> tags, but excluding nested list content)
+      direct_text = li_copy.text.strip
+
+      # Extract link if present
+      link = extract_link(li, direct_text)
+      direct_text = direct_text.gsub(/(https?:\/\/\S+|www\.\S+)/, "").strip if link
+
+      # Create topic for this <li> if it has content
+      if direct_text.present?
+        create_or_skip_topic(section, direct_text, link)
+      end
+
+      # Process any nested <ul> or <ol> within this <li>
+      nested_list = li.xpath("./ul | ./ol").first
+      process_list_items(nested_list, section) if nested_list
+    end
+  end
+
+  def extract_link(li, direct_text)
+    # First, look for <a> tags
+    a_tag = li.css("> a").first
+    return a_tag["href"] if a_tag && a_tag["href"].present?
+
+    # Fall back to regex strategy
+    match = direct_text.match(/(https?:\/\/\S+|www\.\S+)/)
+    match[1] if match
+  end
+
+  def create_or_skip_topic(section, name, link)
+    topic = section.topics.find_by(name: name)
+    if topic
+      @stats[:topics_skipped] += 1
+      log "  Skipping Topic (already exists): #{topic.name}"
+    else
+      topic = section.topics.create!(name: name, link: link)
+      @stats[:topics_created] += 1
+      log "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
+    end
+  end
+
+  def log(message)
+    # Add to output array for display in the view
+    @output << message
+    # Log to Rails logger for infrastructure monitoring
+    Rails.logger.info("[Import Topics] #{message}")
+  end
+
+  def log_final_stats
+    log "\nImport Statistics:"
+    log "----------------"
+    log "Created:"
+    log "  Sections: #{@stats[:sections_created]}"
+    log "  Topics:   #{@stats[:topics_created]}"
+    log " "
+    log "Skipped:"
+    log "  Sections: #{@stats[:sections_skipped]}"
+    log "  Topics:   #{@stats[:topics_skipped]}"
+    log "----------------"
   end
 end

@@ -1,88 +1,87 @@
-.topics{"data-controller" => "topics"}
-  .page-header-row
-    .page-header-container
-      .builder-logo-container
-        = image_tag 'lightning-bitcoin-logo-2.png', alt: 'Lightning Voting Logo'
-      .header-content
-        %h1.page-header-title
-          = @socratic_seminar.organization.name
-          .seminar-number ##{@socratic_seminar.seminar_number}
-        .header-actions
-          - if can? :manage, @socratic_seminar
-            = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
-            = button_to "Import Topics", import_sections_and_topics_socratic_seminar_topics_path(@socratic_seminar),
-              method: :post,
-              class: "button projector-footer-btn",
-              data: { confirm: "This will import sections and topics from bitcoinbuildersf.com for Builder #{@socratic_seminar.seminar_number}. Continue?" }
-            %button.button.projector-footer-btn.delete-content-btn{onclick: "showDeleteSectionsModal()"} Delete Topics
-        .sats-btc-toggle
-          = render 'topics/shared/sats_btc_toggle'
+.topics-container{"data-controller" => "delete-modal"}
+  .topics{"data-controller" => "topics"}
+    .page-header-row
+      .page-header-container
+        .builder-logo-container
+          = image_tag 'lightning-bitcoin-logo-2.png', alt: 'Lightning Voting Logo'
+        .header-content
+          %h1.page-header-title
+            = @socratic_seminar.organization.name
+            .seminar-number ##{@socratic_seminar.seminar_number}
+          .header-actions
+            - if can? :manage, @socratic_seminar
+              = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
+              = link_to "Import Topics", socratic_seminar_import_topics_path(@socratic_seminar),
+                class: "button projector-footer-btn"
+              %button.button.projector-footer-btn.delete-content-btn{"data-action" => "click->delete-modal#show"} Delete Topics
+          .sats-btc-toggle
+            = render 'topics/shared/sats_btc_toggle'
 
-  .voting-instructions
-    %ul
-      %li Vote for free with the Up & Down arrows. One vote per person.
-      %li Send Lightning payments for additional votes. Each individual payment counts as 1 vote. Unlimited Lighting votes per person.
-      %li Votes count for ranking. Lightning payments add votes, but don't count for ranking.
+    .voting-instructions
+      %ul
+        %li Vote for free with the Up & Down arrows. One vote per person.
+        %li Send Lightning payments for additional votes. Each individual payment counts as 1 vote. Unlimited Lighting votes per person.
+        %li Votes count for ranking. Lightning payments add votes, but don't count for ranking.
 
-  - @sections.each do |section|
-    %h2.section-title= section.name
-    %ul
-      - @topics.select { |topic| topic.section_id == section.id }.each do |topic|
-        - vote_state = (@vote_states && @vote_states[topic.id.to_s])
-        %li.topic-list-item{"data-topic-id" => topic.id, "data-votes" => topic.votes || 0}
-          .topic-header-row
-            %span.topic-name
-              = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
-              - if topic.link.present?
-                %span.topic-link
-                  = link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener"
-          .vote-and-sats-info
-            Votes:
-            .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
+    - @sections.each do |section|
+      %h2.section-title= section.name
+      %ul
+        - @topics.select { |topic| topic.section_id == section.id }.each do |topic|
+          - vote_state = (@vote_states && @vote_states[topic.id.to_s])
+          %li.topic-list-item{"data-topic-id" => topic.id, "data-votes" => topic.votes || 0}
+            .topic-header-row
+              %span.topic-name
+                = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
+                - if topic.link.present?
+                  %span.topic-link
+                    = link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener"
+            .vote-and-sats-info
+              Votes:
+              .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
 
-            .vote-buttons
-              = button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic),
-                method: :post,
-                class: "vote-button",
-                disabled: (vote_state == 'up'),
-                form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
-                %span.vote-arrow
-                  %i.fas.fa-arrow-up
-              = button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic),
-                method: :post,
-                class: "vote-button",
-                disabled: (vote_state == 'down'),
-                form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
-                %span.vote-arrow
-                  %i.fas.fa-arrow-down
+              .vote-buttons
+                = button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic),
+                  method: :post,
+                  class: "vote-button",
+                  disabled: (vote_state == 'up'),
+                  form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
+                  %span.vote-arrow
+                    %i.fas.fa-arrow-up
+                = button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic),
+                  method: :post,
+                  class: "vote-button",
+                  disabled: (vote_state == 'down'),
+                  form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
+                  %span.vote-arrow
+                    %i.fas.fa-arrow-down
 
 
-            |
-            .sats-info
-              .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
-              .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
               |
-              = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
-                class: "send-btc-link",
-                target: "_blank",
-                rel: "noopener"
+              .sats-info
+                .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
+                .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
+                |
+                = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
+                  class: "send-btc-link",
+                  target: "_blank",
+                  rel: "noopener"
 
-#deleteSectionsModal
-  .delete-modal-content
-    %h3.delete-modal-header ⚠️ Warning: You are deleting ALL Sections & Topics
-    %p
-      You are about to delete
-      %strong ALL
-      Sections and Topics for this Seminar.
-    %p
-      This will also delete
-      %strong ALL Lightning Payments
-      associated with the Topics.
-    %p.delete-modal-warning This action cannot be undone!
+  #deleteSectionsModal{"data-delete-modal-target" => "modal"}
+    .delete-modal-content
+      %h3.delete-modal-header ⚠️ Warning: You are deleting ALL Sections & Topics
+      %p
+        You are about to delete
+        %strong ALL
+        Sections and Topics for this Seminar.
+      %p
+        This will also delete
+        %strong ALL Lightning Payments
+        associated with the Topics.
+      %p.delete-modal-warning This action cannot be undone!
 
-    .delete-modal-actions
-      %button.button.delete-modal-cancel{onclick: "hideDeleteSectionsModal()"} Cancel
-      = button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar),
-        method: :delete,
-        class: "button button-danger",
-        data: { confirm: false }
+      .delete-modal-actions
+        %button.button.delete-modal-cancel{"data-action" => "click->delete-modal#hide"} Cancel
+        = button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar),
+          method: :delete,
+          class: "button button-danger",
+          data: { confirm: false }

@@ -44,4 +44,11 @@ class User < ApplicationRecord
   def moderator_of?(organization)
     role_in(organization) == "moderator"
   end
+
+  # Checks if the user can manage a socratic seminar
+  # @param seminar [SocraticSeminar] The seminar to check management permissions for
+  # @return [Boolean] true if user is an admin or moderator of the seminar's organization
+  def can_manage?(seminar)
+    admin? || admin_of?(seminar.organization) || moderator_of?(seminar.organization)
+  end
 end

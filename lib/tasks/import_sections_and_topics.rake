@@ -3,94 +3,95 @@ SECTIONS_TO_SKIP = [ "intro" ]
 namespace :import do
   desc "Import Sections and Topics from bitcoinbuildersf.com for a given socratic_seminar_id"
   task :import_sections_and_topics, [ :socratic_seminar_id ] => :environment do |t, args|
-    require "open-uri"
-    require "nokogiri"
+    puts "This has been migrated to the ImportTopicsController"
+    # require "open-uri"
+    # require "nokogiri"
 
-    seminar = SocraticSeminar.find_by(id: args[:socratic_seminar_id])
-    if seminar.nil?
-      puts "No SocraticSeminar found with id=#{args[:socratic_seminar_id]}"
-      exit 1
-    end
+    # seminar = SocraticSeminar.find_by(id: args[:socratic_seminar_id])
+    # if seminar.nil?
+    #   puts "No SocraticSeminar found with id=#{args[:socratic_seminar_id]}"
+    #   exit 1
+    # end
 
-    url = seminar.topics_list_url
-    puts "Fetching: #{url}"
-    html = URI.open(url).read
-    doc = Nokogiri::HTML(html)
+    # url = seminar.topics_list_url
+    # puts "Fetching: #{url}"
+    # html = URI.open(url).read
+    # doc = Nokogiri::HTML(html)
 
-    doc.css("h2").each do |h2|
-      section_id = h2["id"]
-      next unless section_id.present?
-      # Humanize the section name
-      section_name = section_id.gsub("-", " ").split.map(&:capitalize).join(" ")
+    # doc.css("h2").each do |h2|
+    #   section_id = h2["id"]
+    #   next unless section_id.present?
+    #   # Humanize the section name
+    #   section_name = section_id.gsub("-", " ").split.map(&:capitalize).join(" ")
 
-      if SECTIONS_TO_SKIP.include?(section_name.split.first.downcase)
-        puts "Skipping. Section in Skip List: #{section_name}"
-        next
-      end
+    #   if SECTIONS_TO_SKIP.include?(section_name.split.first.downcase)
+    #     puts "Skipping. Section in Skip List: #{section_name}"
+    #     next
+    #   end
 
-      section = Section.find_by(name: section_name, socratic_seminar: seminar)
-      if section
-        puts "Skipping Section (already exists): #{section.name}"
-      else
-        section = Section.create!(name: section_name, socratic_seminar: seminar)
-        puts "Created Section: #{section.name}"
-      end
+    #   section = Section.find_by(name: section_name, socratic_seminar: seminar)
+    #   if section
+    #     puts "Skipping Section (already exists): #{section.name}"
+    #   else
+    #     section = Section.create!(name: section_name, socratic_seminar: seminar)
+    #     puts "Created Section: #{section.name}"
+    #   end
 
-      # Find the next sibling <ul> or <ol> (the list of topics)
-      list = h2.xpath("following-sibling::*").find { |el| el.name == "ul" || el.name == "ol" }
-      next unless list
+    #   # Find the next sibling <ul> or <ol> (the list of topics)
+    #   list = h2.xpath("following-sibling::*").find { |el| el.name == "ul" || el.name == "ol" }
+    #   next unless list
 
-      # Process all <li> elements, including nested ones
-      def process_list_items(list, section, seminar)
-        list.css("> li").each do |li|
-          # Create a copy of the li element and remove nested <ul> and <ol> elements
-          li_copy = li.dup
-          li_copy.css("ul, ol").remove
+    #   # Process all <li> elements, including nested ones
+    #   def process_list_items(list, section, seminar)
+    #     list.css("> li").each do |li|
+    #       # Create a copy of the li element and remove nested <ul> and <ol> elements
+    #       li_copy = li.dup
+    #       li_copy.css("ul, ol").remove
 
-          # Get all visible text content of this <li> (including text from <a> tags, but excluding nested list content)
-          direct_text = li_copy.text.strip
+    #       # Get all visible text content of this <li> (including text from <a> tags, but excluding nested list content)
+    #       direct_text = li_copy.text.strip
 
-          # Extract link if present
-          link = nil
-          # First, look for <a> tags
-          a_tag = li.css("> a").first
-          if a_tag && a_tag["href"].present?
-            link = a_tag["href"]
-          else
-            # Fall back to regex strategy
-            direct_text = direct_text.gsub(/((?:https?:\/\/)?(?:www\.)?\S+\.\S+(?:\/\S*)?)/) do |match|
-              link = match
-              ""
-            end.strip
-          end
+    #       # Extract link if present
+    #       link = nil
+    #       # First, look for <a> tags
+    #       a_tag = li.css("> a").first
+    #       if a_tag && a_tag["href"].present?
+    #         link = a_tag["href"]
+    #       else
+    #         # Fall back to regex strategy
+    #         direct_text = direct_text.gsub(/((?:https?:\/\/)?(?:www\.)?\S+\.\S+(?:\/\S*)?)/) do |match|
+    #           link = match
+    #           ""
+    #         end.strip
+    #       end
 
-          # Add https:// prefix if needed
-          if link && !link.start_with?("http://", "https://", "nostr:")
-            link = "https://#{link}"
-          end
+    #       # Add https:// prefix if needed
+    #       if link && !link.start_with?("http://", "https://", "nostr:")
+    #         link = "https://#{link}"
+    #       end
 
-          # Create topic for this <li> if it has content
-          if direct_text.present?
-            topic = section.topics.find_by(name: direct_text)
-            if topic
-              puts "  Skipping Topic (already exists): #{topic.name}"
-            else
-              puts "  Attempting to create topic with link: #{link.inspect}"
-              topic = section.topics.create!(name: direct_text, link: link)
-              puts "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
-            end
-          end
+    #       # Create topic for this <li> if it has content
+    #       if direct_text.present?
+    #         topic = section.topics.find_by(name: direct_text)
+    #         if topic
+    #           puts "  Skipping Topic (already exists): #{topic.name}"
+    #         else
+    #           puts "  Attempting to create topic with link: #{link.inspect}"
+    #           topic = section.topics.create!(name: direct_text, link: link)
+    #           puts "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
+    #         end
+    #       end
 
-          # Process any nested <ul> or <ol> within this <li>
-          nested_list = li.xpath("./ul | ./ol").first
-          if nested_list
-            process_list_items(nested_list, section, seminar)
-          end
-        end
-      end
+    #       # Process any nested <ul> or <ol> within this <li>
+    #       nested_list = li.xpath("./ul | ./ol").first
+    #       if nested_list
+    #         process_list_items(nested_list, section, seminar)
+    #       end
+    #     end
+    #   end
 
-      process_list_items(list, section, seminar)
-    end
-    puts "Import complete."
+    #   process_list_items(list, section, seminar)
+    # end
+    # puts "Import complete."
   end
 end

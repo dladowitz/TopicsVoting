@@ -1,0 +1,25 @@
+.import-output {
+  font-family: monospace;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 1000px;
+  overflow-y: auto;
+}
+
+.import-output:empty {
+  display: none;
+}
+
+.alert-heading {
+  color: rgb(200 43 43);
+}
+
+.import-results-card {
+  border: 1px solid #f7931a;
+  border-radius: 0.25rem;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 2rem;
+}

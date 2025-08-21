@@ -26,11 +26,10 @@ Rails.application.routes.draw do
         post "upvote"
         post "downvote"
       end
-
-      collection do
-        post "import_sections_and_topics"
-      end
     end
+
+    # Import topics functionality
+    resource :import_topics, only: [ :show, :create ]
   end
 
   get "webhook/receive"
