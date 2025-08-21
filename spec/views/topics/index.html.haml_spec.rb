@@ -69,9 +69,9 @@ RSpec.describe "topics/laptop/index", type: :view do
     end
   end
 
-  context "when user can manage topics" do
+  context "when user can manage the seminar" do
     before do
-      allow(view).to receive(:can?).with(:manage, Topic).and_return(true)
+      allow(view).to receive(:can?).with(:manage, SocraticSeminar).and_return(true)
       render
     end
 
