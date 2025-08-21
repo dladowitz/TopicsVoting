@@ -16,11 +16,11 @@ class ImportTopicsController < ApplicationController
 
     respond_to do |format|
       format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.update("import_results",
-            partial: "import_results",
-            locals: { success: @success, import_output: @import_output })
-        ]
+        render turbo_stream: turbo_stream.update(
+          "import_results",
+          partial: "import_topics/import_results",
+          locals: { success: @success, import_output: @import_output }
+        )
       end
       format.html do
         if @success
@@ -40,7 +40,7 @@ class ImportTopicsController < ApplicationController
   end
 
   def authorize_import!
-    unless current_user.can_manage?(@socratic_seminar)
+    unless current_user.is_a?(User) && current_user.can_manage?(@socratic_seminar)
       redirect_to socratic_seminar_topics_path(@socratic_seminar),
                   alert: "You are not authorized to import topics for this seminar"
     end

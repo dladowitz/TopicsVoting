@@ -8,9 +8,9 @@ class Ability
   # @return [void]
   def initialize(user)
     # Set up guest user (not logged in)
-    @user = user || User.new
+    @user = user.is_a?(Hash) ? User.new(user) : (user || User.new)
 
-    if @user.admin?
+    if @user.respond_to?(:admin?) && @user.admin?
       # Site-wide admin can do everything
       can :manage, :all
     end

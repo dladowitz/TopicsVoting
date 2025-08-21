@@ -22,7 +22,7 @@
       .d-flex.gap-2
         = submit_tag "Start Import",
           class: "btn btn-primary",
-          data: { confirm: "Are you sure you want to import topics?" }
+          data: { turbo_confirm: "Are you sure you want to import topics?" }
         = link_to "Back to Seminar",
           socratic_seminar_topics_path(@socratic_seminar),
           class: "button"

@@ -67,14 +67,33 @@ RSpec.describe ImportTopicsController, type: :controller do
             .and_return([ true, "Import successful" ])
         end
 
-        it "redirects to topics path" do
-          post :create, params: { socratic_seminar_id: socratic_seminar.id }
-          expect(response).to redirect_to(socratic_seminar_topics_path(socratic_seminar))
+        context "with HTML format" do
+          it "redirects to import topics path" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }
+            expect(response).to redirect_to(socratic_seminar_import_topics_path(socratic_seminar))
+          end
+
+          it "sets a success notice" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }
+            expect(flash[:notice]).to eq("Import completed successfully")
+          end
         end
 
-        it "sets a success notice" do
-          post :create, params: { socratic_seminar_id: socratic_seminar.id }
-          expect(flash[:notice]).to match(/completed successfully/)
+        context "with Turbo Stream format" do
+          it "renders turbo stream response" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }, format: :turbo_stream
+            expect(response).to have_http_status(:success)
+            expect(response.media_type).to eq Mime[:turbo_stream]
+          end
+
+          it "updates the import results with success message" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }, format: :turbo_stream
+            expect(response).to have_http_status(:success)
+            expect(response.media_type).to eq Mime[:turbo_stream]
+            expect(response.body).to include('turbo-stream action="update" target="import_results"')
+            expect(assigns(:success)).to be true
+            expect(assigns(:import_output)).to eq("Import successful")
+          end
         end
       end
 
@@ -85,19 +104,33 @@ RSpec.describe ImportTopicsController, type: :controller do
             .and_return([ false, "Import failed" ])
         end
 
-        it "renders the show template" do
-          post :create, params: { socratic_seminar_id: socratic_seminar.id }
-          expect(response).to render_template(:show)
+        context "with HTML format" do
+          it "redirects to import topics path" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }
+            expect(response).to redirect_to(socratic_seminar_import_topics_path(socratic_seminar))
+          end
+
+          it "sets an alert message" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }
+            expect(flash[:alert]).to eq("Import failed")
+          end
         end
 
-        it "sets an alert message" do
-          post :create, params: { socratic_seminar_id: socratic_seminar.id }
-          expect(flash.now[:alert]).to match(/failed/)
-        end
+        context "with Turbo Stream format" do
+          it "renders turbo stream response" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }, format: :turbo_stream
+            expect(response).to have_http_status(:success)
+            expect(response.media_type).to eq Mime[:turbo_stream]
+          end
 
-        it "assigns the import output" do
-          post :create, params: { socratic_seminar_id: socratic_seminar.id }
-          expect(assigns(:import_output)).to eq("Import failed")
+          it "updates the import results with failure message" do
+            post :create, params: { socratic_seminar_id: socratic_seminar.id }, format: :turbo_stream
+            expect(response).to have_http_status(:success)
+            expect(response.media_type).to eq Mime[:turbo_stream]
+            expect(response.body).to include('turbo-stream action="update" target="import_results"')
+            expect(assigns(:success)).to be false
+            expect(assigns(:import_output)).to eq("Import failed")
+          end
         end
       end
     end
