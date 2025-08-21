@@ -1,7 +1,5 @@
 # Service for importing sections and topics from various HTML schemas
-require_relative "html_schemas/base_schema"
-require_relative "html_schemas/sf_bitcoin_devs_schema"
-require_relative "html_schemas/cdmx_bit_devs_schema"
+require_relative "html_schemas"
 
 class ImportService
   # Class method wrapper for instance method
@@ -63,21 +61,21 @@ class ImportService
   def detect_schema
     # Try to detect schema based on URL and HTML structure
     if @seminar.topics_list_url.include?("sfbitcoindevs.com")
-      SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
+      HtmlSchemas::SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
     elsif @seminar.topics_list_url.include?("cdmxbitdevs.org")
-      CDMXBitDevsSchema.new(@doc, @seminar, @stats, @output)
+      HtmlSchemas::CDMXBitDevsSchema.new(@doc, @seminar, @stats, @output)
     else
       # Try to auto-detect based on HTML structure
       if @doc.css("h2[id]").any?
         log "Auto-detected SFBitcoinDevs schema"
-        SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
+        HtmlSchemas::SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
       elsif @doc.css("h3 font font").any?
         log "Auto-detected CDMXBitDevs schema"
-        CDMXBitDevsSchema.new(@doc, @seminar, @stats, @output)
+        HtmlSchemas::CDMXBitDevsSchema.new(@doc, @seminar, @stats, @output)
       else
         # If we can't detect a specific schema, fall back to SFBitcoinDevs schema
         log "Unable to detect specific schema, falling back to SFBitcoinDevs schema"
-        SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
+        HtmlSchemas::SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
       end
     end
   end
