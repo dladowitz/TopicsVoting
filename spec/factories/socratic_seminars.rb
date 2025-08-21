@@ -7,8 +7,8 @@ FactoryBot.define do
     sequence(:seminar_number)
 
     after(:build) do |seminar|
-      # This is ensuring that the builder_sf_link is always 2 digits long. So 1 becomes 01, 2 becomes 02, and 12 stays as 12.
-      seminar.builder_sf_link = "https://www.bitcoinbuildersf.com/builder-#{seminar.seminar_number.to_s.rjust(2, '0')}/"
+      # This is ensuring that the topics_list_url is always 2 digits long. So 1 becomes 01, 2 becomes 02, and 12 stays as 12.
+      seminar.topics_list_url = "https://www.bitcoinbuildersf.com/builder-#{seminar.seminar_number.to_s.rjust(2, '0')}/"
     end
 
     trait :with_topics do
