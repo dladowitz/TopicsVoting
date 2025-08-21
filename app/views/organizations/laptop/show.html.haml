@@ -43,9 +43,9 @@
               %strong Date:
               = seminar.date.strftime('%B %d, %Y')
             = link_to 'View Details', socratic_seminar_path(seminar) + "/topics", class: 'button'
-            - if seminar.builder_sf_link.present?
+            - if seminar.topics_list_url.present?
               %p
-                = link_to seminar.builder_sf_link, seminar.builder_sf_link, target: '_blank', class: 'seminar-link'
+                = link_to seminar.topics_list_url, seminar.topics_list_url, target: '_blank', class: 'seminar-link'
 
     - else
       %p No seminars scheduled yet.
