@@ -4,7 +4,8 @@
   - if @socratic_seminar.topics_list_url.present?
     %p.mb-4
       Import topics from
-      = link_to @socratic_seminar.topics_list_url, @socratic_seminar.topics_list_url, target: "_blank"
+      - if url = sanitize_url(@socratic_seminar.topics_list_url)
+        = link_to url, url, target: "_blank", rel: "noopener"
 
     .card.mb-4
       .card-body
