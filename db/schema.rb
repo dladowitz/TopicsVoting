@@ -63,7 +63,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_184436) do
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "builder_sf_link"
+    t.string "topics_list_url"
     t.integer "organization_id", null: false
     t.index ["organization_id", "seminar_number"], name: "index_socratic_seminars_on_organization_id_and_seminar_number", unique: true
     t.index ["organization_id"], name: "index_socratic_seminars_on_organization_id"

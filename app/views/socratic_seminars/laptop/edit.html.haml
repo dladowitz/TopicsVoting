@@ -1,5 +1,4 @@
-.seminars
-  .socratic-seminars
+%div.seminars.socratic-seminars
     %h1 Edit Seminar
 
     = form_with(model: @socratic_seminar, local: true, class: "seminar-form") do |f|
@@ -14,6 +13,10 @@
       .field
         = f.label :date, "Seminar Date"
         = f.date_field :date
+
+      .field
+        = f.label :topics_list_url, "Topics List URL"
+        = f.url_field :topics_list_url, placeholder: "https://example.com/topics-list"
 
       .actions
         = f.submit "Update Seminar", class: "button"
