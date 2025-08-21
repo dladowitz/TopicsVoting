@@ -13,11 +13,22 @@ class Topic < ApplicationRecord
   has_many :payments
 
   validates :name, presence: true
-  validates :link, format: {
-    with: URI::DEFAULT_PARSER.make_regexp(%w[http https]),
-    allow_blank: true,
-    message: "must be a valid HTTP or HTTPS URL"
-  }
+  # Custom validation for links to allow various URL schemes
+  validate :validate_link, if: -> { link.present? }
+
+  private
+
+  def validate_link
+    # Try parsing as URI first
+    begin
+      uri = URI.parse(link)
+      return if uri.scheme.present? # Accept any scheme
+    rescue URI::InvalidURIError
+      # If URI parsing fails, check if it looks like a URL/identifier
+      return if link.match?(/\A[^\s]+\z/) # Accept any non-whitespace string
+    end
+    errors.add(:link, "must be a valid URL or identifier")
+  end
 
   after_create :set_lnurl
   after_update_commit :broadcast_topic_update
