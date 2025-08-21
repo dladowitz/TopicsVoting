@@ -1,0 +1,16 @@
+.import-results
+  - if success
+    .alert.alert-success
+      -# %h5.alert-heading Import Successful!
+      %p Topics were imported successfully.
+  - else
+    .alert.alert-danger
+      -# %h5.alert-heading Import Failed!
+      %p There was an error during the import process.
+
+  .card.mt-4.import-results-card
+    .card-header
+      %h5.mb-0 Import Log
+    .card-body
+      %pre.import-output.bg-light.p-3.rounded{ class: ("text-danger" unless success) }
+        = import_output

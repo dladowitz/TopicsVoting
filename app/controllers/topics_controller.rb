@@ -66,17 +66,7 @@ class TopicsController < ApplicationController
     redirect_to [ @socratic_seminar, :topics ], notice: "Topic was successfully destroyed."
   end
 
-  # Imports sections and topics from bitcoinbuildersf.com
-  # @return [void]
-  def import_sections_and_topics
-    success, output = ImportService.import_sections_and_topics(@socratic_seminar)
 
-    if success
-      redirect_to [ @socratic_seminar, :topics ], notice: "Import completed successfully. #{output.lines.last}"
-    else
-      redirect_to [ @socratic_seminar, :topics ], alert: "Import failed: #{output.lines.last}"
-    end
-  end
 
   # Upvotes a topic
   # @note Handles vote state transitions and updates session

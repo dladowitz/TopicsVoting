@@ -195,76 +195,7 @@ RSpec.describe TopicsController, type: :controller do
     end
   end
 
-  describe "POST #import_sections_and_topics" do
-    let(:socratic_seminar) { create(:socratic_seminar) }
 
-    context "when import succeeds" do
-      before do
-        allow(ImportService).to receive(:import_sections_and_topics)
-          .with(socratic_seminar)
-          .and_return([ true, "Import successful\nImported 5 sections" ])
-      end
-
-      it "redirects with success message" do
-        post :import_sections_and_topics, params: { socratic_seminar_id: socratic_seminar.id }
-
-        expect(response).to redirect_to(socratic_seminar_topics_path(socratic_seminar))
-        expect(flash[:notice]).to match(/Import completed successfully/)
-        expect(flash[:notice]).to include("Imported 5 sections")
-      end
-    end
-
-    context "when import fails" do
-      before do
-        allow(ImportService).to receive(:import_sections_and_topics)
-          .with(socratic_seminar)
-          .and_return([ false, "Error occurred\nImport failed" ])
-      end
-
-      it "redirects with error message" do
-        post :import_sections_and_topics, params: { socratic_seminar_id: socratic_seminar.id }
-
-        expect(response).to redirect_to(socratic_seminar_topics_path(socratic_seminar))
-        expect(flash[:alert]).to match(/Import failed/)
-      end
-    end
-
-    context "with different seminar numbers" do
-      let(:seminar_10) { create(:socratic_seminar) }
-      let(:seminar_99) { create(:socratic_seminar) }
-
-      it "calls import with correct seminar numbers" do
-        allow(ImportService).to receive(:import_sections_and_topics).and_return([ true, "Success" ])
-
-        post :import_sections_and_topics, params: { socratic_seminar_id: seminar_10.id }
-        expect(ImportService).to have_received(:import_sections_and_topics).with(seminar_10)
-
-        post :import_sections_and_topics, params: { socratic_seminar_id: seminar_99.id }
-        expect(ImportService).to have_received(:import_sections_and_topics).with(seminar_99)
-      end
-    end
-
-    context "with error output" do
-      before do
-        allow(ImportService).to receive(:import_sections_and_topics)
-          .with(socratic_seminar)
-          .and_return([ false, "Error: Invalid seminar number\nImport failed" ])
-      end
-
-      it "includes the error message in the flash" do
-        post :import_sections_and_topics, params: { socratic_seminar_id: socratic_seminar.id }
-        expect(flash[:alert]).to include("Import failed")
-      end
-    end
-
-    context "with non-existent seminar" do
-      it "raises RecordNotFound" do
-        expect {
-          post :import_sections_and_topics, params: { socratic_seminar_id: -1 }
-        }.to raise_error(ActiveRecord::RecordNotFound)
-      end
-    end
-  end
 
   describe "POST #upvote" do
     let(:topic) { create(:topic, socratic_seminar: socratic_seminar, section: section) }

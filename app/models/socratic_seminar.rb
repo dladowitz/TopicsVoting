@@ -20,6 +20,7 @@ class SocraticSeminar < ApplicationRecord
   validates :seminar_number, presence: true, uniqueness: { scope: :organization_id }
   validates :date, presence: true
   validates :organization, presence: true
+  validates :topics_list_url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]), allow_blank: true }
 
   scope :upcoming, -> { where("date >= ?", Time.current).order(date: :asc) }
   scope :past, -> { where("date < ?", Time.current).order(date: :desc) }
