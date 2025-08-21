@@ -1,23 +1,21 @@
 SECTIONS_TO_SKIP = [ "intro" ]
 
 namespace :import do
-  desc "Import Sections and Topics from bitcoinbuildersf.com for a given builder_number"
-  task :import_sections_and_topics, [ :builder_number ] => :environment do |t, args|
+  desc "Import Sections and Topics from bitcoinbuildersf.com for a given socratic_seminar_id"
+  task :import_sections_and_topics, [ :socratic_seminar_id ] => :environment do |t, args|
     require "open-uri"
     require "nokogiri"
 
-    builder_number = args[:builder_number].to_s
-    builder_number_for_url = builder_number.rjust(2, "0")
-    url = "https://www.bitcoinbuildersf.com/builder-#{builder_number_for_url}/"
+    seminar = SocraticSeminar.find_by(id: args[:socratic_seminar_id])
+    if seminar.nil?
+      puts "No SocraticSeminar found with id=#{args[:socratic_seminar_id]}"
+      exit 1
+    end
+
+    url = seminar.topics_list_url
     puts "Fetching: #{url}"
     html = URI.open(url).read
     doc = Nokogiri::HTML(html)
-
-    seminar = SocraticSeminar.find_by(seminar_number: builder_number.to_i)
-    if seminar.nil?
-      puts "No SocraticSeminar found with seminar_number=#{builder_number}"
-      exit 1
-    end
 
     doc.css("h2").each do |h2|
       section_id = h2["id"]
@@ -60,19 +58,25 @@ namespace :import do
             link = a_tag["href"]
           else
             # Fall back to regex strategy
-            direct_text = direct_text.gsub(/(https?:\/\/\S+|www\.\S+)/) do |match|
+            direct_text = direct_text.gsub(/((?:https?:\/\/)?(?:www\.)?\S+\.\S+(?:\/\S*)?)/) do |match|
               link = match
               ""
             end.strip
           end
 
+          # Add https:// prefix if needed
+          if link && !link.start_with?("http://", "https://", "nostr:")
+            link = "https://#{link}"
+          end
+
           # Create topic for this <li> if it has content
           if direct_text.present?
-            topic = section.topics.find_by(name: direct_text, socratic_seminar: seminar)
+            topic = section.topics.find_by(name: direct_text)
             if topic
               puts "  Skipping Topic (already exists): #{topic.name}"
             else
-              topic = section.topics.create!(name: direct_text, link: link, socratic_seminar: seminar)
+              puts "  Attempting to create topic with link: #{link.inspect}"
+              topic = section.topics.create!(name: direct_text, link: link)
               puts "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
             end
           end

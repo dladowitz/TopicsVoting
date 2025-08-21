@@ -31,18 +31,38 @@ RSpec.describe Topic, type: :model do
         expect(topic).to be_valid
       end
 
-      it "rejects invalid URLs" do
-        topic = build(:topic, link: "not-a-url")
-        expect(topic).not_to be_valid
-        expect(topic.errors[:link]).to include("must be a valid HTTP or HTTPS URL")
+      it "accepts nostr URLs" do
+        topic = build(:topic, link: "nostr:npub1nydevscv0slx9eyr0chkkdgzqfhtp4guk039akhq6g9fnsrf6lcsup3hqs")
+        expect(topic).to be_valid
       end
 
-      it "rejects URLs with invalid schemes" do
-        invalid_schemes = [ "ftp://example.com", "file:///path", "javascript:alert(1)" ]
-        invalid_schemes.each do |url|
+      it "accepts domain-only URLs with scheme" do
+        topic = build(:topic, link: "https://example.com")
+        expect(topic).to be_valid
+      end
+
+      it "accepts URLs with paths and scheme" do
+        topic = build(:topic, link: "https://example.com/path/to/resource")
+        expect(topic).to be_valid
+      end
+
+      it "rejects URLs with spaces" do
+        topic = build(:topic, link: "not a url")
+        expect(topic).not_to be_valid
+        expect(topic.errors[:link]).to include("must be a valid URL or identifier")
+      end
+
+      it "accepts URLs with various schemes" do
+        valid_schemes = [
+          "http://example.com",
+          "https://example.com",
+          "nostr:npub1abc",
+          "ftp://example.com",
+          "ipfs://example.com"
+        ]
+        valid_schemes.each do |url|
           topic = build(:topic, link: url)
-          expect(topic).not_to be_valid
-          expect(topic.errors[:link]).to include("must be a valid HTTP or HTTPS URL")
+          expect(topic).to be_valid
         end
       end
 

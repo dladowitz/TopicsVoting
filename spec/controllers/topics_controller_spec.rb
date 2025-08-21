@@ -201,7 +201,7 @@ RSpec.describe TopicsController, type: :controller do
     context "when import succeeds" do
       before do
         allow(ImportService).to receive(:import_sections_and_topics)
-          .with(socratic_seminar.seminar_number.to_s)
+          .with(socratic_seminar)
           .and_return([ true, "Import successful\nImported 5 sections" ])
       end
 
@@ -217,7 +217,7 @@ RSpec.describe TopicsController, type: :controller do
     context "when import fails" do
       before do
         allow(ImportService).to receive(:import_sections_and_topics)
-          .with(socratic_seminar.seminar_number.to_s)
+          .with(socratic_seminar)
           .and_return([ false, "Error occurred\nImport failed" ])
       end
 
@@ -237,17 +237,17 @@ RSpec.describe TopicsController, type: :controller do
         allow(ImportService).to receive(:import_sections_and_topics).and_return([ true, "Success" ])
 
         post :import_sections_and_topics, params: { socratic_seminar_id: seminar_10.id }
-        expect(ImportService).to have_received(:import_sections_and_topics).with(seminar_10.seminar_number.to_s)
+        expect(ImportService).to have_received(:import_sections_and_topics).with(seminar_10)
 
         post :import_sections_and_topics, params: { socratic_seminar_id: seminar_99.id }
-        expect(ImportService).to have_received(:import_sections_and_topics).with(seminar_99.seminar_number.to_s)
+        expect(ImportService).to have_received(:import_sections_and_topics).with(seminar_99)
       end
     end
 
     context "with error output" do
       before do
         allow(ImportService).to receive(:import_sections_and_topics)
-          .with(socratic_seminar.seminar_number.to_s)
+          .with(socratic_seminar)
           .and_return([ false, "Error: Invalid seminar number\nImport failed" ])
       end
 

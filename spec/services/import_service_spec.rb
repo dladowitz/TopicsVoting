@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ImportService do
   describe '.import_sections_and_topics' do
-    let(:seminar_number) { "42" }
+    let(:socratic_seminar) { create(:socratic_seminar, id: 42) }
     let(:expected_command) { "cd #{Rails.root} && bin/rails \"import:import_sections_and_topics[42]\" 2>&1" }
     let(:service) { described_class.new }
 
@@ -16,7 +16,7 @@ RSpec.describe ImportService do
           .with(expected_command)
           .and_return([ output, status ])
 
-        success, actual_output = described_class.import_sections_and_topics(seminar_number)
+        success, actual_output = described_class.import_sections_and_topics(socratic_seminar)
         expect(success).to be true
         expect(actual_output).to include("Imported 5 sections")
       end
@@ -31,7 +31,7 @@ RSpec.describe ImportService do
           .with(expected_command)
           .and_return([ output, status ])
 
-        success, actual_output = described_class.import_sections_and_topics(seminar_number)
+        success, actual_output = described_class.import_sections_and_topics(socratic_seminar)
         expect(success).to be false
         expect(actual_output).to include("Import failed")
       end

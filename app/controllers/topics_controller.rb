@@ -69,7 +69,7 @@ class TopicsController < ApplicationController
   # Imports sections and topics from bitcoinbuildersf.com
   # @return [void]
   def import_sections_and_topics
-    success, output = ImportService.import_sections_and_topics(@socratic_seminar.seminar_number.to_s)
+    success, output = ImportService.import_sections_and_topics(@socratic_seminar)
 
     if success
       redirect_to [ @socratic_seminar, :topics ], notice: "Import completed successfully. #{output.lines.last}"
