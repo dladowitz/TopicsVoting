@@ -1,7 +1,7 @@
 .organizations
   %h1 Organizations
 
-  - if current_user.admin?
+  - if current_user&.admin?
     .actions.index-actions
       = link_to 'New Organization', new_organization_path, class: 'button'
 

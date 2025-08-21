@@ -33,9 +33,9 @@ RSpec.describe "navigation/_laptop", type: :view do
       expect(rendered).to have_link("Login", href: new_user_session_path)
     end
 
-    it "does not display the organizations link" do
+    it "displays the organizations link" do
       render
-      expect(rendered).not_to have_link("Organizations")
+      expect(rendered).to have_link("Organizations", href: organizations_path)
     end
   end
 

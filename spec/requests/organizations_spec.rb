@@ -240,9 +240,9 @@ RSpec.describe "Organizations", type: :request do
 
   context 'as a guest' do
     describe 'GET /organizations' do
-      it 'redirects to login page' do
+      it 'returns a success response' do
         get organizations_path
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to be_successful
       end
     end
 
