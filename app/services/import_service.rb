@@ -21,8 +21,10 @@ class ImportService
     @stats = {
       sections_created: 0,
       sections_skipped: 0,
+      sections_failed: 0,
       topics_created: 0,
-      topics_skipped: 0
+      topics_skipped: 0,
+      topics_failed: 0
     }
 
     begin
@@ -75,9 +77,15 @@ class ImportService
       @stats[:sections_skipped] += 1
       log "Skipping Section (already exists): #{section.name}"
     else
-      section = Section.create!(name: section_name, socratic_seminar: @seminar)
-      @stats[:sections_created] += 1
-      log "Created Section: #{section.name}"
+      begin
+        section = Section.create!(name: section_name, socratic_seminar: @seminar)
+        @stats[:sections_created] += 1
+        log "Created Section: #{section.name}"
+      rescue ActiveRecord::RecordInvalid => e
+        @stats[:sections_failed] += 1
+        log "Failed to create Section: #{section_name} (#{e.message})"
+        return nil # Skip processing topics for invalid sections
+      end
     end
 
     # Find the next sibling <ul> or <ol> (the list of topics)
@@ -115,7 +123,7 @@ class ImportService
     return a_tag["href"] if a_tag && a_tag["href"].present?
 
     # Fall back to regex strategy
-    match = direct_text.match(/(https?:\/\/\S+|www\.\S+)/)
+    match = direct_text.match(/(https?:\/\/[^\s]+|www\.[^\s]+)/)
     match[1] if match
   end
 
@@ -125,9 +133,14 @@ class ImportService
       @stats[:topics_skipped] += 1
       log "  Skipping Topic (already exists): #{topic.name}"
     else
-      topic = section.topics.create!(name: name, link: link)
-      @stats[:topics_created] += 1
-      log "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
+      begin
+        topic = section.topics.create!(name: name, link: link)
+        @stats[:topics_created] += 1
+        log "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
+      rescue ActiveRecord::RecordInvalid => e
+        @stats[:topics_failed] += 1
+        log "  Failed to create Topic: #{name} (#{e.message})"
+      end
     end
   end
 
@@ -148,6 +161,10 @@ class ImportService
     log "Skipped:"
     log "  Sections: #{@stats[:sections_skipped]}"
     log "  Topics:   #{@stats[:topics_skipped]}"
+    log " "
+    log "Failed:"
+    log "  Sections: #{@stats[:sections_failed]}"
+    log "  Topics:   #{@stats[:topics_failed]}"
     log "----------------"
   end
 end

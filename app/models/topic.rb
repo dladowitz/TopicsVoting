@@ -30,7 +30,7 @@ class Topic < ApplicationRecord
     # Try parsing as URI first
     begin
       uri = URI.parse(link)
-      return if uri.scheme.present? # Accept any scheme
+      return if uri.scheme.present? && uri.host.present? # Accept any scheme but require a valid host
     rescue URI::InvalidURIError
       # If URI parsing fails, check if it looks like a URL/identifier
       return if link.match?(/\A[^\s]+\z/) # Accept any non-whitespace string
