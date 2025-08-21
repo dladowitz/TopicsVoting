@@ -16,6 +16,14 @@ class Topic < ApplicationRecord
   # Custom validation for links to allow various URL schemes
   validate :validate_link, if: -> { link.present? }
 
+  after_create :set_lnurl
+  after_update_commit :broadcast_topic_update
+
+  # @return [Integer] The number of completed payments for this topic
+  def completed_payments_count
+    payments.where(paid: true).count
+  end
+
   private
 
   def validate_link
@@ -29,16 +37,6 @@ class Topic < ApplicationRecord
     end
     errors.add(:link, "must be a valid URL or identifier")
   end
-
-  after_create :set_lnurl
-  after_update_commit :broadcast_topic_update
-
-  # @return [Integer] The number of completed payments for this topic
-  def completed_payments_count
-    payments.where(paid: true).count
-  end
-
-  private
 
   # Sets the LNURL for this topic after creation
   # @return [void]

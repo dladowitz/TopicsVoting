@@ -12,13 +12,14 @@
 # To view the coverage report, run `open coverage/index.html` in the terminal.
 require 'simplecov'
 require 'simplecov-console'
+require_relative 'support/simplecov_active_files_formatter'
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::Console
+  SimpleCovActiveFilesFormatter
 ])
 SimpleCov.start 'rails' do
-  # Minimum coverage percentage required
-  minimum_coverage 75
+  # Only enforce minimum coverage when running the full test suite
+  minimum_coverage 75 if ARGV.none? { |arg| arg.end_with?('_spec.rb') }
 
   # Exclude certain files/directories from coverage analysis
   add_filter 'spec/'
