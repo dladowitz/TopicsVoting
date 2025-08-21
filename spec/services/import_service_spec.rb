@@ -43,7 +43,7 @@ RSpec.describe ImportService do
     end
 
     it 'skips existing sections' do
-      section = create(:section, name: "Test Section", socratic_seminar: socratic_seminar)
+      create(:section, name: "Test Section", socratic_seminar: socratic_seminar)
       success, output = described_class.import_sections_and_topics(socratic_seminar)
 
       expect(success).to be true
@@ -52,7 +52,7 @@ RSpec.describe ImportService do
 
     it 'skips existing topics' do
       section = create(:section, name: "Test Section", socratic_seminar: socratic_seminar)
-      topic = create(:topic, name: "Topic 1", section: section)
+      create(:topic, name: "Topic 1", section: section)
       success, output = described_class.import_sections_and_topics(socratic_seminar)
 
       expect(success).to be true
@@ -85,24 +85,70 @@ RSpec.describe ImportService do
     end
 
     it 'extracts links from text content' do
-      success, output = described_class.import_sections_and_topics(socratic_seminar)
+      described_class.import_sections_and_topics(socratic_seminar)
 
       topic = Section.find_by(name: "Test Section").topics.find_by(name: "Topic 3")
       expect(topic.link).to eq("https://example.org")
     end
 
     it 'extracts links from anchor tags' do
-      success, output = described_class.import_sections_and_topics(socratic_seminar)
+      described_class.import_sections_and_topics(socratic_seminar)
 
       topic = Section.find_by(name: "Test Section").topics.find_by(name: "Topic 2 with Link")
       expect(topic.link).to eq("https://example.com")
     end
 
     it 'handles nested topics' do
-      success, output = described_class.import_sections_and_topics(socratic_seminar)
+      described_class.import_sections_and_topics(socratic_seminar)
 
       section = Section.find_by(name: "Test Section")
       expect(section.topics.pluck(:name)).to include("Nested Topic 1", "Nested Topic 2")
+    end
+
+    context 'when encountering validation errors' do
+      let(:html_with_invalid_content) do
+        <<~HTML
+          <h2 id="valid-section">Valid Section</h2>
+          <ul>
+            <li>Valid Topic</li>
+            <li>Topic with Invalid Link <a href="not a valid url">Invalid Link</a></li>
+          </ul>
+
+          <h2 id="another-section">Another Section</h2>
+          <ul>
+            <li>Another Valid Topic</li>
+          </ul>
+        HTML
+      end
+
+      before do
+        stub_request(:get, socratic_seminar.topics_list_url)
+          .to_return(status: 200, body: html_with_invalid_content)
+      end
+
+      it 'continues importing after topic validation errors' do
+        success, output = described_class.import_sections_and_topics(socratic_seminar)
+
+        expect(success).to be true
+        expect(output).to include("Created Section: Valid Section")
+        expect(output).to include("Created Topic: Valid Topic")
+        expect(output).to include("Failed to create Topic: Topic with Invalid Link Invalid Link (Validation failed: Link must be a valid URL or identifier)")
+        expect(output).to include("Created Section: Another Section")
+        expect(output).to include("Created Topic: Another Valid Topic")
+
+        # Check stats in the output
+        expect(output).to include("Topics:   1") # Failed topics count
+        expect(Section.count).to eq(2)
+        expect(Topic.count).to eq(2) # Only valid topics should be created
+      end
+
+      it 'tracks failed imports in statistics' do
+        success, output = described_class.import_sections_and_topics(socratic_seminar)
+
+        expect(success).to be true
+        expect(output).to match(/Topics:\s+2$/) # Created topics
+        expect(output).to match(/Topics:\s+1$/) # Failed topics
+      end
     end
   end
 end
