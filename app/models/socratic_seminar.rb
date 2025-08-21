@@ -3,7 +3,7 @@
 # Represents a Socratic Seminar event where topics are discussed
 # @attr [Integer] seminar_number Unique identifier for the seminar
 # @attr [DateTime] date When the seminar takes place
-# @attr [String] builder_sf_link Optional link to bitcoinbuildersf.com
+# @attr [String] topics_list_url Optional URL to a list of topics
 class SocraticSeminar < ApplicationRecord
   # @!attribute sections
   #   @return [Array<Section>] Sections that organize topics in this seminar
