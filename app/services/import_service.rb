@@ -1,7 +1,9 @@
-# Service for importing sections and topics from bitcoinbuildersf.com
-class ImportService
-  SECTIONS_TO_SKIP = [ "intro" ]
+# Service for importing sections and topics from various HTML schemas
+require_relative "html_schemas/base_schema"
+require_relative "html_schemas/sf_bitcoin_devs_schema"
+require_relative "html_schemas/cdmx_bit_devs_schema"
 
+class ImportService
   # Class method wrapper for instance method
   # @param [SocraticSeminar] socratic_seminar The seminar to import topics for
   # @return [Array<Boolean, String>] Success status and output message
@@ -54,92 +56,28 @@ class ImportService
   end
 
   def process_sections
-    @doc.css("h2").each do |h2|
-      section_id = h2["id"]
-      next unless section_id.present?
-
-      # Humanize the section name
-      section_name = section_id.gsub("-", " ").split.map(&:capitalize).join(" ")
-
-      if SECTIONS_TO_SKIP.include?(section_name.split.first.downcase)
-        log "Skipping. Section in Skip List: #{section_name}"
-        next
-      end
-
-      process_section(section_name, h2)
-    end
-    log "Import complete."
+    schema = detect_schema
+    schema.process_sections
   end
 
-  def process_section(section_name, h2)
-    section = Section.find_by(name: section_name, socratic_seminar: @seminar)
-    if section
-      @stats[:sections_skipped] += 1
-      log "Skipping Section (already exists): #{section.name}"
+  def detect_schema
+    # Try to detect schema based on URL and HTML structure
+    if @seminar.topics_list_url.include?("sfbitcoindevs.com")
+      SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
+    elsif @seminar.topics_list_url.include?("cdmxbitdevs.org")
+      CDMXBitDevsSchema.new(@doc, @seminar, @stats, @output)
     else
-      begin
-        section = Section.create!(name: section_name, socratic_seminar: @seminar)
-        @stats[:sections_created] += 1
-        log "Created Section: #{section.name}"
-      rescue ActiveRecord::RecordInvalid => e
-        @stats[:sections_failed] += 1
-        log "Failed to create Section: #{section_name} (#{e.message})"
-        return nil # Skip processing topics for invalid sections
-      end
-    end
-
-    # Find the next sibling <ul> or <ol> (the list of topics)
-    list = h2.xpath("following-sibling::*").find { |el| el.name == "ul" || el.name == "ol" }
-    process_list_items(list, section) if list
-  end
-
-  def process_list_items(list, section, parent_topic = nil)
-    list.css("> li").each do |li|
-      # Create a copy of the li element and remove nested <ul> and <ol> elements
-      li_copy = li.dup
-      li_copy.css("ul, ol").remove
-
-      # Get all visible text content of this <li> (including text from <a> tags, but excluding nested list content)
-      direct_text = li_copy.text.strip
-
-      # Extract link if present
-      link = extract_link(li, direct_text)
-      direct_text = direct_text.gsub(/(https?:\/\/\S+|www\.\S+)/, "").strip if link
-
-      # Create topic for this <li> if it has content
-      if direct_text.present?
-        create_or_skip_topic(section, direct_text, link)
-      end
-
-      # Process any nested <ul> or <ol> within this <li>
-      nested_list = li.xpath("./ul | ./ol").first
-      process_list_items(nested_list, section) if nested_list
-    end
-  end
-
-  def extract_link(li, direct_text)
-    # First, look for <a> tags
-    a_tag = li.css("> a").first
-    return a_tag["href"] if a_tag && a_tag["href"].present?
-
-    # Fall back to regex strategy
-    match = direct_text.match(/(https?:\/\/[^\s]+|www\.[^\s]+)/)
-    match[1] if match
-  end
-
-  def create_or_skip_topic(section, name, link)
-    topic = section.topics.find_by(name: name)
-    if topic
-      @stats[:topics_skipped] += 1
-      log "  Skipping Topic (already exists): #{topic.name}"
-    else
-      begin
-        topic = section.topics.create!(name: name, link: link)
-        @stats[:topics_created] += 1
-        log "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
-      rescue ActiveRecord::RecordInvalid => e
-        @stats[:topics_failed] += 1
-        log "  Failed to create Topic: #{name} (#{e.message})"
+      # Try to auto-detect based on HTML structure
+      if @doc.css("h2[id]").any?
+        log "Auto-detected SFBitcoinDevs schema"
+        SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
+      elsif @doc.css("h3 font font").any?
+        log "Auto-detected CDMXBitDevs schema"
+        CDMXBitDevsSchema.new(@doc, @seminar, @stats, @output)
+      else
+        # If we can't detect a specific schema, fall back to SFBitcoinDevs schema
+        log "Unable to detect specific schema, falling back to SFBitcoinDevs schema"
+        SFBitcoinDevsSchema.new(@doc, @seminar, @stats, @output)
       end
     end
   end
