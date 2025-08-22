@@ -5,6 +5,7 @@ alwaysApply: false
 Rule Name: code_quality
 Apply: always
 Description:
+0. Prefer double quotes over single quotes. This is what Rubocop 
 1. ALWAYS run RuboCop after making changes to Ruby files (*.rb, *.rake):
    - Run: bundle exec rubocop [modified_files]
    - If errors exist, run: bundle exec rubocop -a [modified_files]
