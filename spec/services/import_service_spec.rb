@@ -150,5 +150,137 @@ RSpec.describe ImportService do
         expect(output).to match(/Topics:\s+1$/) # Failed topics
       end
     end
+
+    context 'with different HTML schemas' do
+      context 'with CDMXBitDevs schema' do
+        let(:cdmx_html_content) do
+          <<~HTML
+            <h3>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Development and Technology</font>
+              </font>
+            </h3>
+            <ul>
+              <li>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Topic 1</font>
+                </font>
+              </li>
+              <li>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Topic 2 </font>
+                </font>
+                <a href="https://example.com">Link Text</a>
+              </li>
+            </ul>
+            <h3>
+              <font dir="auto" style="vertical-align: inherit;">
+                <font dir="auto" style="vertical-align: inherit;">Lightning and Wallets</font>
+              </font>
+            </h3>
+            <ul>
+              <li>
+                <font dir="auto" style="vertical-align: inherit;">
+                  <font dir="auto" style="vertical-align: inherit;">Wallet Topic</font>
+                </font>
+              </li>
+            </ul>
+          HTML
+        end
+
+        before do
+          stub_request(:get, socratic_seminar.topics_list_url)
+            .to_return(status: 200, body: cdmx_html_content)
+        end
+
+        it 'detects and uses CDMXBitDevs schema' do
+          success, output = described_class.import_sections_and_topics(socratic_seminar)
+
+          expect(success).to be true
+          expect(output).to include("Auto-detected CDMXBitDevs schema")
+          expect(output).to include("Created Section: Development and Technology")
+          expect(output).to include("Created Section: Lightning and Wallets")
+          expect(output).to include("Created Topic: Topic 1")
+          expect(output).to include("Created Topic: Topic 2")
+          expect(output).to include("Created Topic: Wallet Topic")
+
+          # Verify sections were created
+          expect(Section.count).to eq(2)
+          expect(Section.pluck(:name)).to contain_exactly(
+            "Development and Technology",
+            "Lightning and Wallets"
+          )
+
+          # Verify topics were created with correct sections
+          dev_section = Section.find_by(name: "Development and Technology")
+          expect(dev_section.topics.pluck(:name)).to contain_exactly("Topic 1", "Topic 2")
+
+          wallet_section = Section.find_by(name: "Lightning and Wallets")
+          expect(wallet_section.topics.pluck(:name)).to contain_exactly("Wallet Topic")
+        end
+
+        it 'extracts links correctly from CDMXBitDevs format' do
+          success, _ = described_class.import_sections_and_topics(socratic_seminar)
+
+          expect(success).to be true
+          topic = Topic.find_by(name: "Topic 2")
+          expect(topic.link).to eq("https://example.com")
+        end
+      end
+
+      context 'with unrecognized schema' do
+        let(:unknown_html_content) do
+          <<~HTML
+            <div>Some random content</div>
+            <p>Not matching any known schema</p>
+          HTML
+        end
+
+        before do
+          stub_request(:get, socratic_seminar.topics_list_url)
+            .to_return(status: 200, body: unknown_html_content)
+        end
+
+        it 'falls back to SFBitcoinDevs schema' do
+          success, output = described_class.import_sections_and_topics(socratic_seminar)
+
+          expect(success).to be true
+          expect(output).to include("Unable to detect specific schema, falling back to SFBitcoinDevs schema")
+          expect(output).to include("Import complete")
+        end
+      end
+
+      context 'with URL-based schema detection' do
+        let(:simple_html_content) do
+          <<~HTML
+            <h2 id="section-1">Section 1</h2>
+            <ul><li>Topic 1</li></ul>
+          HTML
+        end
+
+        it 'detects SFBitcoinDevs schema from URL' do
+          socratic_seminar.topics_list_url = "https://sfbitcoindevs.com/some-page"
+          stub_request(:get, socratic_seminar.topics_list_url)
+            .to_return(status: 200, body: simple_html_content)
+
+          success, output = described_class.import_sections_and_topics(socratic_seminar)
+
+          expect(success).to be true
+          expect(output).not_to include("Auto-detected")
+          expect(Section.find_by(name: "Section 1")).to be_present
+        end
+
+        it 'detects CDMXBitDevs schema from URL' do
+          socratic_seminar.topics_list_url = "https://cdmxbitdevs.org/some-page"
+          stub_request(:get, socratic_seminar.topics_list_url)
+            .to_return(status: 200, body: simple_html_content)
+
+          success, output = described_class.import_sections_and_topics(socratic_seminar)
+
+          expect(success).to be true
+          expect(output).not_to include("Auto-detected")
+        end
+      end
+    end
   end
 end
