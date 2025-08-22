@@ -23,7 +23,7 @@ RSpec.describe "landing_page/mobile/show", type: :view do
   end
 
   it "displays the Lightning Voting subtitle" do
-    expect(rendered).to have_content("Vote on topics with Bitcoin Lightning ⚡️")
+    expect(rendered).to have_content("Vote on topics with Lightning")
   end
 
   it "displays upcoming events section" do
