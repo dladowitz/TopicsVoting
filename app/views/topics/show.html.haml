@@ -13,17 +13,17 @@
     });
   }
 
-.container
+.topics
   %p{style: "color: green"}= notice
-  
+
   .page-header-row
     %h1.topic-title= @topic.name
-    - if @admin_mode
+    - if can?(:manage, @topic)
       .header-actions
-        = link_to "Edit", edit_socratic_seminar_topic_path(@socratic_seminar, @topic, mode: 'admin'), class: "button"
-        = button_to "Delete", socratic_seminar_topic_path(@socratic_seminar, @topic, mode: 'admin'), 
-          method: :delete, 
-          class: "button button-danger", 
+        = button_to "Edit", edit_socratic_seminar_topic_path(@socratic_seminar, @topic), method: :get, class: "button"
+        = button_to "Delete", socratic_seminar_topic_path(@socratic_seminar, @topic),
+          method: :delete,
+          class: "button button-danger",
           data: { confirm: "Are you sure you want to delete this topic?" }
 
   - if @topic.link.present?
@@ -42,7 +42,7 @@
       the
       %strong LNURL
       and paste it into a lightning wallet to generate an invoice.
-      
+
       .lnurl-text= @topic.lnurl
 
   .current-status
@@ -51,7 +51,7 @@
       Votes: #{@topic.votes || 0}
     .sats-received-row
       Individual Payments: #{@topic.completed_payments_count}
-    
+
     .sats-received-row
       Sats Received:
       %i.fak.fa-satoshisymbol-solid
@@ -59,7 +59,7 @@
 
   .back-to-topic-list
     = link_to '<- Back To Topics', socratic_seminar_topics_path(@topic.socratic_seminar)
-  
+
   - if @topic.lnurl
     = image_tag "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{CGI.escape(@topic.lnurl)}"
     %br

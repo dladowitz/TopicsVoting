@@ -24,6 +24,12 @@ class Topic < ApplicationRecord
     payments.where(paid: true).count
   end
 
+  # Gets the ID of the socratic seminar this topic belongs to
+  # @return [Integer] The ID of the socratic seminar
+  def socratic_seminar_id
+    socratic_seminar&.id
+  end
+
   private
 
   def validate_link

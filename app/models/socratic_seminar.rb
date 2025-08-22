@@ -24,4 +24,13 @@ class SocraticSeminar < ApplicationRecord
 
   scope :upcoming, -> { where("date >= ?", Time.current).order(date: :asc) }
   scope :past, -> { where("date < ?", Time.current).order(date: :desc) }
+
+  # Checks if a user can manage this seminar
+  # @param [User] user The user to check
+  # @return [Boolean] true if the user can manage this seminar
+  def manageable_by?(user)
+    return false unless user
+
+    user.admin? || user.admin_of?(organization)
+  end
 end

@@ -26,6 +26,11 @@ class Ability
       @user.admin_of?(role.organization)
     end
 
+    # Users can manage topics in seminars they manage
+    can :manage, Topic do |topic|
+      topic.socratic_seminar.manageable_by?(@user)
+    end
+
     # Common abilities for all users (including guests)
     common_abilities
   end
