@@ -1,0 +1,14 @@
+.sections
+  %h1 Edit Section
+
+  = form_with(model: [@socratic_seminar, @section], local: true) do |f|
+    .field
+      = f.label :name
+      = f.text_field :name
+
+    .actions.button-group
+      = f.submit "Update Section", class: "button"
+      = link_to "Cancel", edit_socratic_seminar_path(@socratic_seminar), class: "button button-secondary"
+
+  .delete-action
+    = button_to "Delete", socratic_seminar_section_path(@socratic_seminar, @section), method: :delete, class: "button button-danger", form: { data: { turbo_confirm: section_delete_warning(@section) } }

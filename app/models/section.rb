@@ -11,4 +11,6 @@ class Section < ApplicationRecord
   # @!attribute topics
   #   @return [Array<Topic>] The topics that belong to this section
   has_many :topics, dependent: :destroy
+
+  validates :name, presence: true
 end

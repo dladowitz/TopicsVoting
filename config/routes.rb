@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       delete :delete_sections
     end
 
+    resources :sections
     resources :topics do
       member do
         post "upvote"
