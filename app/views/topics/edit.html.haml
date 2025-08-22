@@ -22,9 +22,9 @@
       = form.text_field :link, size: 60
 
     .field
-      = form.label :socratic_seminar_id
+      = form.label :section_id, "Section"
       %br
-      = form.text_field :socratic_seminar_id, size: 4, value: @topic.socratic_seminar_id
+      = form.collection_select :section_id, @socratic_seminar.sections, :id, :name
 
     .actions
       = form.submit "Update Topic"

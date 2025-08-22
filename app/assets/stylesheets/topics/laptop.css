@@ -52,6 +52,38 @@
       display: flex;
       align-items: flex-start;
       gap: 0.5em;
+
+      form {
+        margin: 0;
+      }
+
+      .button {
+        width: 100px;
+        text-align: center;
+        background-color: white;
+        border: 1px solid #f89406;
+        color: #f89406;
+        border-radius: 8px;
+        padding: 6px 12px;
+      }
+
+      .button.button-danger {
+        border-color: #dc3545;
+        color: #dc3545;
+        background-color: white;
+        border-radius: 8px !important;
+        padding: 6px 12px;
+      }
+
+      .button:hover {
+        background-color: #f89406;
+        color: white;
+      }
+
+      .button.button-danger:hover {
+        background-color: #dc3545;
+        color: white;
+      }
     }
 
     /* Sections */
