@@ -1,6 +1,6 @@
 require 'rails_helper'
-require_relative '../../../app/services/html_schemas/base_schema'
-require_relative '../../../app/services/html_schemas/sf_bitcoin_devs_schema'
+require_relative '../../../app/services/html_schemas/base'
+require_relative '../../../app/services/html_schemas/sf_bitcoin_devs'
 
 RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
   let(:socratic_seminar) { create(:socratic_seminar) }

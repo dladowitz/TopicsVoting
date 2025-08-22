@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../../../app/services/html_schemas/base_schema'
+require_relative '../../../app/services/html_schemas/base'
 
 RSpec.describe HtmlSchemas::BaseSchema do
   let(:socratic_seminar) { create(:socratic_seminar) }
