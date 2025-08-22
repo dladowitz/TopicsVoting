@@ -1,0 +1,6 @@
+---
+globs: *.rb,*.rake
+alwaysApply: false
+---
+1. Prefer double quotes over single quotes
+2. Add an empty line at the end of a file
