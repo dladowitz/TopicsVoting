@@ -1,6 +1,4 @@
-require 'rails_helper'
-require_relative '../../../app/services/html_schemas/base'
-require_relative '../../../app/services/html_schemas/cdmx_bit_devs'
+require "rails_helper"
 
 RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
   let(:socratic_seminar) { create(:socratic_seminar) }
@@ -16,7 +14,7 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
     }
   end
 
-  describe '#process_sections' do
+  describe "#process_sections" do
     let(:html_content) do
       <<~HTML
         <h3>
@@ -56,7 +54,7 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
     let(:doc) { Nokogiri::HTML(html_content) }
     let(:schema) { described_class.new(doc, socratic_seminar, stats, output) }
 
-    it 'processes sections and topics correctly' do
+    it "processes sections and topics correctly" do
       schema.process_sections
 
       # Check sections were created correctly
@@ -80,7 +78,7 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
       expect(Topic.find_by(name: "Topic 2").link).to eq("https://example.com")
     end
 
-    it 'handles sections without font tags' do
+    it "handles sections without font tags" do
       html_without_font = <<~HTML
         <h3>Direct Section</h3>
         <ul><li>Topic</li></ul>
@@ -93,7 +91,7 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
       expect(Section.find_by(name: "Direct Section")).to be_present
     end
 
-    it 'handles single-level font tags' do
+    it "handles single-level font tags" do
       html_single_font = <<~HTML
         <h3>
           <font dir="auto" style="vertical-align: inherit;">Single Font Section</font>
@@ -108,7 +106,7 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
       expect(Section.find_by(name: "Single Font Section")).to be_present
     end
 
-    it 'updates stats correctly' do
+    it "updates stats correctly" do
       schema.process_sections
 
       expect(stats[:sections_created]).to eq(2)
@@ -117,12 +115,12 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
       expect(stats[:topics_skipped]).to eq(0)
     end
 
-    context 'when section already exists' do
+    context "when section already exists" do
       before do
         create(:section, name: "Development and Technology", socratic_seminar: socratic_seminar)
       end
 
-      it 'skips existing section' do
+      it "skips existing section" do
         schema.process_sections
 
         expect(stats[:sections_skipped]).to eq(1)
@@ -131,13 +129,13 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
       end
     end
 
-    context 'when topic already exists' do
+    context "when topic already exists" do
       before do
         section = create(:section, name: "Development and Technology", socratic_seminar: socratic_seminar)
         create(:topic, name: "Topic 1", section: section)
       end
 
-      it 'skips existing topic' do
+      it "skips existing topic" do
         schema.process_sections
 
         expect(stats[:topics_skipped]).to eq(1)
@@ -147,8 +145,8 @@ RSpec.describe HtmlSchemas::CDMXBitDevsSchema do
     end
   end
 
-  describe '#schema_name' do
-    it 'returns the correct schema name' do
+  describe "#schema_name" do
+    it "returns the correct schema name" do
       schema = described_class.new(nil, nil, nil, nil)
       expect(schema.schema_name).to eq("CDMXBitDevs")
     end
