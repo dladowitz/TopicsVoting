@@ -14,10 +14,15 @@ RSpec.describe "topics/show", type: :view do
     )
   end
 
+  let(:user) { create(:user) }
+  let(:ability) { Ability.new(user) }
+
   before do
     assign(:socratic_seminar, socratic_seminar)
     assign(:topic, topic)
     assign(:admin_mode, false)
+    allow(view).to receive(:current_user).and_return(user)
+    allow(view).to receive(:can?).and_return(false)
   end
 
   context "basic layout" do
@@ -58,14 +63,14 @@ RSpec.describe "topics/show", type: :view do
     end
   end
 
-  context "when in admin mode" do
+  context "when user can manage topic" do
     before do
-      assign(:admin_mode, true)
+      allow(view).to receive(:can?).with(:manage, topic).and_return(true)
       render
     end
 
     it "shows admin controls" do
-      expect(rendered).to have_link("Edit")
+      expect(rendered).to have_button("Edit")
       expect(rendered).to have_button("Delete")
     end
   end
