@@ -1,4 +1,7 @@
 # Schema parser for cdmxbitdevs.org
+require_relative "../html_schemas"
+require_relative "base"
+
 module HtmlSchemas
   class CDMXBitDevsSchema < BaseSchema
     def process_sections

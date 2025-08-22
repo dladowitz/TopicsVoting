@@ -1,4 +1,6 @@
 # Base class for HTML schema parsers
+require_relative "../html_schemas"
+
 module HtmlSchemas
   class BaseSchema
     attr_reader :doc, :seminar, :stats, :output

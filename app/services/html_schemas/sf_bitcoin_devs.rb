@@ -1,4 +1,7 @@
 # Schema parser for sfbitcoindevs.com
+require_relative "../html_schemas"
+require_relative "base"
+
 module HtmlSchemas
   class SFBitcoinDevsSchema < BaseSchema
     SECTIONS_TO_SKIP = [ "intro" ]
