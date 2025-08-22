@@ -7,8 +7,7 @@
     position: relative; /* For absolute footer positioning */
 
     .hero-section {
-      margin-bottom: 2rem;
-      padding: 1rem;
+      padding: 0.3rem;
       background-color: #070b10;
       border-radius: 1rem;
       color: white;
@@ -17,28 +16,32 @@
 
       .hero-content {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
-        text-align: center;
-        gap: 1.2em;
-        margin-bottom: 1em;
+        /* gap: 1rem;
+        margin-bottom: 0.5em; */
       }
 
       .hero-logo {
-        height: 200px;
-        width: 200px;
+        width: 100px;
+        flex-shrink: 0;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
 
+      .hero-text {
+        text-align: left;
+      }
+
       .seminar-title {
-        font-size: 2rem;
+        font-size: 1.2rem;
         font-weight: 700;
-        margin-bottom: 0.5rem;
+        /* margin-bottom: 0.25rem; */
       }
 
       .seminar-subtitle {
-        font-size: 1.1rem;
+        font-size: 0.85rem;
         opacity: 0.9;
+        font-weight: 700;
       }
     }
 
@@ -60,9 +63,14 @@
         z-index: 1;
       }
 
+      .upcoming-events-title, .past-events-title {
+        margin-top: 0.75rem;
+        color: #f7931a;
+      }
+
       .events-list {
         .event-row {
-          padding: 1rem;
+          padding: 0.75rem;
           border: 1px solid #e9ecef;
           border-radius: 0.5rem;
           margin-bottom: 1rem;

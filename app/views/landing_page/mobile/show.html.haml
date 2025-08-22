@@ -2,15 +2,15 @@
   .hero-section
     .hero-content
       = image_tag 'lightning-bitcoin-logo.png', alt: 'Lightning Voting Logo', class: 'hero-logo'
-      %div
+      .hero-text
         .seminar-title ⚡️ Lightning Voting
-        .seminar-subtitle Vote on topics with Bitcoin Lightning ⚡️
+        .seminar-subtitle Vote on topics with Lightning
 
 
 
   .events-section
     %section.upcoming-events
-      %h2 Upcoming Events
+      %h2.upcoming-events-title Upcoming Events
       .events-list
         - if @upcoming_seminars.any?
           - @upcoming_seminars.each do |seminar|
@@ -19,7 +19,7 @@
           .no-events No upcoming events scheduled
 
     %section.past-events
-      %h2 Past Events
+      %h2.past-events-title Past Events
       .events-list
         - if @past_seminars.any?
           - @past_seminars.each do |seminar|
