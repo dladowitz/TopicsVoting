@@ -1,0 +1,80 @@
+:javascript
+  function toggleQRCode() {
+    const qrCode = document.querySelector('.qr-code');
+    const button = document.querySelector('.show-qr-button');
+
+    if (qrCode.classList.contains('hidden')) {
+      qrCode.classList.remove('hidden');
+      button.innerHTML = '<i class="fas fa-qrcode"></i> Hide QR Code';
+    } else {
+      qrCode.classList.add('hidden');
+      button.innerHTML = '<i class="fas fa-qrcode"></i> Show QR Code';
+    }
+  }
+
+  function copyToClipboard(text) {
+    navigator.clipboard.writeText(text).then(function() {
+      const button = event.target.closest('.copy-button');
+      const originalIcon = button.innerHTML;
+      button.innerHTML = '<i class="fas fa-check"></i>';
+      setTimeout(() => {
+        button.innerHTML = originalIcon;
+      }, 1000);
+    }).catch(function(err) {
+      console.error('Could not copy text: ', err);
+    });
+  }
+
+.mobile-container
+  .topic-show
+    .page-header-row.mobile-header
+      .mobile-header-content
+        %h1.topic-title= @topic.name
+        - if can?(:manage, @topic)
+          .header-actions
+            = button_to "Edit", edit_socratic_seminar_topic_path(@socratic_seminar, @topic), method: :get, class: "button"
+            = button_to "Delete", socratic_seminar_topic_path(@socratic_seminar, @topic),
+              method: :delete,
+              class: "button button-danger",
+              data: { confirm: "Are you sure you want to delete this topic?" }
+
+    - if @topic.link.present?
+      .topic-link-row
+        = link_to @topic.link, sanitize_url(@topic.link), target: "_blank", rel: "noopener", class: "topic-link-show" if sanitize_url(@topic.link).present?
+
+    - if @topic.lnurl
+      .mobile-lnurl-section
+        .vote-using-lnurl
+          Vote using:
+          = link_to "LNURLPay ", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank", class: "lnurl-link button"
+        .or-text Or
+        .copy-lnurl
+          %button.copy-button.button{onclick: "copyToClipboard('#{@topic.lnurl}')", title: "Copy LNURL"}
+            Copy
+            %i.fas.fa-copy
+          the
+          %strong LNURL
+          into a wallet.
+
+        .lnurl-text= @topic.lnurl
+
+    .current-status
+      .current-status-title Current Votes & Payments:
+      .sats-received-row
+        Votes: #{@topic.votes || 0}
+      .sats-received-row
+        Individual Payments: #{@topic.completed_payments_count}
+      .sats-received-row
+        ₿ / Sats Received: #{@topic.sats_received}
+
+    .back-to-topic-list
+      = link_to '<- Back To Topics', socratic_seminar_topics_path(@topic.socratic_seminar)
+
+    - if @topic.lnurl
+      .qr-code.hidden
+        Scan Invoice to Vote
+        = image_tag "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{CGI.escape(@topic.lnurl)}"
+
+      %button.show-qr-button{onclick: "toggleQRCode()", type: "button"}
+        %i.fas.fa-qrcode
+        Show QR Code

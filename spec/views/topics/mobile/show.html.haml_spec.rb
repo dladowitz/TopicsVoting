@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "topics/laptop/show", type: :view do
+RSpec.describe "topics/mobile/show", type: :view do
   let(:socratic_seminar) { create(:socratic_seminar) }
   let(:section) { create(:section, socratic_seminar: socratic_seminar) }
   let(:topic) do
@@ -102,5 +102,12 @@ RSpec.describe "topics/laptop/show", type: :view do
     render
     expect(rendered).to have_css(".back-to-topic-list")
     expect(rendered).to have_link("<- Back To Topics")
+  end
+
+  it "has mobile-specific classes" do
+    render
+    expect(rendered).to have_css(".mobile-container")
+    expect(rendered).to have_css(".mobile-header")
+    expect(rendered).to have_css(".mobile-header-content")
   end
 end
