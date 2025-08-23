@@ -1,15 +1,18 @@
 .mobile-container {
   .topics {
-    .mobile-header {
-      padding: 1rem;
+          .mobile-header {
+      /* padding: 1rem; */
       margin-bottom: 1rem;
       background-color: #fff;
       border-bottom: 1px solid #e9ecef;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
 
       .builder-logo-container {
         width: 80px;
         height: 60px;
-        margin-bottom: 0.5rem;
+        flex-shrink: 0;
 
         img {
           width: 100%;
@@ -20,19 +23,16 @@
       }
 
       .mobile-header-content {
-        .page-header-title {
+        flex-grow: 1;
+                  .page-header-title {
           font-size: 1.5em;
           font-weight: 600;
           color: #333;
           margin-bottom: 0.5rem;
           display: flex;
-          flex-direction: column;
-          gap: 0.2em;
+          align-items: center;
+          gap: 0.5em;
 
-          .seminar-number {
-            font-size: 0.9em;
-            color: #666;
-          }
         }
       }
     }
