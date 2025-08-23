@@ -23,6 +23,8 @@ class TopicsController < ApplicationController
   # Shows details for a specific topic
   # @return [void]
   def show
+    # Render the appropriate view based on the layout
+    render "topics/#{current_layout}/show"
   end
 
   # Displays form for creating a new topic

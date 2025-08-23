@@ -174,4 +174,145 @@
       }
     }
   }
+
+  /* Show page */
+  .topic-show {
+    .page-header-row {
+      margin-bottom: 0.5rem;
+    }
+
+    .topic-title {
+      margin-top: 0rem;
+      margin-bottom: 0rem;
+    }
+
+    .topic-link-row {
+      margin-bottom: 0.5rem;
+
+      .topic-link-show {
+        display: block;
+        word-break: break-all;
+        color: #f7931a;
+        text-decoration: none;
+        font-size: 1rem;
+        line-height: 1.4;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .current-status {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e9ecef;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+
+      .current-status-title {
+        font-weight: 600;
+      }
+    }
+
+    .mobile-lnurl-section {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e9ecef;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+
+      .vote-using-lnurl {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .lnurl-link {
+        font-size: 1rem;
+        font-weight: 600;
+        padding: 0.2em 1em;
+      }
+
+      .lnurl-text {
+        word-break: break-all;
+        font-family: monospace;
+        background: #f8f9fa;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+      }
+
+      .copy-lnurl {
+        margin: 0.5rem 0;
+      }
+
+      .copy-button {
+        font-size: 1rem;
+        font-weight: 600;
+        margin-right: 0.3rem;
+        padding: 0.2em 1em;
+      }
+
+      .or-text {
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.5rem;
+        margin: 0.5rem 0;
+      }
+    }
+
+    .back-to-topic-list {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e9ecef;
+      border-radius: 0.5rem;
+      padding: 0.5rem;
+    }
+
+    .show-qr-button {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      color: #f7931a;
+      background-color: white;
+      border: 1px solid #e9ecef;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background: #ffb347;
+      }
+
+      i {
+        margin-right: 0.5rem;
+      }
+    }
+
+    .qr-code {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #e9ecef;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      text-align: center;
+
+      img {
+        max-width: 100%;
+        height: auto;
+        margin-top: 0.5rem;
+      }
+
+      &.hidden {
+        display: none;
+      }
+    }
+  }
 }
