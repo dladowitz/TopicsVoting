@@ -4,8 +4,7 @@
       = image_tag 'lightning-bitcoin-logo-2.png', alt: 'Lightning Voting Logo'
     .mobile-header-content
       %h1.page-header-title
-        = @socratic_seminar.organization.name
-        %span.seminar-number ##{@socratic_seminar.seminar_number}
+        = @socratic_seminar.organization.name + " ##{@socratic_seminar.seminar_number}"
       .sats-btc-toggle
         = render 'topics/shared/sats_btc_toggle'
 
