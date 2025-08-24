@@ -44,6 +44,19 @@
       }
     }
 
+    .header-settings {
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.25rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+
+      .projector-button {
+        font-size: 0.8em;
+      }
+    }
+
     .sats-btc-toggle {
       display: flex;
       align-items: center;
@@ -114,7 +127,6 @@
       align-items: center;
       gap: 0.5em;
       font-size: 0.85em;
-      margin-top: 0.5em;
     }
 
     .toggle-label-lightning {
