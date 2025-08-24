@@ -10,6 +10,7 @@ export default class extends Controller {
       form.addEventListener('submit', this.handleVote.bind(this))
     })
     this.subscribeToTopicUpdates();
+    this.setupLightningEffectsToggle();
   }
 
   async handleVote(event) {
@@ -149,6 +150,9 @@ export default class extends Controller {
   }
 
   showCanvasLightning() {
+    // Check if lightning effects are enabled
+    if (!this.isLightningEffectsEnabled()) return;
+
     // Create canvas element
     const canvas = document.createElement('canvas');
     canvas.className = 'lightning-canvas';
@@ -321,7 +325,10 @@ export default class extends Controller {
     }, 3000);
   }
 
-  showLightningNotification() {
+    showLightningNotification() {
+    // Check if lightning effects are enabled
+    if (!this.isLightningEffectsEnabled()) return;
+
     // Create notification element
     const notification = document.createElement('div');
     notification.className = 'lightning-notification';
@@ -336,5 +343,26 @@ export default class extends Controller {
         notification.parentNode.removeChild(notification);
       }
     }, 3000);
+  }
+
+  setupLightningEffectsToggle() {
+    const toggle = document.getElementById('lightningEffectsToggleSlider');
+    if (toggle) {
+            toggle.addEventListener('change', (event) => {
+        // Store the preference in localStorage (inverted: checked = disabled)
+        localStorage.setItem('lightningEffectsEnabled', !event.target.checked);
+      });
+
+      // Load saved preference
+      const savedPreference = localStorage.getItem('lightningEffectsEnabled');
+      if (savedPreference !== null) {
+        toggle.checked = savedPreference !== 'true'; // Inverted: unchecked = enabled
+      }
+    }
+  }
+
+  isLightningEffectsEnabled() {
+    const toggle = document.getElementById('lightningEffectsToggleSlider');
+    return toggle ? !toggle.checked : true; // Inverted: unchecked = enabled, checked = disabled
   }
 }
