@@ -3,21 +3,31 @@
     .page-header-row
       .page-header-container
         .builder-logo-container
-          = image_tag 'lightning-bitcoin-logo-2.png', alt: 'Lightning Voting Logo'
+          -# # TODO: This is a hack to for now. Need to add a logo to the organization and then show that.
+          - if @socratic_seminar.organization.name.include?("uilder")
+            = image_tag 'builder-logo.png', alt: 'Builder Voting Logo'
+          - else
+            = image_tag 'lightning-bitcoin-logo-2.png', alt: 'Lightning Voting Logo'
+
         .header-content
           %h1.page-header-title
             = @socratic_seminar.organization.name
             .seminar-number ##{@socratic_seminar.seminar_number}
-          .header-actions
+
+          .header-controls
+            .header-settings
+              .sats-btc-toggle
+                = render 'topics/shared/sats_btc_toggle'
+              .lightning-effects-toggle
+                = render 'topics/laptop/lightning_effects_toggle'
+              = link_to 'Projector Mode', projector_socratic_seminar_path(@socratic_seminar), class: 'button header-controls-button'
+
             - if can? :manage, @socratic_seminar
-              = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button projector-footer-btn'
-              = link_to "Import Topics", socratic_seminar_import_topics_path(@socratic_seminar),
-                class: "button projector-footer-btn"
-              %button.button.projector-footer-btn.delete-content-btn{"data-action" => "click->delete-modal#show"} Delete Topics
-          .sats-btc-toggle
-            = render 'topics/shared/sats_btc_toggle'
-          .lightning-effects-toggle
-            = render 'topics/laptop/lightning_effects_toggle'
+              .header-actions
+                = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button header-controls-button'
+                = link_to "Import Topics", socratic_seminar_import_topics_path(@socratic_seminar),
+                  class: "button header-controls-button"
+                %button.button.header-controls-button.delete-content-btn{"data-action" => "click->delete-modal#show"} Delete Topics
 
     .voting-instructions
       %ul
