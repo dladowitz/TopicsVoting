@@ -63,6 +63,6 @@ class OrganizationsController < ApplicationController
   end
 
   def organization_params
-    params.require(:organization).permit(:name, :city, :country, :website)
+    params.require(:organization).permit(:name, :city, :country, :website, :bolt12_invoice)
   end
 end

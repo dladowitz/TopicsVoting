@@ -25,6 +25,11 @@
     = f.text_field :website, placeholder: "https://example.com"
     .field-hint Include https:// or http://
 
+  .field
+    = f.label :bolt12_invoice, "Bolt12 Invoice"
+    = f.text_area :bolt12_invoice, placeholder: "lno1zrxq8pjw7qjlm68mtp7e..........................................", rows: 4
+    .field-hint Optional: This is the default payout invoice for the organization. It will be used to pay bitcoin received for Socratic Seminars.
+
   .actions{style: "margin-top: 1rem;"}
     = f.submit class: 'button'
     = link_to 'Cancel', organizations_path, class: 'button button-secondary'

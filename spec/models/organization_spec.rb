@@ -28,6 +28,31 @@ RSpec.describe Organization, type: :model do
       it { should allow_value('https://example.com').for(:website) }
       it { should_not allow_value('not-a-url').for(:website) }
     end
+
+    context 'when bolt12_invoice is present' do
+      it 'allows valid bolt12 invoice strings' do
+        valid_invoices = [
+          'lno1zrxq8pjw7qjlm68mtp7e..........................................',
+          'lno1zrxq8pjw7qjlm68mtp7e' + 'a' * 500,
+          'lno1zrxq8pjw7qjlm68mtp7e' + 'b' * 2000
+        ]
+
+        valid_invoices.each do |invoice|
+          organization = build(:organization, bolt12_invoice: invoice)
+          expect(organization).to be_valid
+        end
+      end
+
+      it 'allows empty bolt12_invoice' do
+        organization = build(:organization, bolt12_invoice: '')
+        expect(organization).to be_valid
+      end
+
+      it 'allows nil bolt12_invoice' do
+        organization = build(:organization, bolt12_invoice: nil)
+        expect(organization).to be_valid
+      end
+    end
   end
 
   describe 'website normalization' do
@@ -53,6 +78,46 @@ RSpec.describe Organization, type: :model do
       organization = build(:organization, website: '')
       expect { organization.save }.not_to raise_error
       expect(organization.website).to eq('')
+    end
+  end
+
+  describe 'bolt12_invoice functionality' do
+    it 'saves and retrieves bolt12_invoice correctly' do
+      bolt12_invoice = 'lno1zrxq8pjw7qjlm68mtp7e..........................................'
+      organization = create(:organization, bolt12_invoice: bolt12_invoice)
+
+      expect(organization.bolt12_invoice).to eq(bolt12_invoice)
+
+      # Test retrieval from database
+      organization.reload
+      expect(organization.bolt12_invoice).to eq(bolt12_invoice)
+    end
+
+    it 'handles long bolt12_invoice strings' do
+      long_invoice = 'lno1zrxq8pjw7qjlm68mtp7e' + 'x' * 1500
+      organization = create(:organization, bolt12_invoice: long_invoice)
+
+      expect(organization.bolt12_invoice).to eq(long_invoice)
+      expect(organization.bolt12_invoice.length).to eq(1524)
+    end
+
+    it 'preserves empty string on save' do
+      organization = build(:organization, bolt12_invoice: '')
+      organization.save
+      expect(organization.bolt12_invoice).to eq('')
+    end
+
+    it 'preserves nil bolt12_invoice' do
+      organization = create(:organization, bolt12_invoice: nil)
+      expect(organization.bolt12_invoice).to be_nil
+    end
+
+    it 'updates bolt12_invoice correctly' do
+      organization = create(:organization)
+      new_invoice = 'lno1zrxq8pjw7qjlm68mtp7e..........................................'
+
+      organization.update!(bolt12_invoice: new_invoice)
+      expect(organization.bolt12_invoice).to eq(new_invoice)
     end
   end
 

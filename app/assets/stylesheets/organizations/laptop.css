@@ -142,7 +142,8 @@
     }
 
     .organization-form input[type="text"],
-    .organization-form input[type="email"],
+    .organization-form input[type="textarea"],
+    .organization-form textarea,
     .organization-form select {
       width: 100%;
       padding: 0.75rem;
@@ -155,8 +156,9 @@
 
     .organization-form input[type="text"]:focus,
     .organization-form input[type="email"]:focus,
+    .organization-form textarea:focus,
     .organization-form select:focus {
-      border-color: #4a90e2;
+      border-color: #f7931a;
       outline: none;
       box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
     }

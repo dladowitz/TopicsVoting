@@ -73,6 +73,30 @@ RSpec.describe "Organizations", type: :request do
           post organizations_path, params: { organization: valid_attributes }
           expect(response).to redirect_to(Organization.last)
         end
+
+        it 'creates an organization with bolt12_invoice' do
+          bolt12_invoice = "lno1zrxq8pjw7qjlm68mtp7e.........................................."
+          post organizations_path, params: {
+            organization: valid_attributes.merge(bolt12_invoice: bolt12_invoice)
+          }
+          expect(response).to redirect_to(Organization.last)
+          expect(Organization.last.bolt12_invoice).to eq(bolt12_invoice)
+        end
+
+        it 'creates an organization with a long bolt12_invoice' do
+          long_bolt12_invoice = "lno1zrxq8pjw7qjlm68mtp7e" + "a" * 1000
+          post organizations_path, params: {
+            organization: valid_attributes.merge(bolt12_invoice: long_bolt12_invoice)
+          }
+          expect(response).to redirect_to(Organization.last)
+          expect(Organization.last.bolt12_invoice).to eq(long_bolt12_invoice)
+        end
+
+        it 'creates an organization without bolt12_invoice' do
+          post organizations_path, params: { organization: valid_attributes }
+          expect(response).to redirect_to(Organization.last)
+          expect(Organization.last.bolt12_invoice).to be_nil
+        end
       end
 
       context 'with invalid params' do
@@ -96,6 +120,51 @@ RSpec.describe "Organizations", type: :request do
         it 'redirects to the organization' do
           put organization_path(organization), params: { organization: valid_attributes }
           expect(response).to redirect_to(organization)
+        end
+
+        it 'updates bolt12_invoice field' do
+          bolt12_invoice = "lno1zrxq8pjw7qjlm68mtp7e.........................................."
+          put organization_path(organization), params: {
+            organization: { bolt12_invoice: bolt12_invoice }
+          }
+          organization.reload
+          expect(organization.bolt12_invoice).to eq(bolt12_invoice)
+        end
+
+        it 'updates bolt12_invoice to a long value' do
+          long_bolt12_invoice = "lno1zrxq8pjw7qjlm68mtp7e" + "b" * 1500
+          put organization_path(organization), params: {
+            organization: { bolt12_invoice: long_bolt12_invoice }
+          }
+          organization.reload
+          expect(organization.bolt12_invoice).to eq(long_bolt12_invoice)
+        end
+
+        it 'clears bolt12_invoice field when set to empty string' do
+          # First set a bolt12_invoice
+          organization.update!(bolt12_invoice: "lno1zrxq8pjw7qjlm68mtp7e..........................................")
+
+          # Then clear it
+          put organization_path(organization), params: {
+            organization: { bolt12_invoice: "" }
+          }
+          organization.reload
+          expect(organization.bolt12_invoice).to eq("")
+        end
+
+        it 'updates multiple fields including bolt12_invoice' do
+          bolt12_invoice = "lno1zrxq8pjw7qjlm68mtp7e.........................................."
+          put organization_path(organization), params: {
+            organization: {
+              name: "Updated Organization",
+              city: "New York",
+              bolt12_invoice: bolt12_invoice
+            }
+          }
+          organization.reload
+          expect(organization.name).to eq("Updated Organization")
+          expect(organization.city).to eq("New York")
+          expect(organization.bolt12_invoice).to eq(bolt12_invoice)
         end
       end
 
