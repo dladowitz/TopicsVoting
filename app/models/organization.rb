@@ -2,6 +2,7 @@
 # @attr [String] name The name of the organization
 # @attr [String] country Optional ISO 3166-1 alpha-2 country code where the organization is based
 # @attr [String] website Optional URL to the organization's website
+# @attr [String] bolt12_invoice Optional Bolt12 invoice string for the organization
 class Organization < ApplicationRecord
   # @!attribute socratic_seminars
   #   @return [Array<SocraticSeminar>] The seminars that belong to this organization

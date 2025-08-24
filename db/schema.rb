@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_18_184436) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_24_214954) do
   create_table "organization_roles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "organization_id", null: false
@@ -29,6 +29,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_18_184436) do
     t.string "website"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "bolt12_invoice"
   end
 
   create_table "payments", force: :cascade do |t|
