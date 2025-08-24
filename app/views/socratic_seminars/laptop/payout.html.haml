@@ -6,8 +6,7 @@
           %h1.page-title
             Bitcoin Payout
             .seminar-info
-              = @socratic_seminar.organization.name
-              .seminar-number ##{@socratic_seminar.seminar_number}
+              = @socratic_seminar.organization.name + " ##{@socratic_seminar.seminar_number}"
 
         .header-actions
           .sats-btc-toggle
@@ -25,8 +24,8 @@
           Total Payments Received
         .payout-amount
           .amount-display
-            %span.amount-value.sats-received{"data-sats" => @total_payments_received}= @total_payments_received
             %span.amount-unit sats
+            %span.amount-value.sats-received{"data-sats" => @total_payments_received}= @total_payments_received
           .amount-description
             Total Lightning payments received for all topics in this seminar
 
@@ -36,8 +35,8 @@
           Total Payouts to Organization
         .payout-amount
           .amount-display
-            %span.amount-value.sats-received{"data-sats" => @total_payouts}= @total_payouts
             %span.amount-unit sats
+            %span.amount-value.sats-received{"data-sats" => @total_payouts}= @total_payouts
           .amount-description
             Total amount paid out to the organization
           .manual-process-note
@@ -51,8 +50,8 @@
           Available for Payout
         .payout-amount
           .amount-display
-            %span.amount-value.sats-received{"data-sats" => @total_payments_received - @total_payouts}= @total_payments_received - @total_payouts
             %span.amount-unit sats
+            %span.amount-value.sats-received{"data-sats" => @total_payments_received - @total_payouts}= @total_payments_received - @total_payouts
           .amount-description
             Amount available to be paid out to the organization
 

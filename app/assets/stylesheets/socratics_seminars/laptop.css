@@ -175,6 +175,10 @@
 
 .amount-display {
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .amount-value {
@@ -186,7 +190,6 @@
 .amount-unit {
   font-size: 1.2rem;
   color: #666;
-  margin-left: 0.5rem;
 }
 
 .amount-description {
