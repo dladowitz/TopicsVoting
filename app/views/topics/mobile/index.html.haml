@@ -5,9 +5,11 @@
     .mobile-header-content
       %h1.page-header-title
         = @socratic_seminar.organization.name + " ##{@socratic_seminar.seminar_number}"
-      .sats-btc-toggle
-        = render 'topics/shared/sats_btc_toggle'
-
+      .toggles-container
+        .sats-btc-toggle
+          = render 'topics/shared/sats_btc_toggle'
+        .lightning-effects-toggle
+          = render 'topics/mobile/lightning_effects_toggle'
   .voting-instructions.mobile-instructions
     %ul
       %li Vote for free with the Up & Down arrows

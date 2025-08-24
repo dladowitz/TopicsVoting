@@ -120,18 +120,4 @@
   }
 }
 
-/* Lightning Effects Toggle */
-.lightning-effects-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.85em;
-  margin-top: 0.5em;
-}
-
-.toggle-label-lightning {
-  color: #f7931a;
-  font-weight: 600;
-  user-select: none;
-}
 
