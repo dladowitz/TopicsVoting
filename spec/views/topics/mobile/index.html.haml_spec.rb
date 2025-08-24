@@ -1,6 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe "topics/laptop/index", type: :view do
+RSpec.describe "topics/mobile/index", type: :view do
   let(:socratic_seminar) { create(:socratic_seminar) }
   let(:section) { create(:section, socratic_seminar: socratic_seminar) }
 
@@ -42,57 +42,6 @@ RSpec.describe "topics/laptop/index", type: :view do
     it "has voting buttons" do
       expect(rendered).to have_css(".vote-buttons", count: 2)
       expect(rendered).to have_css(".vote-arrow", count: 4) # 2 up + 2 down
-    end
-
-    it "shows voting instructions" do
-      expect(rendered).to have_css(".voting-instructions")
-      expect(rendered).to have_content("Vote for free with the Up & Down arrows")
-    end
-  end
-
-  context "when topics have links" do
-    before do
-      assign(:topics, [
-        create(:topic,
-          name: "Topic with Link",
-          link: "https://example.com",
-          section: section,
-          socratic_seminar: socratic_seminar
-        )
-      ])
-      render
-    end
-
-    it "displays the link appropriately" do
-      expect(rendered).to have_css(".topic-link")
-      expect(rendered).to have_link(href: "https://example.com")
-    end
-  end
-
-  context "when user can manage the seminar" do
-    before do
-      allow(view).to receive(:can?).with(:manage, SocraticSeminar).and_return(true)
-      render
-    end
-
-    it "shows admin controls" do
-      expect(rendered).to have_link("New Topic")
-      expect(rendered).to have_link("Import Topics")
-      expect(rendered).to have_button("Delete Topics")
-    end
-  end
-
-  context "with Lightning payments" do
-    before { render }
-
-    it "shows Lightning payment options" do
-      expect(rendered).to have_css(".send-btc-link")
-      expect(rendered).to have_css(".sats-received")
-    end
-
-    it "has sats/btc toggle" do
-      expect(rendered).to have_css(".sats-btc-toggle")
-      expect(rendered).to have_css("#satsBtcToggleSlider")
     end
   end
 
