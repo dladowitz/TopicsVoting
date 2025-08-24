@@ -5,9 +5,11 @@ alwaysApply: false
 Rule Name: code_quality
 Apply: always
 Description:
-0. Prefer double quotes over single quotes. This is what Rubocop prefers.
 
-1. ALWAYS run RuboCop after making changes to Ruby files (*.rb, *.rake):
+1. Run Rspec after you are done with a feature or update.
+
+2. Run RuboCop only after Rspec tests pass. There is no need to check Rubocop until all tests are passing.
+   - Run Rubocop only on Ruby files (*.rb, *.rake):
    - Run: bundle exec rubocop [modified_files]
    - If errors exist, run: bundle exec rubocop -a [modified_files]
    - Verify all issues are fixed
@@ -17,9 +19,10 @@ Description:
 
 3. Order of operations:
    a. Make code changes
-   b. Run RuboCop
-   c. Fix linting issues
-   d. Run tests
+   b. Run Rspec tests
+   c. Run RuboCop
+   d. Fix linting issues
+
 
 4. Example usage:
    ```bash
@@ -32,7 +35,8 @@ Description:
    ```
 
 5. Common scenarios:
-   - When editing multiple files, include all in the RuboCop check
-   - When creating new files, always run RuboCop before committing
-   - When modifying existing files, run RuboCop on the modified files
-   - When running tests that pass but RuboCop fails, fix RuboCop issues before considering the task complete
+   - When editing multiple files
+   - When creating new files
+   - When modifying existing
+
+6. Both Rspec and Rubocop are required to pass before commiting code.
