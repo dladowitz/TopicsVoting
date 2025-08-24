@@ -212,4 +212,6 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       expect(assigns(:socratic_seminar)).to eq(socratic_seminar)
     end
   end
+
+
 end

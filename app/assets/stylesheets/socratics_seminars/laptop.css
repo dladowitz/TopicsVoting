@@ -104,3 +104,190 @@
   background-color: #dc3545;
   color: white;
 }
+
+/* Payout Page Styles */
+.payout-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f7931a;
+}
+
+.page-header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 2rem;
+  color: #333;
+}
+
+.seminar-info {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.seminar-number {
+  color: #f7931a;
+  font-weight: bold;
+}
+
+.payout-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.payout-section {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.section-title i {
+  color: #f7931a;
+}
+
+.payout-amount {
+  text-align: center;
+}
+
+.amount-display {
+  margin-bottom: 0.5rem;
+}
+
+.amount-value {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #f7931a;
+}
+
+.amount-unit {
+  font-size: 1.2rem;
+  color: #666;
+  margin-left: 0.5rem;
+}
+
+.amount-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.manual-process-note {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  color: #856404;
+}
+
+.manual-process-note i {
+  margin-right: 0.5rem;
+}
+
+.payout-actions {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.action-buttons {
+  display: inline-block;
+}
+
+.button-primary.disabled {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.button-note {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.button-note i {
+  margin-right: 0.25rem;
+}
+
+.payout-details {
+  background: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section-subtitle {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.4rem;
+  color: #333;
+  border-bottom: 1px solid #e5e5e5;
+  padding-bottom: 0.5rem;
+}
+
+.section-name {
+  margin: 1.5rem 0 1rem 0;
+  font-size: 1.2rem;
+  color: #f7931a;
+  border-left: 3px solid #f7931a;
+  padding-left: 1rem;
+}
+
+.topic-payment-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  border-left: 3px solid #f7931a;
+}
+
+.topic-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.topic-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.topic-payments {
+  font-size: 0.9rem;
+  color: #f7931a;
+  font-weight: 500;
+}
+
+.topic-payment-count {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: right;
+}

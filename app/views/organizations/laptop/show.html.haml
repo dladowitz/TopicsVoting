@@ -39,7 +39,7 @@
         - @organization.socratic_seminars.order(date: :desc).each do |seminar|
           .seminar-card
             %h3
-              = link_to "Seminar ##{seminar.seminar_number}", socratic_seminar_path(seminar) + "/topics"
+              = link_to "Seminar ##{seminar.seminar_number}", socratic_seminar_topics_path(seminar)
             %p
               %strong Date:
               = seminar.date.strftime('%B %d, %Y')

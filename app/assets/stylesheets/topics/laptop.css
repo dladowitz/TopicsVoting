@@ -143,7 +143,6 @@
       }
     }
 
-
     .header-actions {
       display: flex;
       flex-direction: column;
@@ -183,6 +182,15 @@
         background-color: #dc3545;
         color: white;
       }
+    }
+
+    .header-payout {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.25rem 0.5rem;
     }
 
     /* Sections */
