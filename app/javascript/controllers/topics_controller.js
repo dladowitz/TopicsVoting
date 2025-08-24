@@ -134,6 +134,9 @@ export default class extends Controller {
     element.classList.remove('lightning');
     void element.offsetWidth;
     element.classList.add('lightning');
+
+    // Show page-level canvas lightning effect
+    this.showCanvasLightning();
   }
 
   toggleSatsLabel(event) {
@@ -143,5 +146,195 @@ export default class extends Controller {
     } else {
       label.textContent = 'Sats';
     }
+  }
+
+  showCanvasLightning() {
+    // Create canvas element
+    const canvas = document.createElement('canvas');
+    canvas.className = 'lightning-canvas';
+    canvas.id = 'lightning-canvas';
+    document.body.appendChild(canvas);
+
+    const context = canvas.getContext('2d');
+
+    // Canvas setup
+    let width = 0;
+    let height = 0;
+    const scale = 1.0;
+
+    // Enable anti-aliasing
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+
+    // Animation variables
+    const fps = 45.0;
+    let lastFrame = new Date().getTime();
+    let flashOpacity = 0.0;
+
+    // Bolt timing
+    const boltFlashDuration = 0.25;
+    const boltFadeDuration = 0.5;
+    const totalBoltDuration = boltFlashDuration + boltFadeDuration;
+
+    // Bolt storage
+    const bolts = [];
+
+    // Set canvas size
+    const setCanvasSize = () => {
+      canvas.setAttribute('width', window.innerWidth);
+      canvas.setAttribute('height', window.innerHeight);
+
+      for (let bolt of bolts) {
+        bolt.canvas.width = window.innerWidth;
+        bolt.canvas.height = window.innerHeight;
+      }
+
+      width = Math.ceil(window.innerWidth / scale);
+      height = Math.ceil(window.innerHeight / scale);
+    };
+
+    // Launch a bolt
+    const launchBolt = (x, y, length, direction) => {
+      // Set the flash opacity
+      flashOpacity = 0.15 + Math.random() * 0.2;
+
+      // Create the bolt canvas
+      const boltCanvas = document.createElement('canvas');
+      boltCanvas.width = window.innerWidth;
+      boltCanvas.height = window.innerHeight;
+      const boltContext = boltCanvas.getContext('2d');
+      boltContext.scale(scale, scale);
+
+      // Add the bolt to the list
+      bolts.push({ canvas: boltCanvas, duration: 0.0 });
+
+      // Launch it
+      recursiveLaunchBolt(x, y, length, direction, boltContext);
+    };
+
+    // Recursive bolt action
+    const recursiveLaunchBolt = (x, y, length, direction, boltContext) => {
+      const originalDirection = direction;
+
+      // We draw the bolt incrementally to get a nice animated effect
+      const boltInterval = setInterval(() => {
+        if (length <= 0) {
+          clearInterval(boltInterval);
+          return;
+        }
+
+        let i = 0;
+        while (i++ < Math.floor(45 / scale) && length > 0) {
+          const x1 = x;
+          const y1 = y;
+          x += Math.cos(direction);
+          y -= Math.sin(direction);
+          length--;
+
+          const alpha = Math.min(1.0, length / 350.0);
+          boltContext.strokeStyle = `rgba(247, 147, 26, ${alpha})`;
+          boltContext.lineWidth = 1.5;
+          boltContext.lineCap = 'round';
+          boltContext.lineJoin = 'round';
+          boltContext.beginPath();
+          boltContext.moveTo(x1, y1);
+          boltContext.lineTo(x, y);
+          boltContext.stroke();
+
+          direction = originalDirection + (-Math.PI / 8.0 + Math.random() * (Math.PI / 4.0));
+
+          if (Math.random() > 0.98) {
+            recursiveLaunchBolt(x1, y1, length * (0.3 + Math.random() * 0.4), originalDirection + (-Math.PI / 6.0 + Math.random() * (Math.PI / 3.0)), boltContext);
+          } else if (Math.random() > 0.95) {
+            recursiveLaunchBolt(x1, y1, length, originalDirection + (-Math.PI / 6.0 + Math.random() * (Math.PI / 3.0)), boltContext);
+            length = 0;
+          }
+        }
+      }, 10);
+    };
+
+    // Animation tick
+    const tick = () => {
+      // Keep track of the frame time
+      const frame = new Date().getTime();
+      const elapsed = (frame - lastFrame) / 1000.0;
+      lastFrame = frame;
+
+      // Clear the canvas
+      context.clearRect(0.0, 0.0, window.innerWidth, window.innerHeight);
+
+      // Draw the flash
+      if (flashOpacity > 0.0) {
+        context.fillStyle = `rgba(247, 147, 26, ${flashOpacity})`;
+        context.fillRect(0.0, 0.0, window.innerWidth, window.innerHeight);
+        flashOpacity = Math.max(0.0, flashOpacity - 2.0 * elapsed);
+      }
+
+      // Draw each bolt
+      for (let i = 0; i < bolts.length; i++) {
+        const bolt = bolts[i];
+        bolt.duration += elapsed;
+
+        if (bolt.duration >= totalBoltDuration) {
+          bolts.splice(i, 1);
+          i--;
+          continue;
+        }
+
+        context.globalAlpha = Math.max(0.0, Math.min(1.0, (totalBoltDuration - bolt.duration) / boltFadeDuration));
+        context.drawImage(bolt.canvas, 0.0, 0.0);
+      }
+    };
+
+    // Initialize
+    setCanvasSize();
+    canvas.classList.add('active');
+
+    // Show notification
+    this.showLightningNotification();
+
+    // Launch initial bolts
+    setTimeout(() => {
+      // Launch multiple bolts from the top of the screen
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          const x = Math.floor(Math.random() * width);
+          const y = 0; // Start from the very top
+          const length = Math.floor(height * 0.8 + Math.random() * (height * 0.2));
+          launchBolt(x, y, length, Math.PI * 3.0 / 2.0);
+        }, i * 200);
+      }
+    }, 100);
+
+    // Start animation loop
+    const animationInterval = setInterval(tick, 1000.0 / fps);
+
+    // Clean up after animation
+    setTimeout(() => {
+      clearInterval(animationInterval);
+      canvas.classList.remove('active');
+      setTimeout(() => {
+        if (canvas.parentNode) {
+          canvas.parentNode.removeChild(canvas);
+        }
+      }, 300);
+    }, 3000);
+  }
+
+  showLightningNotification() {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'lightning-notification';
+    notification.textContent = 'Lightning Payment Received';
+
+    // Add to page
+    document.body.appendChild(notification);
+
+    // Remove after animation completes
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.parentNode.removeChild(notification);
+      }
+    }, 3000);
   }
 }
