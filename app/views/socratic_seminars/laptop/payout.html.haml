@@ -1,0 +1,77 @@
+.container
+  .payout-page
+    .page-header
+      .page-header-content
+        %h1.page-title
+          Bitcoin Payout
+          .seminar-info
+            = @socratic_seminar.organization.name
+            .seminar-number ##{@socratic_seminar.seminar_number}
+
+        .header-actions
+          = link_to "Back to Seminar", socratic_seminar_topics_path(@socratic_seminar), class: "button button-secondary"
+
+    .payout-sections
+      .payout-section
+        %h2.section-title
+          %i.fas.fa-coins
+          Total Payments Received
+        .payout-amount
+          .amount-display
+            %span.amount-value= @total_payments_received
+            %span.amount-unit sats
+          .amount-description
+            Total Lightning payments received for all topics in this seminar
+
+      .payout-section
+        %h2.section-title
+          %i.fas.fa-arrow-up
+          Total Payouts to Organization
+        .payout-amount
+          .amount-display
+            %span.amount-value= @total_payouts
+            %span.amount-unit sats
+          .amount-description
+            Total amount paid out to the organization
+          .manual-process-note
+            %i.fas.fa-info-circle
+            %strong Note:
+            This is currently a manual process. Automated payouts will be implemented in the future.
+
+      .payout-section
+        %h2.section-title
+          %i.fas.fa-calculator
+          Available for Payout
+        .payout-amount
+          .amount-display
+            %span.amount-value= @total_payments_received - @total_payouts
+            %span.amount-unit sats
+          .amount-description
+            Amount available to be paid out to the organization
+
+    .payout-actions
+      .action-buttons
+        %button.button.button-primary.disabled{"disabled" => "disabled"}
+          %i.fas.fa-paper-plane
+          Process Payout
+        .button-note
+          %i.fas.fa-clock
+          Automated payouts coming soon
+
+    .payout-details
+      %h3.section-subtitle Payment Details by Topic
+      .topics-payments
+        - @socratic_seminar.sections.includes(:topics).each do |section|
+          %h4.section-name= section.name
+          - section.topics.each do |topic|
+            - topic_payments = topic.payments.where(paid: true).sum(:amount)
+            - if topic_payments > 0
+              .topic-payment-row
+                .topic-info
+                  %span.topic-name= topic.name
+                  %span.topic-payments
+                    = topic_payments
+                    sats
+                .topic-payment-count
+                  = topic.completed_payments_count
+                  payment#{topic.completed_payments_count == 1 ? '' : 's'}

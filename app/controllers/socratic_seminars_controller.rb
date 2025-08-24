@@ -2,7 +2,7 @@
 
 class SocraticSeminarsController < ApplicationController
   include ScreenSizeConcern
-  before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections, :projector ]
+  before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections, :projector, :payout ]
 
   def index
     redirect_to root_path
@@ -55,6 +55,25 @@ class SocraticSeminarsController < ApplicationController
   # @return [void]
   def projector
     @url = "#{ENV['HOSTNAME'] || request.base_url}/socratic_seminars/#{@socratic_seminar.id}/topics"
+  end
+
+  # Renders the payout view for managing Bitcoin received for a seminar
+  # @note Only accessible to users who can manage the organization
+  # @return [void]
+  def payout
+    unless @socratic_seminar.manageable_by?(current_user)
+      raise CanCan::AccessDenied
+    end
+
+    # Calculate total payments received for this seminar
+    @total_payments_received = @socratic_seminar.topics.joins(:payments)
+                                                 .where(payments: { paid: true })
+                                                 .sum("payments.amount")
+
+    # Placeholder for total payouts (will be implemented later)
+    @total_payouts = 0
+
+    render "socratic_seminars/#{current_layout}/payout"
   end
 
   private

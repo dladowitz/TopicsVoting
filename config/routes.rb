@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     member do
       delete :delete_sections
       get :projector
+      get :payout
     end
 
     resources :sections
