@@ -120,6 +120,13 @@ export default class extends Controller {
     // Force reflow to restart animation
     void element.offsetWidth;
     element.classList.add('pop');
+
+    // Remove pop class after animation ends
+    const removePop = () => {
+      element.classList.remove('pop');
+      element.removeEventListener('animationend', removePop);
+    };
+    element.addEventListener('animationend', removePop);
   }
 
   animateLightning(element) {
