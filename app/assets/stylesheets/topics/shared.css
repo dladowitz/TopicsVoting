@@ -15,3 +15,109 @@
   margin-bottom: 0;
 }
 
+/* =========================
+   LIGHTNING ANIMATION STYLES
+   ========================= */
+
+/* Lightning Bolt Animation */
+.lightning-bolt {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  animation: lightning-bolt-appear 2s ease-out forwards;
+}
+
+.lightning-bolt svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 0 20px #f7931a) drop-shadow(0 0 40px #f7931a);
+}
+
+.lightning-bolt path {
+  fill: #f7931a;
+  animation: lightning-bolt-flash 0.5s ease-in-out infinite;
+}
+
+@keyframes lightning-bolt-appear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+  80% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+}
+
+@keyframes lightning-bolt-flash {
+  0%, 100% {
+    fill: #f7931a;
+    filter: brightness(1);
+  }
+  50% {
+    fill: #fff;
+    filter: brightness(1.5);
+  }
+}
+
+/* Canvas Lightning Effect */
+.lightning-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.lightning-canvas.active {
+  opacity: 1;
+}
+
+/* Lightning Payment Notification */
+.lightning-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f7931a;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1.1em;
+  z-index: 10000;
+  box-shadow: 0 4px 12px rgba(247, 147, 26, 0.3);
+  opacity: 0;
+  animation: notification-slide-in 0.5s ease-out forwards;
+}
+
+@keyframes notification-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+
