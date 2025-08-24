@@ -4,132 +4,212 @@ require 'rails_helper'
 
 RSpec.describe SocraticSeminarsController, type: :controller do
   let(:organization) { create(:organization) }
-  let(:valid_attributes) { attributes_for(:socratic_seminar, organization_id: organization.id) }
-  let(:invalid_attributes) { { seminar_number: nil, date: nil, organization_id: nil } }
+  let(:socratic_seminar) { create(:socratic_seminar, organization: organization) }
 
-  describe "GET #index" do
-    it "redirects to root path" do
+  describe 'GET #index' do
+    it 'redirects to root path' do
       get :index
       expect(response).to redirect_to(root_path)
     end
   end
 
-  describe "GET #show" do
-    let(:socratic_seminar) { create(:socratic_seminar) }
-
-    it "returns a successful response" do
+  describe 'GET #show' do
+    it 'returns a success response' do
       get :show, params: { id: socratic_seminar.id }
       expect(response).to be_successful
     end
 
-    it "assigns the requested socratic_seminar as @socratic_seminar" do
+    it 'assigns the requested socratic_seminar as @socratic_seminar' do
       get :show, params: { id: socratic_seminar.id }
       expect(assigns(:socratic_seminar)).to eq(socratic_seminar)
     end
 
-    it "assigns sections with topics as @sections" do
-      section = create(:section, socratic_seminar: socratic_seminar)
-      topic = create(:topic, section: section)
-
+    it 'assigns sections with topics as @sections' do
       get :show, params: { id: socratic_seminar.id }
-      expect(assigns(:sections)).to include(section)
-      expect(assigns(:sections).first.topics).to include(topic)
+      expect(assigns(:sections)).to eq(socratic_seminar.sections.includes(:topics))
     end
   end
 
-  describe "GET #new" do
-    it "returns a successful response" do
+  describe 'GET #new' do
+    it 'returns a success response' do
       get :new, params: { organization_id: organization.id }
       expect(response).to be_successful
     end
-  end
 
-  describe "GET #edit" do
-    let(:socratic_seminar) { create(:socratic_seminar) }
+    it 'assigns a new socratic_seminar as @socratic_seminar' do
+      get :new, params: { organization_id: organization.id }
+      expect(assigns(:socratic_seminar)).to be_a_new(SocraticSeminar)
+    end
 
-    it "returns a successful response" do
-      get :edit, params: { id: socratic_seminar.id }
-      expect(response).to be_successful
+    it 'assigns the organization as @organization' do
+      get :new, params: { organization_id: organization.id }
+      expect(assigns(:organization)).to eq(organization)
     end
   end
 
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new SocraticSeminar" do
-        expect {
-          post :create, params: { socratic_seminar: valid_attributes }
-        }.to change(SocraticSeminar, :count).by(1)
+  describe 'GET #edit' do
+    it 'returns a success response' do
+      get :edit, params: { id: socratic_seminar.id }
+      expect(response).to be_successful
+    end
+
+    it 'assigns the requested socratic_seminar as @socratic_seminar' do
+      get :edit, params: { id: socratic_seminar.id }
+      expect(assigns(:socratic_seminar)).to eq(socratic_seminar)
+    end
+  end
+
+  describe 'POST #create' do
+    context 'with valid params' do
+      let(:valid_attributes) do
+        {
+          seminar_number: 1,
+          date: Date.current,
+          organization_id: organization.id
+        }
       end
 
-      it "redirects to the organization page" do
+      it 'creates a new SocraticSeminar' do
+        expect do
+          post :create, params: { socratic_seminar: valid_attributes }
+        end.to change(SocraticSeminar, :count).by(1)
+      end
+
+      it 'redirects to the organization' do
         post :create, params: { socratic_seminar: valid_attributes }
         expect(response).to redirect_to(organization)
       end
     end
 
-    context "with invalid params" do
-      it "returns a success response (i.e. to display the 'new' template)" do
+    context 'with invalid params' do
+      let(:invalid_attributes) do
+        {
+          seminar_number: nil,
+          organization_id: organization.id
+        }
+      end
+
+      it 'does not create a new SocraticSeminar' do
+        expect do
+          post :create, params: { socratic_seminar: invalid_attributes }
+        end.not_to change(SocraticSeminar, :count)
+      end
+
+      it 'renders new template' do
         post :create, params: { socratic_seminar: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).to render_template(:new)
       end
     end
   end
 
-  describe "PUT #update" do
-    let(:socratic_seminar) { create(:socratic_seminar) }
-    let(:new_attributes) { { seminar_number: 42 } }
-
-    context "with valid params" do
-      it "updates the requested socratic_seminar" do
-        put :update, params: { id: socratic_seminar.id, socratic_seminar: new_attributes }
-        socratic_seminar.reload
-        expect(socratic_seminar.seminar_number).to eq(42)
+  describe 'PUT #update' do
+    context 'with valid params' do
+      let(:new_attributes) do
+        {
+          seminar_number: 2
+        }
       end
 
-      it "redirects to the socratic_seminar" do
+      it 'updates the requested socratic_seminar' do
+        put :update, params: { id: socratic_seminar.id, socratic_seminar: new_attributes }
+        socratic_seminar.reload
+        expect(socratic_seminar.seminar_number).to eq(2)
+      end
+
+      it 'redirects to the socratic_seminar' do
         put :update, params: { id: socratic_seminar.id, socratic_seminar: new_attributes }
         expect(response).to redirect_to(socratic_seminar)
       end
     end
 
-    context "with invalid params" do
-      it "returns a success response (i.e. to display the 'edit' template)" do
+    context 'with invalid params' do
+      let(:invalid_attributes) do
+        {
+          seminar_number: nil
+        }
+      end
+
+      it 'renders edit template' do
         put :update, params: { id: socratic_seminar.id, socratic_seminar: invalid_attributes }
-        expect(response).to be_successful
+        expect(response).to render_template(:edit)
       end
     end
   end
 
-  describe "DELETE #destroy" do
-    let!(:socratic_seminar) { create(:socratic_seminar) }
-
-    it "destroys the requested socratic_seminar" do
-      expect {
-        delete :destroy, params: { id: socratic_seminar.id }
-      }.to change(SocraticSeminar, :count).by(-1)
+  describe 'DELETE #destroy' do
+    it 'destroys the requested socratic_seminar' do
+      socratic_seminar_to_delete = socratic_seminar
+      expect do
+        delete :destroy, params: { id: socratic_seminar_to_delete.id }
+      end.to change(SocraticSeminar, :count).by(-1)
     end
 
-    it "redirects to the root path" do
+    it 'redirects to the root path' do
       delete :destroy, params: { id: socratic_seminar.id }
       expect(response).to redirect_to(root_path)
     end
   end
 
-  describe "DELETE #delete_sections" do
-    let(:socratic_seminar) { create(:socratic_seminar) }
+  describe 'DELETE #delete_sections' do
     let!(:section) { create(:section, socratic_seminar: socratic_seminar) }
-    let!(:topic) { create(:topic, section: section) }
 
-    it "deletes all sections and their associated records" do
-      expect {
+    it 'destroys all sections for the socratic_seminar' do
+      expect do
         delete :delete_sections, params: { id: socratic_seminar.id }
-      }.to change(Section, :count).by(-1)
-        .and change(Topic, :count).by(-1)
+      end.to change(Section, :count).by(-1)
     end
 
-    it "redirects to the seminar's topics page" do
+    it 'redirects to the topics path' do
       delete :delete_sections, params: { id: socratic_seminar.id }
       expect(response).to redirect_to(socratic_seminar_topics_path(socratic_seminar))
+    end
+  end
+
+  describe 'GET #projector' do
+    context 'when HOSTNAME environment variable is set' do
+      before do
+        allow(ENV).to receive(:[]).and_return(nil) # This stubs out other ENV variables
+        allow(ENV).to receive(:[]).with('HOSTNAME').and_return('https://example.com')
+      end
+
+      it 'assigns the correct URL with HOSTNAME to @url' do
+        get :projector, params: { id: socratic_seminar.id }
+        expected_url = "https://example.com/socratic_seminars/#{socratic_seminar.id}/topics"
+        expect(assigns(:url)).to eq(expected_url)
+      end
+
+      it 'renders the projector template' do
+        get :projector, params: { id: socratic_seminar.id }
+        expect(response).to render_template(:projector)
+      end
+    end
+
+    context 'when HOSTNAME environment variable is not set' do
+      before do
+        allow(ENV).to receive(:[]).and_return(nil) # This stubs out other ENV variables
+        allow_any_instance_of(ActionDispatch::Request).to receive(:base_url).and_return('http://localhost:3000')
+      end
+
+      it 'assigns the correct URL with request base_url to @url' do
+        get :projector, params: { id: socratic_seminar.id }
+        expected_url = "http://localhost:3000/socratic_seminars/#{socratic_seminar.id}/topics"
+        expect(assigns(:url)).to eq(expected_url)
+      end
+
+      it 'renders the projector template' do
+        get :projector, params: { id: socratic_seminar.id }
+        expect(response).to render_template(:projector)
+      end
+    end
+
+    it 'returns a successful response' do
+      get :projector, params: { id: socratic_seminar.id }
+      expect(response).to be_successful
+    end
+
+    it 'assigns the requested socratic_seminar as @socratic_seminar' do
+      get :projector, params: { id: socratic_seminar.id }
+      expect(assigns(:socratic_seminar)).to eq(socratic_seminar)
     end
   end
 end

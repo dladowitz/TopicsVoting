@@ -2,7 +2,7 @@
 
 class SocraticSeminarsController < ApplicationController
   include ScreenSizeConcern
-  before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections ]
+  before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections, :projector ]
 
   def index
     redirect_to root_path
@@ -48,6 +48,13 @@ class SocraticSeminarsController < ApplicationController
   def delete_sections
     @socratic_seminar.sections.destroy_all
     redirect_to socratic_seminar_topics_path(@socratic_seminar), notice: "All sections were successfully deleted."
+  end
+
+  # Renders the projector view for a specific seminar
+  # @note Used for displaying topics in presentation mode
+  # @return [void]
+  def projector
+    @url = "#{ENV['HOSTNAME'] || request.base_url}/socratic_seminars/#{@socratic_seminar.id}/topics"
   end
 
   private

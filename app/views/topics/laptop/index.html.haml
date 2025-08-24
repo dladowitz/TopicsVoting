@@ -14,6 +14,7 @@
               = link_to "Import Topics", socratic_seminar_import_topics_path(@socratic_seminar),
                 class: "button projector-footer-btn"
               %button.button.projector-footer-btn.delete-content-btn{"data-action" => "click->delete-modal#show"} Delete Topics
+            = link_to 'Projector Mode', projector_socratic_seminar_path(@socratic_seminar), class: 'button projector-footer-btn'
           .sats-btc-toggle
             = render 'topics/shared/sats_btc_toggle'
           .lightning-effects-toggle

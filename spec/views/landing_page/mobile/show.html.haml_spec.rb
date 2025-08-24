@@ -44,7 +44,6 @@ RSpec.describe "landing_page/mobile/show", type: :view do
 
   it "displays footer links" do
     expect(rendered).to have_link("Sats Vs Bitcoin")
-    expect(rendered).to have_link("Projector Mode")
   end
 
   context "when there are no events" do

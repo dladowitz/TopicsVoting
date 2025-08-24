@@ -1,0 +1,16 @@
+.projector
+  %div{style: "display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 90vh; background: #fff;"}
+    %h1{style: "font-size: 3em; margin-bottom: 0.5em; color: #f7931a;"} Vote for Today's Topics
+    %div{style: "font-size: 2em; margin-bottom: 1.5em; color: #333;"}
+      = @url
+    %div{style: "display: flex; align-items: center; justify-content: center; gap: 2em; background: #fff; padding: 1em; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);"}
+      = image_tag asset_path('logo.png'), alt: 'Builder Voting Logo', style: 'width: 300px; height: 300px; border-radius: 10%; box-shadow: 0 2px 8px rgba(0,0,0,0.08);'
+      = image_tag "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=#{CGI.escape(@url)}", alt: "QR Code for Voting URL", style: "width: 300px; height: 300px;"
+    %div{style: "margin-top: 2em; font-size: 1.2em; color: #666; max-width: 600px; text-align: left;"}
+      %ul
+        %li.projector-instruction Vote for free
+        %li.projector-instruction Send Lightning payments for additional votes.
+        %li.projector-instruction Each individual payment counts as 1 vote.
+
+    %div{style: "display: flex; justify-content: center; margin-top: 3em;"}
+      = link_to 'Back to Seminar', socratic_seminar_path(@socratic_seminar), class: 'button projector-footer-btn'
