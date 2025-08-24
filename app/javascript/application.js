@@ -74,7 +74,7 @@ function updateSatsLabels(mode) {
 
   // Update amount-unit elements for payout page
   document.querySelectorAll('.amount-unit').forEach(function(el) {
-    el.textContent = mode === 'sats' ? 'sats' : '₿';
+    el.textContent = mode === 'sats' ? 'Sats': '₿';
   });
 
   // Update topic-payments elements for payout page
@@ -84,7 +84,7 @@ function updateSatsLabels(mode) {
     // Update the "sats" text that follows
     const satsText = el.nextSibling;
     if (satsText && satsText.textContent.trim() === 'sats') {
-      satsText.textContent = mode === 'sats' ? 'sats' : '₿';
+      satsText.textContent = mode === 'sats' ? 'Sats' : '₿';
     }
   });
 }
