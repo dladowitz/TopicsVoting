@@ -4,7 +4,12 @@
     %div{style: "font-size: 2em; margin-bottom: 1.5em; color: #333;"}
       = @url
     %div{style: "display: flex; align-items: center; justify-content: center; gap: 2em; background: #fff; padding: 1em; border-radius: 16px; box-shadow: 0 2px 16px rgba(0,0,0,0.08);"}
-      = image_tag asset_path('logo.png'), alt: 'Builder Voting Logo', style: 'width: 300px; height: 300px; border-radius: 10%; box-shadow: 0 2px 8px rgba(0,0,0,0.08);'
+
+      -# # TODO: This is a hack to for now. Need to add a logo to the organization and then show that.
+      - if @socratic_seminar.organization.name.include?("uilder")
+        = image_tag asset_path('builder-logo.png'), alt: 'Builder Voting Logo', style: 'width: 300px; height: 300px; border-radius: 10%; box-shadow: 0 2px 8px rgba(0,0,0,0.08);'
+      - else
+        = image_tag asset_path('lightning-bitcoin-logo-2.png'), alt: 'Builder Voting Logo', style: 'width: 300px; height: 300px; border-radius: 10%; box-shadow: 0 2px 8px rgba(0,0,0,0.08);'
       = image_tag "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=#{CGI.escape(@url)}", alt: "QR Code for Voting URL", style: "width: 300px; height: 300px;"
     %div{style: "margin-top: 2em; font-size: 1.2em; color: #666; max-width: 600px; text-align: left;"}
       %ul
