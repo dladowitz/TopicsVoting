@@ -25,6 +25,16 @@ class SocraticSeminar < ApplicationRecord
   scope :upcoming, -> { where("date >= ?", Time.current).order(date: :asc) }
   scope :past, -> { where("date < ?", Time.current).order(date: :desc) }
 
+  before_save :clean_topics_list_url
+
+  # Calculates the next seminar number for an organization
+  # @param [Organization] organization The organization to calculate for
+  # @return [Integer] The next seminar number
+  def self.next_seminar_number_for(organization)
+    maximum_seminar_number = where(organization: organization).maximum(:seminar_number) || 0
+    maximum_seminar_number + 1
+  end
+
   # Checks if a user can manage this seminar
   # @param [User] user The user to check
   # @return [Boolean] true if the user can manage this seminar
@@ -32,5 +42,15 @@ class SocraticSeminar < ApplicationRecord
     return false unless user
 
     user.admin? || user.admin_of?(organization)
+  end
+
+  private
+
+  # Removes trailing slashes from topics_list_url before saving
+  # @return [void]
+  def clean_topics_list_url
+    return if topics_list_url.blank?
+
+    self.topics_list_url = topics_list_url.chomp("/")
   end
 end

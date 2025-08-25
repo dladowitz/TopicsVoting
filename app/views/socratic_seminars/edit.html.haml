@@ -1,9 +1,0 @@
-.container
-  - content_for :title, "Editing socratic seminar"
-
-  %h1 Editing socratic seminar
-  %br
-  %div
-    = link_to "Show this socratic seminar", socratic_seminar_path(@socratic_seminar, mode: (@admin_mode ? 'admin' : nil))
-    |
-    = link_to "Back to socratic seminars", socratic_seminars_path(mode: (@admin_mode ? 'admin' : nil))
