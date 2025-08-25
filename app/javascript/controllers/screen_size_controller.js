@@ -2,25 +2,29 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   connect() {
-    this.updateScreenWidth()
-    window.addEventListener('resize', this.updateScreenWidth.bind(this))
+    this.detectDeviceType()
   }
 
   disconnect() {
-    window.removeEventListener('resize', this.updateScreenWidth.bind(this))
+    // No cleanup needed - we only run once
   }
 
-    updateScreenWidth() {
-    const width = window.innerWidth
-    document.cookie = `screen_width=${width}; path=/`
-
-    console.log(`Screen width: ${width}px ${width <= 768 ? '(mobile)' : '(laptop)'}`)
-
-    // Only reload if the layout should change
+  detectDeviceType() {
+    // Simple user agent detection for mobile devices
+    const userAgent = navigator.userAgent.toLowerCase()
+    const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
+    
+    // Set device type in cookie (only once)
+    const deviceType = isMobile ? 'mobile' : 'laptop'
+    document.cookie = `device_type=${deviceType}; path=/; max-age=86400` // 24 hours
+    
+    console.log(`Device detected: ${deviceType} (${isMobile ? 'mobile' : 'desktop'})`)
+    
+    // Check if layout needs to change
     const currentLayout = document.body.classList.contains('mobile-layout') ? 'mobile' : 'laptop'
-    const shouldBeMobile = width <= 768
-
-    if ((shouldBeMobile && currentLayout === 'laptop') || (!shouldBeMobile && currentLayout === 'mobile')) {
+    
+    if (deviceType !== currentLayout) {
+      console.log(`Layout mismatch detected. Current: ${currentLayout}, Should be: ${deviceType}`)
       window.location.reload()
     }
   }
