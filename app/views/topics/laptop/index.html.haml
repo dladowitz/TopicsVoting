@@ -32,6 +32,9 @@
               .header-payout
                 = link_to "Payout Bitcoin", payout_socratic_seminar_path(@socratic_seminar), class: "button header-controls-button"
 
+          .qr-code-container{"data-topics-target" => "qrCodeContainer", style: "display: none;"}
+            = image_tag "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=#{CGI.escape("#{ENV['HOSTNAME'] || request.base_url}/socratic_seminars/#{@socratic_seminar.id}/topics")}"
+
     .voting-instructions
       %ul
         %li Vote for free with the Up & Down arrows. One vote per person.
