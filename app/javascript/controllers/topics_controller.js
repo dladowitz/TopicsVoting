@@ -77,7 +77,6 @@ export default class extends Controller {
     // Remove border after animation ends
     const removeBorder = () => {
       element.classList.remove('flash-border');
-      element.style.border = 'none';
       element.removeEventListener('animationend', removeBorder);
     };
     element.addEventListener('animationend', removeBorder);
