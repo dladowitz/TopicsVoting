@@ -12,6 +12,6 @@
   |
   = link_to 'Organizations', organizations_path, class: 'button'
 
-  - if @socratic_seminar && current_page?(socratic_seminar_topics_path(@socratic_seminar))
+  - if @socratic_seminar&.persisted? && current_page?(socratic_seminar_topics_path(@socratic_seminar))
     |
     = link_to 'Projector Mode', projector_socratic_seminar_path(@socratic_seminar), class: 'button'
