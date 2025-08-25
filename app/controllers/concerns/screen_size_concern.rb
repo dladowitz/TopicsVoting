@@ -12,17 +12,16 @@ module ScreenSizeConcern
 
   # Determines if the current device is a mobile device
   # @return [Boolean] true if device is mobile
-  # @note Uses cookies to store device type, defaults to laptop in test env
+  # @note Uses request user agent for detection, defaults to laptop in test env
   def mobile_device?
-    device_type = if Rails.env.test?
-      "laptop"  # Default to laptop in tests
+    if Rails.env.test?
+      false  # Default to laptop in tests
     else
       # :nocov:
-      cookies[:device_type] || "laptop"
+      user_agent = request.user_agent&.downcase || ""
+      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.match?(user_agent)
       # :nocov:
     end
-
-    device_type == "mobile"
   end
 
   # Gets the current layout based on device type
