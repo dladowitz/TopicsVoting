@@ -1,14 +1,28 @@
+.socratic-seminars {
+  .edit-seminar-title {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+  }
+}
+
 .sections-container {
   margin-top: 1rem;
+  margin-bottom: 2rem;
   padding: 1rem;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
+  max-width: 75%;
 }
 
 .sections-container h2 {
   margin-bottom: 1rem;
   font-size: 1.5rem;
   color: #333;
+}
+
+.section-title {
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .sections-list {
@@ -366,4 +380,120 @@
 .toggle-label-btc {
   margin-right: 0.5em;
   color: #222;
+}
+
+/* Socratic Seminar Form Styles */
+.seminar-form {
+  max-width: 600px;
+  margin: 0.5rem 0;
+  padding: 1rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.seminar-form h1 {
+  margin-bottom: 2rem;
+  color: #333;
+  font-size: 1.8rem;
+  text-align: left;
+}
+
+.seminar-form .field {
+  margin-bottom: 1.5rem;
+}
+
+.seminar-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.seminar-form input[type="text"],
+.seminar-form input[type="number"],
+.seminar-form input[type="date"],
+.seminar-form input[type="email"],
+.seminar-form input[type="url"],
+.seminar-form textarea,
+.seminar-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  background-color: white;
+}
+
+.seminar-form input[type="text"]:focus,
+.seminar-form input[type="number"]:focus,
+.seminar-form input[type="date"]:focus,
+.seminar-form input[type="email"]:focus,
+.seminar-form textarea:focus,
+.seminar-form select:focus {
+  border-color: #f7931a;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.seminar-form .field.seminar-number input[type="number"] {
+  max-width: 200px;
+}
+
+.seminar-form .actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.seminar-form .button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.seminar-form .button:hover {
+  transform: translateY(-1px);
+}
+
+/* Error Styles */
+.seminar-form #error_explanation {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 4px;
+}
+
+.seminar-form #error_explanation h2 {
+  margin-bottom: 1rem;
+  color: #c53030;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.seminar-form #error_explanation ul {
+  margin-left: 1rem;
+  color: #c53030;
+  list-style-type: disc;
+}
+
+.seminar-form input[type="text"].field_with_errors,
+.seminar-form input[type="number"].field_with_errors,
+.seminar-form input[type="date"].field_with_errors,
+.seminar-form textarea.field_with_errors,
+.seminar-form select.field_with_errors {
+  border-color: #c53030;
+}
+
+/* Field Hints */
+.seminar-form .field-hint {
+  margin-top: 0.25rem;
+  color: #666;
+  font-size: 0.875rem;
+  font-style: italic;
 }

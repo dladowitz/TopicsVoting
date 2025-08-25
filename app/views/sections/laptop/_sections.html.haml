@@ -1,5 +1,5 @@
 .sections-container
-  %h2 Sections
+  %h2.section-title Sections
   .sections-list{data: { turbo_container: true }}
     - @socratic_seminar.sections.each do |section|
       .section-item{id: "section_#{section.id}"}

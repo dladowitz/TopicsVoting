@@ -8,7 +8,7 @@
 
   .field.seminar-number
     = f.label :seminar_number, "Seminar Number"
-    = f.number_field :seminar_number, required: true, min: 1, max: 999, class: 'narrow-field'
+    = f.number_field :seminar_number, required: true, min: 1, max: 999, placeholder: "Enter seminar number (1-999)"
     .field-hint
       - if @next_seminar_message
         = @next_seminar_message
@@ -17,16 +17,15 @@
 
   .field
     = f.label :date, "Date"
-    = f.date_field :date, required: true
+    = f.date_field :date, required: true, placeholder: "Select seminar date"
     .field-hint Required field
 
   .field
     = f.label :topics_list_url, "Topic List URL"
     = f.text_field :topics_list_url, placeholder: (@organization ? "#{@organization.website}/seminar-XX" : "https://example.com/seminar-XX")
     .field-hint
-      Optional:
+      Optional: If you already have a topic list in markdown format, enter the URL here.
       %br
-      If you already have a topic list in mardkdown format enter the url here.
       You can use the import feature on the next page.
 
   - if @organization
