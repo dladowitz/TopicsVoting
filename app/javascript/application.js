@@ -4,13 +4,7 @@ import "controllers"
 import { createConsumer } from "@rails/actioncable"
 window.solidCableConsumer = createConsumer()
 import "channels"
-document.addEventListener('visibilitychange', function() {
-  if (document.visibilityState === 'visible') {
-    // Save scroll position before reload
-    localStorage.setItem('scrollY', window.scrollY);
-    window.location.reload();
-  }
-});
+// Removed visibilitychange reload - this was causing form data to be cleared when switching tabs
 
 // Function to initialize the sats/BTC toggle
 function initializeSatsBtcToggle() {
