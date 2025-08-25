@@ -10,6 +10,14 @@ export default class extends Controller {
   }
 
   detectDeviceType() {
+    // Check if device type is already set
+    const existingDeviceType = this.getCookieValue('device_type')
+    
+    if (existingDeviceType) {
+      console.log(`Device type already detected: ${existingDeviceType}`)
+      return
+    }
+
     // Simple user agent detection for mobile devices
     const userAgent = navigator.userAgent.toLowerCase()
     const isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
@@ -19,13 +27,16 @@ export default class extends Controller {
     document.cookie = `device_type=${deviceType}; path=/; max-age=86400` // 24 hours
 
     console.log(`Device detected: ${deviceType} (${isMobile ? 'mobile' : 'desktop'})`)
+    
+    // Note: Layout switching is now handled server-side based on the cookie
+    // No page reload needed - the next page load will use the correct layout
+  }
 
-    // Check if layout needs to change
-    const currentLayout = document.body.classList.contains('mobile-layout') ? 'mobile' : 'laptop'
-
-    if (deviceType !== currentLayout) {
-      console.log(`Layout mismatch detected. Current: ${currentLayout}, Should be: ${deviceType}`)
-      window.location.reload()
-    }
+  // Helper method to get cookie value
+  getCookieValue(name) {
+    const value = `; ${document.cookie}`
+    const parts = value.split(`; ${name}=`)
+    if (parts.length === 2) return parts.pop().split(';').shift()
+    return null
   }
 }
