@@ -31,6 +31,14 @@ class Ability
       topic.socratic_seminar.manageable_by?(@user)
     end
 
+    # Users can manage Socratic Seminars for organizations they manage
+    can :manage, SocraticSeminar do |seminar|
+      seminar.manageable_by?(@user)
+    end
+
+    # All users can view Socratic Seminars
+    can :read, SocraticSeminar
+
     # Common abilities for all users (including guests)
     common_abilities
   end
