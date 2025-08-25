@@ -284,8 +284,13 @@
       top: 3px;
     }
 
+    .vote-count-label {
+      font-size: 1.2rem;
+    }
+
     .vote-count {
       font-weight: 600;
+      font-size: 1.3em;
     }
 
     /* Sats / Payment */

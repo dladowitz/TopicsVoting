@@ -10,7 +10,6 @@
           = render 'topics/shared/sats_btc_toggle'
         .lightning-effects-toggle
           = render 'topics/mobile/lightning_effects_toggle'
-        = link_to 'Projector Mode', projector_socratic_seminar_path(@socratic_seminar), class: 'button projector-footer-btn'
   .voting-instructions.mobile-instructions
     %ul
       %li Vote for free with the Up & Down arrows
@@ -27,9 +26,8 @@
             %span.topic-name
               = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
           .vote-row
-            Votes:
             .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
-
+            .vote-count-label votes
             .vote-buttons
               = button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic),
                 method: :post,

@@ -104,6 +104,11 @@
 
         .vote-count {
           font-weight: 600;
+          font-size: 1.3em;
+        }
+
+        .vote-count-label {
+          font-size: 1.2rem;
         }
 
         .vote-buttons {

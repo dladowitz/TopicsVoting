@@ -50,8 +50,8 @@
                   %span.topic-link
                     = link_to truncate(topic.link, length: 75), topic.link, target: "_blank", rel: "noopener"
             .vote-and-sats-info
-              Votes:
               .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
+              .vote-count-label votes
 
               .vote-buttons
                 = button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic),
