@@ -1,7 +1,10 @@
 .topics.mobile-topic-form
   .page-header-row.mobile-header
     .builder-logo-container
-      = image_tag 'lightning-bitcoin-logo-2.png', alt: 'Lightning Voting Logo'
+      - if @socratic_seminar.organization.name.include?("uilder")
+        = image_tag 'builder-logo.png', alt: 'Builder Voting Logo'
+      - else
+        = image_tag 'lightning-bitcoin-logo-2.png', alt: 'Lightning Voting Logo'
     .mobile-header-content
       %h1.page-header-title New Topic
       %p.page-header-subtitle= @socratic_seminar.organization.name + " ##{@socratic_seminar.seminar_number}"
