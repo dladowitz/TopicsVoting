@@ -35,6 +35,9 @@ class TopicsController < ApplicationController
     @submit_text = "Create Topic"
     @back_text = "Back to Topics"
     @back_path = socratic_seminar_topics_path(@socratic_seminar)
+
+    # Render the appropriate view based on the layout
+    render "topics/#{current_layout}/new"
   end
 
   # Creates a new topic
@@ -50,7 +53,7 @@ class TopicsController < ApplicationController
       @submit_text = "Create Topic"
       @back_text = "Back to Topics"
       @back_path = socratic_seminar_topics_path(@socratic_seminar)
-      render :new, status: :unprocessable_content
+      render "topics/#{current_layout}/new", status: :unprocessable_content
     end
   end
 
@@ -61,6 +64,9 @@ class TopicsController < ApplicationController
     @submit_text = "Update Topic"
     @back_text = "Back to Topic"
     @back_path = socratic_seminar_topic_path(@socratic_seminar, @topic)
+
+    # Render the appropriate view based on the layout
+    render "topics/#{current_layout}/edit"
   end
 
   # Updates an existing topic
@@ -75,7 +81,7 @@ class TopicsController < ApplicationController
       @submit_text = "Update Topic"
       @back_text = "Back to Topic"
       @back_path = socratic_seminar_topic_path(@socratic_seminar, @topic)
-      render :edit, status: :unprocessable_content
+      render "topics/#{current_layout}/edit", status: :unprocessable_content
     end
   end
 

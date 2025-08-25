@@ -1,0 +1,26 @@
+= form_with model: [@socratic_seminar, @topic], local: true, class: 'mobile-topic-form' do |form|
+  - if @topic.errors.any?
+    .mobile-error-explanation
+      %h2.mobile-error-title= "#{pluralize(@topic.errors.count, "error")} prohibited this topic from being saved:"
+      %ul.mobile-error-list
+        - @topic.errors.full_messages.each do |message|
+          %li.mobile-error-item= message
+
+  .mobile-field
+    = form.label :name, "Topic Name", class: 'mobile-field-label'
+    = form.text_area :name, rows: 3, placeholder: "Enter topic name", class: 'mobile-textarea'
+    .mobile-field-hint Required field
+
+  .mobile-field
+    = form.label :section_id, "Section", class: 'mobile-field-label'
+    = form.collection_select :section_id, @sections, :id, :name, { include_blank: "Select a section" }, { required: true, class: 'mobile-select' }
+    .mobile-field-hint Required field
+
+  .mobile-field
+    = form.label :link, "Link (optional)", class: 'mobile-field-label'
+    = form.text_field :link, placeholder: "https://example.com or www.example.com", class: 'mobile-text-input'
+    .mobile-field-hint Enter a valid URL (https:// will be auto-added if missing)
+
+  .mobile-actions
+    = form.submit @submit_text, class: 'mobile-submit-button'
+    = link_to @back_text, @back_path, class: 'mobile-back-button'
