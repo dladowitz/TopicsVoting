@@ -12,14 +12,14 @@
     .mobile-field-hint Required field
 
   .mobile-field
-    = form.label :link, "Link (optional)", class: 'mobile-field-label'
-    = form.text_field :link, placeholder: "https://example.com or www.example.com", class: 'mobile-text-input'
-    .mobile-field-hint Enter a valid URL (https:// will be auto-added if missing)
-
-  .mobile-field
     = form.label :section_id, "Section", class: 'mobile-field-label'
     = form.collection_select :section_id, @sections, :id, :name, { include_blank: "Select a section" }, { required: true, class: 'mobile-select' }
     .mobile-field-hint Required field
+
+  .mobile-field
+    = form.label :link, "Link (optional)", class: 'mobile-field-label'
+    = form.text_field :link, placeholder: "https://example.com or www.example.com", class: 'mobile-text-input'
+    .mobile-field-hint Enter a valid URL (https:// will be auto-added if missing)
 
   .mobile-actions
     = form.submit @submit_text, class: 'mobile-submit-button'
