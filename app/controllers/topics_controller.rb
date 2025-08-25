@@ -41,8 +41,10 @@ class TopicsController < ApplicationController
     if @topic.save
       redirect_to [ @socratic_seminar, :topics ]
     else
+      # Log validation errors for debugging
+      Rails.logger.error "Topic creation failed with errors: #{@topic.errors.full_messages.join(', ')}"
       @sections = @socratic_seminar.sections
-      render :new
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -57,7 +59,9 @@ class TopicsController < ApplicationController
     if @topic.update(topic_params)
       redirect_to [ @socratic_seminar, @topic ], notice: "Topic was successfully updated."
     else
-      render :edit
+      # Log validation errors for debugging
+      Rails.logger.error "Topic update failed with errors: #{@topic.errors.full_messages.join(', ')}"
+      render :edit, status: :unprocessable_content
     end
   end
 
