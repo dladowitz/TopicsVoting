@@ -1,36 +1,34 @@
-# Concern for handling responsive layouts based on screen size
+# Concern for handling responsive layouts based on device type
 # Provides methods for determining device type and setting appropriate layouts
 module ScreenSizeConcern
   extend ActiveSupport::Concern
 
   included do
-    helper_method :mobile_width?
+    helper_method :mobile_device?
     helper_method :current_layout
   end
 
   private
 
-  # Determines if the current device has a mobile-width screen
-  # @return [Boolean] true if screen width is <= 768px
-  # @note Uses cookies to store screen width, defaults to laptop in test env
-  def mobile_width?
-    screen_width = if Rails.env.test?
-      1024  # Default to laptop width in tests
+  # Determines if the current device is a mobile device
+  # @return [Boolean] true if device is mobile
+  # @note Uses request user agent for detection, defaults to laptop in test env
+  def mobile_device?
+    if Rails.env.test?
+      false  # Default to laptop in tests
     else
       # :nocov:
-      width = cookies[:screen_width].to_i
-      puts "\n>>>>>> Screen width: "
-      puts "       #{width}px (#{width <= 768 ? 'mobile' : 'laptop'})\n\n"
-      width
+      user_agent = request.user_agent&.downcase || ""
+      # Detect mobile devices (excluding tablets which use laptop layout)
+      # Excludes: ipad (tablet), android tablets (tablet keyword)
+      /android(?!.*tablet)|webos|iphone|ipod|blackberry|iemobile|opera mini/i.match?(user_agent)
       # :nocov:
     end
-
-    screen_width <= 768
   end
 
-  # Gets the current layout based on screen width
+  # Gets the current layout based on device type
   # @return [String] "mobile" or "laptop"
   def current_layout
-    @current_layout ||= mobile_width? ? "mobile" : "laptop"
+    @current_layout ||= mobile_device? ? "mobile" : "laptop"
   end
 end
