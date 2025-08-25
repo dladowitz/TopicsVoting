@@ -19,7 +19,9 @@ module ScreenSizeConcern
     else
       # :nocov:
       user_agent = request.user_agent&.downcase || ""
-      /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.match?(user_agent)
+      # Detect mobile devices (excluding tablets which use laptop layout)
+      # Excludes: ipad (tablet), android tablets (tablet keyword)
+      /android(?!.*tablet)|webos|iphone|ipod|blackberry|iemobile|opera mini/i.match?(user_agent)
       # :nocov:
     end
   end

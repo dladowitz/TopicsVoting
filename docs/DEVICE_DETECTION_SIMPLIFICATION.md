@@ -17,12 +17,14 @@ The previous screen size monitoring approach was causing form data to be cleared
 3. **No cookies needed**: Device type determined fresh on each request
 4. **No page reloads**: Layout determined server-side before page renders
 5. **Complete form preservation**: No client-side interference
+6. **Tablets use laptop layout**: iPads and Android tablets treated as laptops
 
 ### Implementation
 
 #### Ruby Concern (`screen_size_concern.rb`)
 - Detects device type using `request.user_agent`
 - Uses regex pattern matching for mobile devices
+- **Excludes tablets** - iPads and Android tablets use laptop layout
 - Returns boolean for `mobile_device?` method
 - No cookies, no JavaScript, no client-side state
 
@@ -40,20 +42,18 @@ The previous screen size monitoring approach was causing form data to be cleared
 4. **Simpler code**: Much easier to understand and maintain
 5. **Better UX**: Seamless experience for users
 6. **No page reloads**: Layout determined before page loads
+7. **Tablet-friendly**: Tablets get the wider laptop layout they deserve
 
 ### Device Detection Logic
 
 The system detects mobile devices using this server-side pattern:
 ```ruby
-/android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.match?(user_agent)
+/android(?!.*tablet)|webos|iphone|ipod|blackberry|iemobile|opera mini/i.match?(user_agent)
 ```
 
 This covers:
-- Android devices
-- iOS devices (iPhone, iPad, iPod)
-- BlackBerry devices
-- Windows Mobile devices
-- Opera Mini
+- **Mobile devices**: Android phones, iPhones, BlackBerry, Windows Mobile, Opera Mini
+- **Tablets (laptop layout)**: iPads, Android tablets (excluded from mobile detection)
 
 ### How It Works
 
@@ -77,10 +77,11 @@ The solution includes comprehensive tests for:
 - No user action required
 - Backward compatible with existing layouts
 - No client-side JavaScript execution
+- Tablets now use laptop layout
 
 ## Files Modified
 
-1. `app/controllers/concerns/screen_size_concern.rb` - Server-side device detection
+1. `app/controllers/concerns/screen_size_concern.rb` - Server-side device detection (tablets excluded)
 2. `app/views/layouts/laptop.html.haml` - Removed JavaScript controller
 3. `app/views/layouts/mobile.html.haml` - Removed JavaScript controller
 4. `app/views/devise/sessions/new.html.haml` - Updated method reference
@@ -93,9 +94,9 @@ The solution includes comprehensive tests for:
 ## How It Works
 
 1. **Request**: User makes HTTP request with user agent
-2. **Detection**: Server detects device type from user agent
-3. **Layout**: Server selects appropriate layout
+2. **Detection**: Server detects device type from user agent (excludes tablets)
+3. **Layout**: Server selects appropriate layout (tablets get laptop layout)
 4. **Render**: Page renders with correct layout
 5. **No interference**: No client-side JavaScript to cause issues
 
-This approach is the simplest possible solution - pure server-side device detection with no client-side JavaScript whatsoever. It completely eliminates the form auto-clear issue by removing all client-side device detection logic.
+This approach is the simplest possible solution - pure server-side device detection with no client-side JavaScript whatsoever. It completely eliminates the form auto-clear issue by removing all client-side device detection logic, and provides a better experience for tablet users by giving them the wider laptop layout.
