@@ -65,26 +65,51 @@ function updateSatsLabels(mode) {
   document.querySelectorAll('.sats-label').forEach(function(el) {
     el.textContent = mode === 'sats' ? 'Received: Sats' : 'Received: ₿';
   });
-  document.querySelectorAll('.sats-symbol').forEach(function(el) {
-    el.innerHTML = mode === 'sats' ? '<i class="fak fa-satoshisymbol-solid"></i>' : '₿';
+
+  // Update gap for sats-info
+  document.querySelectorAll('.sats-info').forEach(function(el) {
+    if (mode === 'btc') {
+      el.style.gap = '0';
+    } else {
+      el.style.gap = '0.25rem';
+    }
   });
+
   document.querySelectorAll('.sats-received').forEach(function(el) {
     el.textContent = el.dataset.sats;
   });
 
   // Update amount-unit elements for payout page
   document.querySelectorAll('.amount-unit').forEach(function(el) {
-    el.textContent = mode === 'sats' ? 'sats' : '₿';
+    el.textContent = mode === 'sats' ? 'Sats': '₿';
   });
 
-  // Update topic-payments elements for payout page
-  document.querySelectorAll('.topic-payments .sats-received').forEach(function(el) {
+  // Update amount-display gap for payout page
+  document.querySelectorAll('.amount-display').forEach(function(el) {
+    if (mode === 'btc') {
+      el.style.gap = '0';
+    } else {
+      el.style.gap = '0.25rem';
+    }
+  });
+
+  // Update topic-payment-amount elements for payout page
+  document.querySelectorAll('.topic-payment-amount .sats-received').forEach(function(el) {
     const satsValue = el.dataset.sats;
     el.textContent = satsValue;
-    // Update the "sats" text that follows
-    const satsText = el.nextSibling;
-    if (satsText && satsText.textContent.trim() === 'sats') {
-      satsText.textContent = mode === 'sats' ? 'sats' : '₿';
+  });
+
+  // Update topic amount units for payout page
+  document.querySelectorAll('.topic-amount-unit').forEach(function(el) {
+    el.textContent = mode === 'sats' ? 'Sats' : '₿';
+  });
+
+  // Update gap for topic payment amounts
+  document.querySelectorAll('.topic-payment-amount').forEach(function(el) {
+    if (mode === 'btc') {
+      el.style.gap = '0';
+    } else {
+      el.style.gap = '0.25rem';
     }
   });
 }

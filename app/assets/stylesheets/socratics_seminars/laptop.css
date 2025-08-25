@@ -175,18 +175,20 @@
 
 .amount-display {
   margin-bottom: 0.5rem;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
 }
 
 .amount-value {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #f7931a;
+  color: #666;
 }
 
 .amount-unit {
-  font-size: 1.2rem;
-  color: #666;
-  margin-left: 0.5rem;
+  font-size: 2.5rem;
+  color: #f7931a;
 }
 
 .amount-description {
@@ -275,15 +277,24 @@
   gap: 0.25rem;
 }
 
-.topic-name {
-  font-weight: 500;
-  color: #333;
-}
-
-.topic-payments {
+.topic-payment-amount {
   font-size: 0.9rem;
   color: #f7931a;
   font-weight: 500;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+
+  .sats-received {
+    color: #666;
+    font-weight: 600;
+  }
+}
+
+
+.topic-name {
+  font-weight: 500;
+  color: #333;
 }
 
 .topic-payment-count {
