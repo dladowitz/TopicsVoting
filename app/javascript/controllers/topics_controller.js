@@ -11,6 +11,7 @@ export default class extends Controller {
     })
     this.subscribeToTopicUpdates();
     this.setupLightningEffectsToggle();
+    this.setupQrCodeToggle();
   }
 
   async handleVote(event) {
@@ -370,6 +371,23 @@ export default class extends Controller {
     const isChecked = event.target.checked;
     if (this.hasQrCodeContainerTarget) {
       this.qrCodeContainerTarget.style.display = isChecked ? 'none' : 'block';
+    }
+    // Store the preference in localStorage
+    localStorage.setItem('qrCodeEnabled', isChecked);
+  }
+
+  setupQrCodeToggle() {
+    const toggle = document.getElementById('qrCodeToggleSlider');
+    if (toggle) {
+      // Load saved preference
+      const savedPreference = localStorage.getItem('qrCodeEnabled');
+      if (savedPreference !== null) {
+        toggle.checked = savedPreference === 'true';
+        // Apply the saved state immediately
+        if (this.hasQrCodeContainerTarget) {
+          this.qrCodeContainerTarget.style.display = toggle.checked ? 'none' : 'block';
+        }
+      }
     }
   }
 }
