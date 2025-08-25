@@ -34,7 +34,7 @@ class TopicsController < ApplicationController
     @sections = @socratic_seminar.sections
     @submit_text = "Create Topic"
     @back_text = "Back to Topics"
-    @back_path = socratic_seminar_path(@socratic_seminar)
+    @back_path = socratic_seminar_topics_path(@socratic_seminar)
   end
 
   # Creates a new topic
@@ -49,7 +49,7 @@ class TopicsController < ApplicationController
       @sections = @socratic_seminar.sections
       @submit_text = "Create Topic"
       @back_text = "Back to Topics"
-      @back_path = socratic_seminar_path(@socratic_seminar)
+      @back_path = socratic_seminar_topics_path(@socratic_seminar)
       render :new, status: :unprocessable_content
     end
   end
