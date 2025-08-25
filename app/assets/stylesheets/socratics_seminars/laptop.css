@@ -178,7 +178,6 @@
   display: flex;
   align-items: baseline;
   justify-content: center;
-  gap: 0.5rem;
 }
 
 .amount-value {
@@ -278,15 +277,24 @@
   gap: 0.25rem;
 }
 
-.topic-name {
-  font-weight: 500;
-  color: #333;
-}
-
-.topic-payments {
+.topic-payment-amount {
   font-size: 0.9rem;
   color: #f7931a;
   font-weight: 500;
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+
+  .sats-received {
+    color: #666;
+    font-weight: 600;
+  }
+}
+
+
+.topic-name {
+  font-weight: 500;
+  color: #333;
 }
 
 .topic-payment-count {

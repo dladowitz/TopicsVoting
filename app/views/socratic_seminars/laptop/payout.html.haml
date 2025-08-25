@@ -75,9 +75,10 @@
               .topic-payment-row
                 .topic-info
                   %span.topic-name= topic.name
-                  %span.topic-payments
+                  .topic-payment-amount
+                    %span.topic-amount-unit sats
                     %span.sats-received{"data-sats" => topic_payments}= topic_payments
-                    sats
+
                 .topic-payment-count
                   = topic.completed_payments_count
                   payment#{topic.completed_payments_count == 1 ? '' : 's'}

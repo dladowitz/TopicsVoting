@@ -155,7 +155,6 @@
         .sats-info {
           display: flex;
           align-items: center;
-          gap: 0.3rem;
 
           .sats-received {
             font-weight: 600;

@@ -69,16 +69,15 @@
                   %span.vote-arrow
                     %i.fas.fa-arrow-down
 
-
               |
               .sats-info
                 .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
                 .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
-                |
-                = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
-                  class: "send-btc-link",
-                  target: "_blank",
-                  rel: "noopener"
+              |
+              = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
+                class: "send-btc-link",
+                target: "_blank",
+                rel: "noopener"
 
   #deleteSectionsModal{"data-delete-modal-target" => "modal"}
     .delete-modal-content

@@ -10,6 +10,7 @@
           = render 'topics/shared/sats_btc_toggle'
         .lightning-effects-toggle
           = render 'topics/mobile/lightning_effects_toggle'
+        = link_to 'Projector Mode', projector_socratic_seminar_path(@socratic_seminar), class: 'button projector-footer-btn'
   .voting-instructions.mobile-instructions
     %ul
       %li Vote for free with the Up & Down arrows
@@ -49,8 +50,8 @@
             .sats-info
               .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
               .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
-              |
-              = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
-                class: "send-btc-link mobile-lightning-button",
-                target: "_blank",
-                rel: "noopener"
+            |
+            = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
+              class: "send-btc-link mobile-lightning-button",
+              target: "_blank",
+              rel: "noopener"
