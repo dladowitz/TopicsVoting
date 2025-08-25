@@ -9,23 +9,23 @@ describe("ScreenSizeController", () => {
   beforeEach(() => {
     application = Application.start()
     application.register("screen-size", ScreenSizeController)
-    
+
     // Mock document.cookie
     Object.defineProperty(document, 'cookie', {
       writable: true,
       value: ''
     })
-    
+
     // Mock navigator.userAgent
     Object.defineProperty(navigator, 'userAgent', {
       writable: true,
       value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
     })
-    
+
     element = document.createElement('div')
     element.setAttribute('data-controller', 'screen-size')
     document.body.appendChild(element)
-    
+
     controller = application.getControllerForElementAndIdentifier(element, 'screen-size')
   })
 
@@ -40,9 +40,9 @@ describe("ScreenSizeController", () => {
       Object.defineProperty(navigator, 'userAgent', {
         value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
       })
-      
+
       controller.detectDeviceType()
-      
+
       expect(document.cookie).toContain('device_type=laptop')
     })
 
@@ -51,9 +51,9 @@ describe("ScreenSizeController", () => {
       Object.defineProperty(navigator, 'userAgent', {
         value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15'
       })
-      
+
       controller.detectDeviceType()
-      
+
       expect(document.cookie).toContain('device_type=mobile')
     })
 
@@ -62,9 +62,9 @@ describe("ScreenSizeController", () => {
       Object.defineProperty(navigator, 'userAgent', {
         value: 'Mozilla/5.0 (Linux; Android 10; SM-G973F) AppleWebKit/537.36'
       })
-      
+
       controller.detectDeviceType()
-      
+
       expect(document.cookie).toContain('device_type=mobile')
     })
   })
@@ -72,17 +72,17 @@ describe("ScreenSizeController", () => {
   describe("layout detection", () => {
     it("should detect mobile layout", () => {
       document.body.classList.add('mobile-layout')
-      
+
       const result = controller.detectDeviceType()
-      
+
       expect(document.body.classList.contains('mobile-layout')).toBe(true)
     })
 
     it("should detect laptop layout", () => {
       document.body.classList.add('laptop-layout')
-      
+
       const result = controller.detectDeviceType()
-      
+
       expect(document.body.classList.contains('laptop-layout')).toBe(true)
     })
   })
