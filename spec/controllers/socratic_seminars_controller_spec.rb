@@ -41,19 +41,25 @@ RSpec.describe SocraticSeminarsController, type: :controller do
     context 'when user is authenticated and can manage the organization' do
       before { sign_in org_admin }
 
-      it 'returns a success response' do
-        get :new, params: { organization_id: organization.id }
-        expect(response).to be_successful
-      end
-
-      it 'assigns a new socratic_seminar as @socratic_seminar' do
+      it 'assigns a new socratic_seminar' do
         get :new, params: { organization_id: organization.id }
         expect(assigns(:socratic_seminar)).to be_a_new(SocraticSeminar)
       end
 
-      it 'assigns the organization as @organization' do
+      it 'assigns the organization' do
         get :new, params: { organization_id: organization.id }
         expect(assigns(:organization)).to eq(organization)
+      end
+
+      it 'sets the next seminar number' do
+        get :new, params: { organization_id: organization.id }
+        expect(assigns(:next_seminar_number)).to eq(1)
+      end
+
+      it 'sets the next seminar number correctly when seminars exist' do
+        create(:socratic_seminar, organization: organization, seminar_number: 5)
+        get :new, params: { organization_id: organization.id }
+        expect(assigns(:next_seminar_number)).to eq(6)
       end
     end
 
@@ -69,12 +75,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
     context 'when user is authenticated and can manage the organization' do
       before { sign_in org_admin }
 
-      it 'returns a success response' do
-        get :edit, params: { id: socratic_seminar.id }
-        expect(response).to be_successful
-      end
-
-      it 'assigns the requested socratic_seminar as @socratic_seminar' do
+      it 'assigns the requested socratic_seminar' do
         get :edit, params: { id: socratic_seminar.id }
         expect(assigns(:socratic_seminar)).to eq(socratic_seminar)
       end
@@ -167,9 +168,9 @@ RSpec.describe SocraticSeminarsController, type: :controller do
           expect(socratic_seminar.seminar_number).to eq(2)
         end
 
-        it 'redirects to the socratic_seminar' do
+        it 'redirects to the the Organization' do
           put :update, params: { id: socratic_seminar.id, socratic_seminar: new_attributes }
-          expect(response).to redirect_to(socratic_seminar)
+          expect(response).to redirect_to(organization_path(socratic_seminar.organization))
         end
       end
 

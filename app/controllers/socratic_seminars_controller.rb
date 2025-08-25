@@ -18,6 +18,8 @@ class SocraticSeminarsController < ApplicationController
     @organization = Organization.find(params[:organization_id])
     authorize! :create, SocraticSeminar
     @socratic_seminar = SocraticSeminar.new
+    @next_seminar_number = SocraticSeminar.next_seminar_number_for(@organization)
+    render "socratic_seminars/#{current_layout}/new"
   end
 
   def edit
@@ -32,15 +34,17 @@ class SocraticSeminarsController < ApplicationController
     if @socratic_seminar.save
       redirect_to @organization, notice: "Event was successfully created."
     else
-      render :new, status: :ok
+      @next_seminar_number = SocraticSeminar.next_seminar_number_for(@organization)
+      render "socratic_seminars/#{current_layout}/new", status: :ok
     end
   end
 
   def update
     if @socratic_seminar.update(socratic_seminar_params)
-      redirect_to @socratic_seminar, notice: "Event was successfully updated."
+      redirect_to organization_path(@socratic_seminar.organization), notice: "Event was successfully updated."
     else
-      render :edit, status: :ok
+      @next_seminar_number = SocraticSeminar.next_seminar_number_for(@socratic_seminar.organization)
+      render "socratic_seminars/#{current_layout}/edit", status: :ok
     end
   end
 
@@ -59,6 +63,8 @@ class SocraticSeminarsController < ApplicationController
   # @return [void]
   def projector
     @url = "#{ENV['HOSTNAME'] || request.base_url}/socratic_seminars/#{@socratic_seminar.id}/topics"
+
+    render "socratic_seminars/#{current_layout}/projector"
   end
 
   # Renders the payout view for managing Bitcoin received for a seminar
