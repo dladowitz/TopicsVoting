@@ -16,6 +16,8 @@ class Topic < ApplicationRecord
   # Custom validation for links to allow various URL schemes
   validate :validate_link, if: -> { link.present? }
 
+  before_validation :normalize_link
+
   after_create :set_lnurl
   after_update_commit :broadcast_topic_update
 
@@ -32,6 +34,26 @@ class Topic < ApplicationRecord
 
   private
 
+  # Normalizes the link by adding https:// if no scheme is present
+  # @return [void]
+  def normalize_link
+    return if link.blank?
+
+    # Check if the link already has a scheme
+    begin
+      uri = URI.parse(link)
+      return if uri.scheme.present?
+    rescue URI::InvalidURIError
+      # If URI parsing fails, it might not be a valid URL
+      return
+    end
+
+    # If no scheme and the link looks like a domain, add https://
+    if link.match?(/\A(?:www\.)?[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z/)
+      self.link = "https://#{link}"
+    end
+  end
+
   def validate_link
     # Try parsing as URI first
     begin
@@ -42,6 +64,9 @@ class Topic < ApplicationRecord
       # If URI parsing fails, check if it looks like a URL/identifier
       return if link.match?(/\A[^\s]+\z/) # Accept any non-whitespace string
     end
+
+    # Log the validation error for debugging
+    Rails.logger.error "Topic link validation failed for: #{link}"
     errors.add(:link, "must be a valid URL or identifier")
   end
 

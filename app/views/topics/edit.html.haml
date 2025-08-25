@@ -3,11 +3,11 @@
 
   = form_with model: [@socratic_seminar, @topic], local: true do |form|
     - if @topic.errors.any?
-      #error_explanation
-        %h2
+      .alert.alert-danger
+        %h2.alert-heading
           = pluralize(@topic.errors.count, "error")
           prohibited this topic from being saved:
-        %ul
+        %ul.alert-list
           - @topic.errors.full_messages.each do |message|
             %li= message
 
@@ -19,7 +19,8 @@
     .field
       = form.label :link, "Link (optional)"
       %br
-      = form.text_field :link, size: 60
+      = form.text_field :link, size: 60, placeholder: "https://example.com or www.example.com"
+      .field-hint Enter a valid URL (https:// will be auto-added if missing)
 
     .field
       = form.label :section_id, "Section"

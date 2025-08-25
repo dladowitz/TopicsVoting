@@ -77,6 +77,39 @@ RSpec.describe Topic, type: :model do
           expect(topic).to be_valid
         end
       end
+
+      it "accepts URLs without schemes (e.g., www.yahoo.com)" do
+        urls_without_schemes = [
+          "www.yahoo.com",
+          "www.example.com",
+          "example.com",
+          "subdomain.example.com"
+        ]
+        urls_without_schemes.each do |url|
+          topic = build(:topic, link: url)
+          expect(topic).to be_valid
+        end
+      end
+
+      it "auto-adds https:// to URLs without schemes" do
+        topic = build(:topic, link: "www.example.com")
+        topic.valid?
+        expect(topic.link).to eq("https://www.example.com")
+      end
+
+      it "does not modify URLs that already have schemes" do
+        urls_with_schemes = [
+          "http://example.com",
+          "https://example.com",
+          "ftp://example.com",
+          "nostr:npub1abc"
+        ]
+        urls_with_schemes.each do |url|
+          topic = build(:topic, link: url)
+          topic.valid?
+          expect(topic.link).to eq(url)
+        end
+      end
     end
   end
 
