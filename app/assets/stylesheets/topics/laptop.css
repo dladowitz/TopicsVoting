@@ -8,6 +8,7 @@
       align-items: flex-start;
       gap: 1.2em;
       margin-bottom: 0.5em;
+      position: relative;
     }
 
     .builder-logo-container {
@@ -27,6 +28,7 @@
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      position: relative;
     }
 
     .header-controls {
@@ -67,7 +69,7 @@
       .sats-btc-toggle {
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        justify-content: space-between;
         font-size: 0.85em;
       }
 
@@ -118,8 +120,12 @@
         user-select: none;
       }
 
+      .toggle-label-units {
+        color: #f7931a;
+        margin-right: 0.5em;
+      }
+
       .toggle-label-sats {
-        margin-left: 1.4em;
         color: #f7931a;
       }
 
@@ -132,11 +138,29 @@
       .lightning-effects-toggle {
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        justify-content: space-between;
         font-size: 0.85em;
+        width: 100%;
+        padding-right: 1.75em;
       }
 
       .toggle-label-lightning {
+        color: #f7931a;
+        font-weight: 600;
+        user-select: none;
+      }
+
+      /* QR Code Toggle */
+      .qr-code-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.85em;
+        width: 100%;
+        padding-right: 1.75em;
+      }
+
+      .toggle-label-qr {
         color: #f7931a;
         font-weight: 600;
         user-select: none;
@@ -191,6 +215,18 @@
       border: 1px solid #e9ecef;
       border-radius: 8px;
       padding: 0.25rem 0.5rem;
+    }
+
+    .qr-code-container {
+      position: absolute;
+      top: 0;
+      right: -320px;
+      background: white;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.25rem 0.25rem 0 0.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      z-index: 10;
     }
 
     /* Sections */

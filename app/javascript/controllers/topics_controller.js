@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="topics"
 export default class extends Controller {
-  static targets = ["voteForm", "voteCount"]
+  static targets = ["voteForm", "voteCount", "qrCodeContainer"]
 
   connect() {
     console.log("Topics Stimulus controller connected!");
@@ -11,6 +11,7 @@ export default class extends Controller {
     })
     this.subscribeToTopicUpdates();
     this.setupLightningEffectsToggle();
+    this.setupQrCodeToggle();
   }
 
   async handleVote(event) {
@@ -364,5 +365,29 @@ export default class extends Controller {
   isLightningEffectsEnabled() {
     const toggle = document.getElementById('lightningEffectsToggleSlider');
     return toggle ? !toggle.checked : true; // Inverted: unchecked = enabled, checked = disabled
+  }
+
+  toggleQrCode(event) {
+    const isChecked = event.target.checked;
+    if (this.hasQrCodeContainerTarget) {
+      this.qrCodeContainerTarget.style.display = isChecked ? 'none' : 'block';
+    }
+    // Store the preference in localStorage
+    localStorage.setItem('qrCodeEnabled', isChecked);
+  }
+
+  setupQrCodeToggle() {
+    const toggle = document.getElementById('qrCodeToggleSlider');
+    if (toggle) {
+      // Load saved preference
+      const savedPreference = localStorage.getItem('qrCodeEnabled');
+      if (savedPreference !== null) {
+        toggle.checked = savedPreference === 'true';
+        // Apply the saved state immediately
+        if (this.hasQrCodeContainerTarget) {
+          this.qrCodeContainerTarget.style.display = toggle.checked ? 'none' : 'block';
+        }
+      }
+    }
   }
 }
