@@ -2,7 +2,9 @@
 
 class SocraticSeminarsController < ApplicationController
   include ScreenSizeConcern
+  before_action :authenticate_user!, except: [ :show, :projector, :index ]
   before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections, :projector, :payout ]
+  load_and_authorize_resource except: [ :show, :projector, :new, :create ]
 
   def index
     redirect_to root_path
@@ -14,6 +16,7 @@ class SocraticSeminarsController < ApplicationController
 
   def new
     @organization = Organization.find(params[:organization_id])
+    authorize! :create, SocraticSeminar
     @socratic_seminar = SocraticSeminar.new
   end
 
@@ -24,6 +27,7 @@ class SocraticSeminarsController < ApplicationController
   def create
     @socratic_seminar = SocraticSeminar.new(socratic_seminar_params)
     @organization = @socratic_seminar.organization
+    authorize! :create, @socratic_seminar
 
     if @socratic_seminar.save
       redirect_to @organization, notice: "Event was successfully created."

@@ -3,7 +3,7 @@
 class OrganizationsController < ApplicationController
   include ScreenSizeConcern
   layout :current_layout
-  before_action :authenticate_user!, except: [ :index ]
+  before_action :authenticate_user!, except: [ :index, :show ]
   before_action :set_organization, only: [ :show, :edit, :update, :destroy, :settings ]
   load_and_authorize_resource except: [ :index, :settings ]
 

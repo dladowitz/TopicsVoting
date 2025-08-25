@@ -315,12 +315,17 @@ RSpec.describe "Organizations", type: :request do
       end
     end
 
-    [ :show, :new, :edit, :create, :update, :destroy, :settings ].each do |action|
+    describe 'GET /organizations/:id' do
+      it 'returns a success response' do
+        get organization_path(organization)
+        expect(response).to be_successful
+      end
+    end
+
+    [ :new, :edit, :create, :update, :destroy, :settings ].each do |action|
       describe "accessing ##{action}" do
         it 'redirects to login page' do
           case action
-          when :show
-            get organization_path(organization)
           when :edit
             get edit_organization_path(organization)
           when :update

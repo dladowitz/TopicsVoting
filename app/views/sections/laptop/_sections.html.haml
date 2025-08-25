@@ -1,5 +1,7 @@
 .sections-container
-  %h2 Sections
+  .section-header
+    %h2.section-title Sections
+    = link_to "Add Section", new_socratic_seminar_section_path(@socratic_seminar), class: "button"
   .sections-list{data: { turbo_container: true }}
     - @socratic_seminar.sections.each do |section|
       .section-item{id: "section_#{section.id}"}
@@ -7,5 +9,3 @@
           %h3= section.name
           .topic-count #{pluralize(section.topics.count, 'Topic')}
         = link_to "Edit", edit_socratic_seminar_section_path(@socratic_seminar, section), class: "button button-secondary"
-
-  = link_to "Add Section", new_socratic_seminar_section_path(@socratic_seminar), class: "button"

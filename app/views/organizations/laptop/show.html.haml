@@ -24,7 +24,7 @@
     = link_to 'Back to Organizations', organizations_path, class: 'button'
 
   .actions
-    - if current_user.admin?
+    - if current_user&.admin?
       = link_to 'Edit', edit_organization_path(@organization), class: 'button'
       -# = button_to 'Delete', "organization_path(@organization)", method: :delete, class: 'button button-danger', data: { confirm: 'Are you sure?' }, class: 'button button-danger'
 
@@ -32,7 +32,7 @@
     .section-header
       .header-group
         %h2 Socratic Seminars
-        - if current_user.admin?
+        - if current_user&.admin?
           = link_to 'Create Seminar', new_socratic_seminar_path(organization_id: @organization.id), class: 'button'
     - if @organization.socratic_seminars.any?
       .seminars-list
@@ -43,7 +43,8 @@
             %p
               %strong Date:
               = seminar.date.strftime('%B %d, %Y')
-            = link_to 'Edit', edit_socratic_seminar_path(seminar), class: 'button'
+            - if can?(:manage, seminar)
+              = link_to 'Edit', edit_socratic_seminar_path(seminar), class: 'button'
             - if seminar.topics_list_url.present?
               %p
                 = link_to "External Topic List", seminar.topics_list_url, target: '_blank', class: 'seminar-link'
