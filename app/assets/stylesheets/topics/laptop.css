@@ -67,7 +67,7 @@
       .sats-btc-toggle {
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        justify-content: space-between;
         font-size: 0.85em;
       }
 
@@ -118,8 +118,12 @@
         user-select: none;
       }
 
+      .toggle-label-units {
+        color: #f7931a;
+        margin-right: 0.5em;
+      }
+
       .toggle-label-sats {
-        margin-left: 1.4em;
         color: #f7931a;
       }
 
@@ -132,11 +136,29 @@
       .lightning-effects-toggle {
         display: flex;
         align-items: center;
-        gap: 0.5em;
+        justify-content: space-between;
         font-size: 0.85em;
+        width: 100%;
+        padding-right: 1.75em;
       }
 
       .toggle-label-lightning {
+        color: #f7931a;
+        font-weight: 600;
+        user-select: none;
+      }
+
+      /* QR Code Toggle */
+      .qr-code-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.85em;
+        width: 100%;
+        padding-right: 1.75em;
+      }
+
+      .toggle-label-qr {
         color: #f7931a;
         font-weight: 600;
         user-select: none;

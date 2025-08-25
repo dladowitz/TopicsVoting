@@ -17,10 +17,11 @@
           .header-controls
             .header-settings
               .sats-btc-toggle
-                = render 'topics/shared/sats_btc_toggle'
+                = render 'topics/laptop/sats_btc_toggle'
               .lightning-effects-toggle
                 = render 'topics/laptop/lightning_effects_toggle'
-              = link_to 'Projector Mode', projector_socratic_seminar_path(@socratic_seminar), class: 'button header-controls-button'
+              .qr-code-toggle
+                = render 'topics/laptop/qr_code_toggle'
 
             - if can? :manage, @socratic_seminar
               .header-actions
