@@ -6,9 +6,8 @@
 }
 
 .mobile-navigation .submit-topic-button {
-  background-color: #8b5cf6 !important;
-  color: white;
-  border: 3px solid #c4b5fd !important;
+  color: #0690b3 !important;
+  border: 1.5px solid #0690b3 !important;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
@@ -20,7 +19,5 @@
 }
 
 .mobile-navigation .submit-topic-button:hover {
-  background-color: #7c3aed !important;
-  border-color: #a78bfa !important;
-  transform: translateY(-1px);
+  text-decoration: underline;
 }
