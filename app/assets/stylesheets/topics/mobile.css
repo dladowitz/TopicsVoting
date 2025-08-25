@@ -80,18 +80,19 @@
 
       .topic-header-row {
         margin-bottom: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
 
         .topic-name {
           font-size: 1rem;
           font-weight: 500;
 
           a {
-            color: rgb(114 108 108);
+            color: #f7931a;;
             text-decoration: none;
-
-            &:hover {
-              color: #f7931a;
-            }
           }
         }
       }

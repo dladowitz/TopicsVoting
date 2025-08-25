@@ -255,7 +255,7 @@
 
     /* Topics */
     .topic-list-item {
-      padding: 3px 15px 5px 15px;
+      padding: 6px 15px 7px 15px;
       margin-bottom: 10px;
       border: none !important;
       background-color: #eff1f66f;
@@ -264,6 +264,22 @@
     .topic-list-item.flash-border {
       animation: flash-border 0.7s cubic-bezier(.23,1.5,.32,1) both;
       border-radius: 8px;
+    }
+
+    .topic-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .topic-name {
+      a {
+        font-size: 1.3rem;
+        font-weight: 500 !important;
+        margin-bottom: 0.3rem;
+      }
     }
 
     .topic-link {
