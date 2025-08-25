@@ -267,6 +267,10 @@
 
   /* Show page */
   .topic-show {
+    .button {
+      border-radius: 8px;
+      padding: 0.4em 1.2em;
+    }
     .page-header-row {
       margin-bottom: 0.5rem;
     }

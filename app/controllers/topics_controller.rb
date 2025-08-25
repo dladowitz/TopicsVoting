@@ -32,6 +32,9 @@ class TopicsController < ApplicationController
   def new
     @topic = Topic.new
     @sections = @socratic_seminar.sections
+    @submit_text = "Create Topic"
+    @back_text = "Back to Topics"
+    @back_path = socratic_seminar_path(@socratic_seminar)
   end
 
   # Creates a new topic
@@ -44,6 +47,9 @@ class TopicsController < ApplicationController
       # Log validation errors for debugging
       Rails.logger.error "Topic creation failed with errors: #{@topic.errors.full_messages.join(', ')}"
       @sections = @socratic_seminar.sections
+      @submit_text = "Create Topic"
+      @back_text = "Back to Topics"
+      @back_path = socratic_seminar_path(@socratic_seminar)
       render :new, status: :unprocessable_content
     end
   end
@@ -51,6 +57,10 @@ class TopicsController < ApplicationController
   # Displays form for editing a topic
   # @return [void]
   def edit
+    @sections = @socratic_seminar.sections
+    @submit_text = "Update Topic"
+    @back_text = "Back to Topic"
+    @back_path = socratic_seminar_topic_path(@socratic_seminar, @topic)
   end
 
   # Updates an existing topic
@@ -61,6 +71,10 @@ class TopicsController < ApplicationController
     else
       # Log validation errors for debugging
       Rails.logger.error "Topic update failed with errors: #{@topic.errors.full_messages.join(', ')}"
+      @sections = @socratic_seminar.sections
+      @submit_text = "Update Topic"
+      @back_text = "Back to Topic"
+      @back_path = socratic_seminar_topic_path(@socratic_seminar, @topic)
       render :edit, status: :unprocessable_content
     end
   end

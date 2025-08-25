@@ -12,7 +12,7 @@
     }
   }
 
-  function copyToClipboard(text) {
+  function copyToClipboard(text, event) {
     navigator.clipboard.writeText(text).then(function() {
       const button = event.target.closest('.copy-button');
       const originalIcon = button.innerHTML;
@@ -49,7 +49,7 @@
           = link_to "LNURLPay ", "https://www.lnurlpay.com/#{@topic.lnurl}", target: "_blank", class: "lnurl-link button"
         .or-text Or
         .copy-lnurl
-          %button.copy-button.button{onclick: "copyToClipboard('#{@topic.lnurl}')", title: "Copy LNURL"}
+          %button.copy-button.button{onclick: "copyToClipboard('#{@topic.lnurl}', event)", title: "Copy LNURL"}
             Copy
             %i.fas.fa-copy
           the

@@ -1,0 +1,26 @@
+= form_with model: [@socratic_seminar, @topic], local: true, class: 'topic-form' do |form|
+  - if @topic.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@topic.errors.count, "error")} prohibited this topic from being saved:"
+      %ul
+        - @topic.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = form.label :name, "Topic Name"
+    = form.text_area :name, rows: 2, placeholder: "Enter topic name"
+    .field-hint Required field
+
+  .field
+    = form.label :link, "Link (optional)"
+    = form.text_field :link, placeholder: "https://example.com or www.example.com"
+    .field-hint Enter a valid URL (https:// will be auto-added if missing)
+
+  .field
+    = form.label :section_id, "Section"
+    = form.collection_select :section_id, @sections, :id, :name, { include_blank: "Select a section" }, { required: true }
+    .field-hint Required field
+
+  .actions
+    = form.submit @submit_text, class: 'button'
+    = link_to @back_text, @back_path, class: 'button button-secondary'

@@ -430,3 +430,249 @@
   margin-top: 0.25rem;
   font-style: italic;
 }
+
+/* Topic Form Styles */
+.topic-form .field {
+  margin-bottom: 1.5rem;
+}
+
+.topic-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+}
+
+.topic-form input[type="text"],
+.topic-form textarea,
+.topic-form select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+  background-color: white;
+}
+
+.topic-form input[type="text"]:focus,
+.topic-form textarea:focus,
+.topic-form select:focus {
+  border-color: #f7931a;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.topic-form .actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.topic-form .button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.2s ease;
+}
+
+.topic-form .button:hover {
+  transform: translateY(-1px);
+}
+
+/* Error Styles */
+.topic-form #error_explanation {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: #fff5f5;
+  border: 1px solid #feb2b2;
+  border-radius: 4px;
+}
+
+.topic-form #error_explanation h2 {
+  margin-bottom: 1rem;
+  color: #c53030;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.topic-form #error_explanation ul {
+  margin-left: 1rem;
+  color: #c53030;
+  list-style-type: disc;
+}
+
+.topic-form input[type="text"].field_with_errors {
+  border-color: #c53030;
+}
+
+/* Topic Show Page Styles */
+.topic-show {
+  .page-header-row {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .topic-title {
+    margin: 0;
+    color: #333;
+    font-size: 2rem;
+    font-weight: 600;
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .topic-link-row {
+    margin-bottom: 1rem;
+
+    .topic-link-show {
+      color: #f7931a;
+      text-decoration: none;
+      font-size: 1rem;
+      line-height: 1.4;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .lnurl-section {
+    margin: 1.5rem 0;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+
+    .vote-using-lnurl {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .lnurl-link {
+      color: #f7931a;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .or-text {
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+      margin: 1rem 0;
+      color: #666;
+    }
+
+    .copy-lnurl {
+      margin: 1rem 0;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .copy-button {
+      background: #f7931a;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #e67e22;
+      }
+    }
+
+    .lnurl-text {
+      word-break: break-all;
+      font-family: monospace;
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+      border: 1px solid #e9ecef;
+    }
+  }
+
+  .current-status {
+    margin: 1.5rem 0;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+
+    .current-status-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .sats-received-row {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      color: #555;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .back-to-topic-list {
+    margin: 1.5rem 0;
+
+    a {
+      color: #f7931a;
+      text-decoration: none;
+      font-weight: 600;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .qr-code-section {
+    margin: 1.5rem 0;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+    text-align: center;
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #333;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    img {
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  }
+}
