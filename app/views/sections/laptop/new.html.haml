@@ -1,11 +1,19 @@
 .sections
   %h1 New Section
 
-  = form_with(model: [@socratic_seminar, @section], local: true) do |f|
+  = form_with(model: [@socratic_seminar, @section], local: true, class: 'section-form') do |f|
+    - if @section.errors.any?
+      #error_explanation
+        %h2= "#{pluralize(@section.errors.count, "error")} prohibited this section from being saved:"
+        %ul
+          - @section.errors.full_messages.each do |msg|
+            %li= msg
+
     .field
-      = f.label :name
-      = f.text_field :name
+      = f.label :name, "Section Name"
+      = f.text_field :name, required: true, placeholder: "Enter section name"
+      .field-hint Required field
 
     .actions
-      = f.submit "Create Section", class: "button button-primary"
+      = f.submit "Create Section", class: "button"
       = link_to "Cancel", edit_socratic_seminar_path(@socratic_seminar), class: "button button-secondary"
