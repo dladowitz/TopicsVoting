@@ -1,6 +1,8 @@
 .navigation.mobile-navigation
-  - unless current_page?('/organizations')
-    = link_to 'Organizations', organizations_path, class: 'button'
+  -# For the we aren't showing Organizations on Mobile.
+  -# TODO: When we update Organizations for Mobile, we can add this back in.
+  -# - unless current_page?('/organizations')
+  -#   = link_to 'Organizations', organizations_path, class: 'button'
 
   -## For the moment there are no moderation tools available in Mobile mode. So lets hide this for now.
   -# TODO: When we update Moderation tools for Mobile, we can add this back in.
