@@ -27,4 +27,12 @@ RSpec.describe Ability do
     it { is_expected.to be_able_to(:update, user) }
     it { is_expected.not_to be_able_to(:update, other_user) }
   end
+
+  describe "with hash user" do
+    let(:user) { { email: "test@example.com" } }
+
+    it "creates a new user from hash" do
+      expect(described_class.new(user)).to be_an(Ability)
+    end
+  end
 end

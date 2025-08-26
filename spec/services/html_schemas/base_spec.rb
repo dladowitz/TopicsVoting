@@ -55,6 +55,31 @@ RSpec.describe HtmlSchemas::BaseSchema do
     it "returns nil when no link is present" do
       expect(schema.send(:extract_link, doc, "Text without link")).to be_nil
     end
+
+    it "returns nil when anchor tag has no href" do
+      li = Nokogiri::HTML('<li><a>Text</a></li>').at_css("li")
+      expect(schema.send(:extract_link, li, "Some text")).to be_nil
+    end
+
+    it "returns nil when anchor tag has empty href" do
+      li = Nokogiri::HTML('<li><a href="">Text</a></li>').at_css("li")
+      expect(schema.send(:extract_link, li, "Some text")).to be_nil
+    end
+
+    it "extracts www URLs from text content" do
+      expect(schema.send(:extract_link, doc, "Text www.example.org more text"))
+        .to eq("www.example.org")
+    end
+
+    it "extracts http URLs from text content" do
+      expect(schema.send(:extract_link, doc, "Text http://example.org more text"))
+        .to eq("http://example.org")
+    end
+
+    it "returns nil when anchor tag is not a direct child" do
+      li = Nokogiri::HTML('<li><span><a href="https://example.com">Text</a></span></li>').at_css("li")
+      expect(schema.send(:extract_link, li, "Some text")).to be_nil
+    end
   end
 
   describe "#create_or_skip_section" do
@@ -115,6 +140,18 @@ RSpec.describe HtmlSchemas::BaseSchema do
       expect(topic.link).to eq("https://example.com")
     end
 
+    it "creates a new topic with parent" do
+      parent_topic = create(:topic, section: section, name: "Parent Topic")
+      expect {
+        schema.send(:create_or_skip_topic, section, "Child Topic", "https://example.com", parent_topic)
+      }.to change(Topic, :count).by(1)
+      expect(stats[:topics_created]).to eq(1)
+
+      topic = Topic.last
+      expect(topic.name).to eq("Child Topic")
+      expect(topic.parent_topic).to eq(parent_topic)
+    end
+
     it "skips existing topic" do
       create(:topic, name: "Existing Topic", section: section)
       expect {
@@ -123,12 +160,77 @@ RSpec.describe HtmlSchemas::BaseSchema do
       expect(stats[:topics_skipped]).to eq(1)
     end
 
+    it "updates existing topic with parent relationship" do
+      existing_topic = create(:topic, name: "Existing Topic", section: section, parent_topic: nil)
+      parent_topic = create(:topic, section: section, name: "Parent Topic")
+
+      expect {
+        schema.send(:create_or_skip_topic, section, "Existing Topic", nil, parent_topic)
+      }.not_to change(Topic, :count)
+
+      existing_topic.reload
+      expect(existing_topic.parent_topic).to eq(parent_topic)
+      expect(stats[:topics_skipped]).to eq(1)
+      expect(output.any? { |msg| msg.include?("Updated existing topic with parent: Existing Topic -> Parent Topic") }).to be true
+    end
+
+    it "does not update parent relationship if topic already has parent" do
+      parent_topic = create(:topic, section: section, name: "Parent Topic")
+      existing_topic = create(:topic, name: "Existing Topic", section: section, parent_topic: parent_topic)
+      new_parent = create(:topic, section: section, name: "New Parent")
+
+      expect {
+        schema.send(:create_or_skip_topic, section, "Existing Topic", nil, new_parent)
+      }.not_to change(Topic, :count)
+
+      existing_topic.reload
+      expect(existing_topic.parent_topic).to eq(parent_topic) # Should not change
+      expect(stats[:topics_skipped]).to eq(1)
+      expect(output).not_to include("Updated existing topic with parent")
+    end
+
     it "handles validation errors" do
       allow_any_instance_of(Topic).to receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(Topic.new))
       expect {
         schema.send(:create_or_skip_topic, section, "Invalid Topic", nil)
       }.not_to change(Topic, :count)
       expect(stats[:topics_failed]).to eq(1)
+    end
+
+    it "handles validation errors when creating topic with parent" do
+      parent_topic = create(:topic, section: section, name: "Parent Topic")
+      allow_any_instance_of(Topic).to receive(:save!).and_raise(ActiveRecord::RecordInvalid.new(Topic.new))
+
+      expect {
+        schema.send(:create_or_skip_topic, section, "Invalid Topic", nil, parent_topic)
+      }.not_to change(Topic, :count)
+      expect(stats[:topics_failed]).to eq(1)
+    end
+
+    it "logs topic creation with link" do
+      expect {
+        schema.send(:create_or_skip_topic, section, "Topic with Link", "https://example.com")
+      }.to change(Topic, :count).by(1)
+
+      expect(output.any? { |msg| msg.include?("Created Topic: Topic with Link") && msg.include?("link found") }).to be true
+    end
+
+    it "logs subtopic creation with parent" do
+      parent_topic = create(:topic, section: section, name: "Parent Topic")
+
+      expect {
+        schema.send(:create_or_skip_topic, section, "Child Topic", nil, parent_topic)
+      }.to change(Topic, :count).by(1)
+
+      expect(output.any? { |msg| msg.include?("Created Subtopic: Child Topic") && msg.include?("subtopic of: Parent Topic") }).to be true
+    end
+
+    it "logs topic creation without link or parent" do
+      expect {
+        schema.send(:create_or_skip_topic, section, "Simple Topic", nil)
+      }.to change(Topic, :count).by(1)
+
+      expect(output.any? { |msg| msg.include?("Created Topic: Simple Topic") }).to be true
     end
   end
 

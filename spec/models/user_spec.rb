@@ -59,5 +59,28 @@ RSpec.describe User, type: :model do
         expect(user.moderator_of?(organization)).to be false
       end
     end
+
+    describe "#can_manage?" do
+      let(:socratic_seminar) { create(:socratic_seminar, organization: organization) }
+
+      it "returns true when user is site admin" do
+        admin_user = create(:user, :admin)
+        expect(admin_user.can_manage?(socratic_seminar)).to be true
+      end
+
+      it "returns true when user is organization admin" do
+        create(:organization_role, :admin, user: user, organization: organization)
+        expect(user.can_manage?(socratic_seminar)).to be true
+      end
+
+      it "returns true when user is organization moderator" do
+        create(:organization_role, :moderator, user: user, organization: organization)
+        expect(user.can_manage?(socratic_seminar)).to be true
+      end
+
+      it "returns false when user has no admin or moderator role" do
+        expect(user.can_manage?(socratic_seminar)).to be false
+      end
+    end
   end
 end

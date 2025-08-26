@@ -95,6 +95,151 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       expect(Section.find_by(name: "No ID Section")).to be_nil
     end
 
+    it "handles sections with no following list" do
+      html_no_list = <<~HTML
+        <h2 id="section-without-list">Section Without List</h2>
+        <p>Some other content</p>
+      HTML
+      doc = Nokogiri::HTML(html_no_list)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+
+      schema.process_sections
+
+      # Should create a section but with no topics since there's no list
+      section = Section.find_by(name: "Section Without List")
+      expect(section).to be_present
+      expect(section.topics.count).to eq(0)
+    end
+
+    it "transforms section names correctly from IDs" do
+      html_complex_ids = <<~HTML
+        <h2 id="bitcoin-core-development">Bitcoin Core Development</h2>
+        <ul><li>Topic</li></ul>
+        <h2 id="lightning-network-and-payments">Lightning Network and Payments</h2>
+        <ul><li>Topic</li></ul>
+        <h2 id="wallet-security-and-privacy">Wallet Security and Privacy</h2>
+        <ul><li>Topic</li></ul>
+        <h2 id="decentralized-finance-and-defi">Decentralized Finance and Defi</h2>
+        <ul><li>Topic</li></ul>
+      HTML
+      doc = Nokogiri::HTML(html_complex_ids)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+
+      schema.process_sections
+
+      expect(Section.find_by(name: "Bitcoin Core Development")).to be_present
+      expect(Section.find_by(name: "Lightning Network and Payments")).to be_present
+      expect(Section.find_by(name: "Wallet Security and Privacy")).to be_present
+      expect(Section.find_by(name: "Decentralized Finance and Defi")).to be_present
+    end
+
+    it "preserves 'and' in lowercase when transforming section names" do
+      html_with_and = <<~HTML
+        <h2 id="bitcoin-and-ethereum">Bitcoin and Ethereum</h2>
+        <ul><li>Topic</li></ul>
+        <h2 id="lightning-and-lightning-network">Lightning and Lightning Network</h2>
+        <ul><li>Topic</li></ul>
+      HTML
+      doc = Nokogiri::HTML(html_with_and)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+
+      schema.process_sections
+
+      expect(Section.find_by(name: "Bitcoin and Ethereum")).to be_present
+      expect(Section.find_by(name: "Lightning and Lightning Network")).to be_present
+    end
+
+    it "handles empty list items" do
+      html_empty_items = <<~HTML
+        <h2 id="empty-items-section">Empty Items Section</h2>
+        <ul>
+          <li></li>
+          <li>Valid Topic</li>
+          <li>   </li>
+          <li>
+            <ul>
+              <li>Nested Topic</li>
+            </ul>
+          </li>
+        </ul>
+      HTML
+      doc = Nokogiri::HTML(html_empty_items)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+
+      schema.process_sections
+
+      section = Section.find_by(name: "Empty Items Section")
+      expect(section).to be_present
+
+      # Should create 2 topics: the valid one and the nested one (even though parent is empty)
+      expect(section.topics.count).to eq(2)
+      expect(section.topics.pluck(:name)).to contain_exactly("Valid Topic", "Nested Topic")
+    end
+
+    it "handles list items with only URLs in text" do
+      html_url_only = <<~HTML
+        <h2 id="url-only-section">URL Only Section</h2>
+        <ul>
+          <li>https://example.com</li>
+          <li>Topic with https://example.org in text</li>
+          <li>www.example.net</li>
+        </ul>
+      HTML
+      doc = Nokogiri::HTML(html_url_only)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+
+      schema.process_sections
+
+      section = Section.find_by(name: "Url Only Section")
+      expect(section).to be_present
+
+      # Should only create one topic (the one with text beyond the URL)
+      expect(section.topics.count).to eq(1)
+      expect(section.topics.first.name).to eq("Topic with  in text")
+    end
+
+    it "handles nested lists with empty parent topics" do
+      html_empty_parent = <<~HTML
+        <h2 id="nested-empty-parent">Nested Empty Parent</h2>
+        <ul>
+          <li>
+            <ul>
+              <li>Orphan Child</li>
+            </ul>
+          </li>
+          <li>
+            Parent with Content
+            <ul>
+              <li>Child with Parent</li>
+            </ul>
+          </li>
+        </ul>
+      HTML
+      doc = Nokogiri::HTML(html_empty_parent)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+
+      schema.process_sections
+
+      section = Section.find_by(name: "Nested Empty Parent")
+      expect(section).to be_present
+
+      # Should create 3 topics: orphan child, parent with content, and child with parent
+      expect(section.topics.count).to eq(3)
+
+      orphan_child = Topic.find_by(name: "Orphan Child")
+      parent_with_content = Topic.find_by(name: "Parent with Content")
+      child_with_parent = Topic.find_by(name: "Child with Parent")
+
+      expect(orphan_child).to be_present
+      expect(orphan_child.parent_topic).to be_nil
+
+      expect(parent_with_content).to be_present
+      expect(parent_with_content.parent_topic).to be_nil
+
+      expect(child_with_parent).to be_present
+      expect(child_with_parent.parent_topic).to eq(parent_with_content)
+    end
+
     it "updates stats correctly" do
       schema.process_sections
 
