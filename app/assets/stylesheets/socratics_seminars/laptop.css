@@ -389,6 +389,24 @@
   color: #222;
 }
 
+.lightning-effects-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.85em;
+  margin-left: 1rem;
+}
+
+.toggle-label-single {
+  margin-left: 1.4em;
+  color: #f7931a;
+}
+
+.toggle-label-multiple {
+  margin-right: 0.5em;
+  color: #222;
+}
+
 /* Payout Success Animation */
 @keyframes payout-success-pulse {
   0% {

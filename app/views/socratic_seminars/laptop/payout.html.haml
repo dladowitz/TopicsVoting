@@ -15,6 +15,12 @@
               %input#satsBtcToggleSlider{type: "checkbox"}
               %span.slider
             %span.toggle-label.toggle-label-btc ₿
+          .lightning-effects-toggle
+            %span.toggle-label.toggle-label-single Single
+            %label.switch
+              %input#lightningEffectsToggleSlider{type: "checkbox"}
+              %span.slider
+            %span.toggle-label.toggle-label-multiple Multiple
           = link_to "Back to Seminar", socratic_seminar_topics_path(@socratic_seminar), class: "button button-secondary"
 
     .payout-sections
