@@ -45,11 +45,9 @@ class ImportService
   def fetch_and_parse_html(socratic_seminar)
     @seminar = socratic_seminar
     log "Fetching: #{@seminar.topics_list_url}"
-    response = Net::HTTP.get_response(URI(@seminar.topics_list_url))
-    unless response.is_a?(Net::HTTPSuccess)
-      raise OpenURI::HTTPError.new("#{response.code} Not Found", StringIO.new)
-    end
-    html = response.body
+
+    # Use OpenURI to handle redirects automatically
+    html = URI.open(@seminar.topics_list_url).read
     @doc = Nokogiri::HTML(html)
   end
 

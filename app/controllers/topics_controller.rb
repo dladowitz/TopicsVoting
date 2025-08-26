@@ -9,10 +9,10 @@ class TopicsController < ApplicationController
   before_action :set_socratic_seminar
   before_action :set_topic, only: [ :show, :edit, :update, :destroy, :upvote, :downvote ]
 
-  # Lists all topics for a seminar, ordered by vote count
+  # Lists all root-level topics for a seminar, ordered by vote count
   # @return [void]
   def index
-    @topics = @socratic_seminar.topics.order(Arel.sql("COALESCE(votes, 0) DESC"), :id)
+    @topics = @socratic_seminar.topics.where(parent_topic_id: nil).order(Arel.sql("COALESCE(votes, 0) DESC"), :id)
     @sections = @socratic_seminar.sections.order(:id)
     @vote_states = session[:votes] || {}
 
