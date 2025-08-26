@@ -13,7 +13,7 @@ class TopicsController < ApplicationController
   # @return [void]
   def index
     @topics = @socratic_seminar.topics.where(parent_topic_id: nil).order(Arel.sql("COALESCE(votes, 0) DESC"), :id)
-    @sections = @socratic_seminar.sections.order(:id)
+    @sections = @socratic_seminar.sections.order(:order)
     @vote_states = session[:votes] || {}
 
     # Render the appropriate view based on the layout
