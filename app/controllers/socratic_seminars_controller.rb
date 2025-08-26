@@ -4,7 +4,7 @@ class SocraticSeminarsController < ApplicationController
   include ScreenSizeConcern
   include ApplicationHelper
   before_action :authenticate_user!, except: [ :show, :projector, :index ]
-  before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections, :projector, :payout ]
+  before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections, :projector, :payout, :process_payout ]
   load_and_authorize_resource except: [ :show, :projector, :new, :create ]
 
   def index
