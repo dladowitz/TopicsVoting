@@ -56,3 +56,14 @@
               class: "send-btc-link mobile-lightning-button",
               target: "_blank",
               rel: "noopener"
+
+          - if topic.subtopics.any?
+            .subtopics-container
+              .subtopics-label Subtopics:
+              .subtopics-list
+                - topic.subtopics.each do |subtopic|
+                  %span.subtopic-item
+                    - if subtopic.link.present?
+                      = link_to "→ #{subtopic.name}", subtopic.link, target: "_blank", rel: "noopener"
+                    - else
+                      = "→ #{subtopic.name}"

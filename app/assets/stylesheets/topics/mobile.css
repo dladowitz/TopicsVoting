@@ -75,7 +75,7 @@
       padding-right: 0.5rem;
       margin-bottom: 0.5rem;
       background-color: #fff;
-      border: 1px solid #e9ecef;
+      border: 2px solid #e9ecef;
       border-radius: 0.5rem;
 
       .topic-header-row {
@@ -176,6 +176,40 @@
           &:hover {
             text-decoration: underline;
           }
+        }
+      }
+
+      /* Subtopics */
+      .subtopics-container {
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid #e9ecef;
+      }
+
+      .subtopics-label {
+        font-size: 0.85rem;
+        margin-bottom: 0.1rem;
+      }
+
+      .subtopics-list {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .subtopic-item {
+        margin-bottom: 0.1rem;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        font-weight: 500;
+
+        a {
+          color: rgb(34, 34, 34) !important;
+          text-decoration: none;
+          font-weight: 500;
+        }
+
+        a:hover {
+          text-decoration: underline;
         }
       }
     }
