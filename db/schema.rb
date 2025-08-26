@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_24_214954) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_26_020602) do
   create_table "organization_roles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "organization_id", null: false
@@ -87,7 +87,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_24_214954) do
     t.integer "votes", default: 0, null: false
     t.string "link"
     t.integer "section_id", null: false
+    t.integer "parent_topic_id"
     t.index ["id"], name: "index_topics_on_id", unique: true
+    t.index ["parent_topic_id"], name: "index_topics_on_parent_topic_id"
     t.index ["section_id"], name: "index_topics_on_section_id"
   end
 
