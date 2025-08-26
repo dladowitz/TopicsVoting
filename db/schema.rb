@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_26_020602) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_26_074645) do
   create_table "organization_roles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "organization_id", null: false
@@ -40,6 +40,23 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_020602) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["topic_id"], name: "index_payments_on_topic_id"
+  end
+
+  create_table "payouts", force: :cascade do |t|
+    t.integer "socratic_seminar_id", null: false
+    t.integer "organization_id", null: false
+    t.integer "amount"
+    t.text "invoice"
+    t.string "payment_hash"
+    t.string "status"
+    t.text "memo"
+    t.json "lnbits_response"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "invoice_type"
+    t.index ["invoice_type"], name: "index_payouts_on_invoice_type"
+    t.index ["organization_id"], name: "index_payouts_on_organization_id"
+    t.index ["socratic_seminar_id"], name: "index_payouts_on_socratic_seminar_id"
   end
 
   create_table "sections", force: :cascade do |t|
@@ -108,6 +125,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_020602) do
   add_foreign_key "organization_roles", "organizations"
   add_foreign_key "organization_roles", "users"
   add_foreign_key "payments", "topics"
+  add_foreign_key "payouts", "organizations"
+  add_foreign_key "payouts", "socratic_seminars"
   add_foreign_key "sections", "socratic_seminars"
   add_foreign_key "site_roles", "users"
   add_foreign_key "socratic_seminars", "organizations"
