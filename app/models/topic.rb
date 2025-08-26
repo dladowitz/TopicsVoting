@@ -6,11 +6,16 @@ HOSTNAME = ENV["HOSTNAME"] # Make sure there is no "/" trailing slash in the ENV
 # @attr [Integer] votes Number of votes for this topic
 # @attr [Integer] sats_received Number of satoshis received for this topic
 # @attr [String] lnurl Lightning Network URL for payments
+# @attr [Integer] parent_topic_id Optional ID of the parent topic
 
 class Topic < ApplicationRecord
   belongs_to :section
   has_one :socratic_seminar, through: :section
   has_many :payments
+
+  # Parent-child relationship associations
+  belongs_to :parent_topic, class_name: "Topic", optional: true
+  has_many :subtopics, class_name: "Topic", foreign_key: "parent_topic_id"
 
   validates :name, presence: true
   # Custom validation for links to allow various URL schemes
