@@ -231,6 +231,20 @@ RSpec.describe Topic, type: :model do
     end
   end
 
+  describe "#socratic_seminar_id" do
+    let(:topic) { create(:topic) }
+
+    it "returns the socratic seminar id" do
+      expect(topic.socratic_seminar_id).to eq(topic.socratic_seminar.id)
+    end
+
+    it "returns nil when socratic seminar is nil" do
+      # Mock the socratic_seminar association to return nil
+      allow(topic).to receive(:socratic_seminar).and_return(nil)
+      expect(topic.socratic_seminar_id).to be_nil
+    end
+  end
+
   describe "factory" do
     it "has a valid factory" do
       expect(build(:topic)).to be_valid
