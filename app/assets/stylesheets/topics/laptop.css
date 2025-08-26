@@ -848,6 +848,10 @@
         border: 1px solid #e9ecef;
         border-radius: 8px;
         background: #f8f9fa;
+        width: 100%;
+        max-width: 100%;
+        overflow: hidden;
+        box-sizing: border-box;
       }
 
       .bolt11-label {
@@ -864,6 +868,7 @@
 
       .bolt11-input {
         width: 100%;
+        max-width: 100%;
         padding: 0.75rem;
         border: 1px solid #ced4da;
         border-radius: 4px;
@@ -871,6 +876,10 @@
         font-size: 0.875rem;
         resize: vertical;
         min-height: 80px;
+        box-sizing: border-box;
+        overflow-x: auto;
+        word-wrap: break-word;
+        white-space: pre-wrap;
       }
 
       .bolt11-input:focus {
