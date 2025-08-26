@@ -580,6 +580,414 @@
   border-color: #c53030;
 }
 
+/* Payout Page Styles */
+.payout-page {
+  .page-header {
+    margin-bottom: 2rem;
+
+    .page-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .page-header-container {
+      flex: 1;
+    }
+
+    .page-title {
+      margin: 0;
+      color: #333;
+      font-size: 2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+
+      .seminar-info {
+        font-size: 0.9em;
+        color: #666;
+      }
+    }
+
+    .header-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      border: 1px solid #e9ecef;
+      border-radius: 8px;
+      padding: 0.25rem 0.5rem;
+
+      .sats-btc-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.85em;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 48px;
+        height: 28px;
+      }
+
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background-color: #f7931a;
+        border-radius: 34px;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 20px; width: 20px;
+        left: 5px;
+        top: 0px;
+        background-color: white;
+        border-radius: 50%;
+        transition: .3s;
+      }
+
+      .switch input:checked + .slider {
+        background-color: #222;
+      }
+
+      .switch input:checked + .slider:before {
+        transform: translateX(20px);
+      }
+
+      .toggle-label {
+        font-weight: 600;
+        color: #888;
+        user-select: none;
+      }
+
+      .toggle-label-sats {
+        color: #f7931a;
+      }
+
+      .toggle-label-btc {
+        margin-right: 0.5em;
+        color: #222;
+      }
+
+      .button {
+        min-width: 120px;
+        text-align: center;
+        background-color: white;
+        border: 1px solid #f89406;
+        color: #f89406;
+        border-radius: 8px;
+        padding: 6px 12px;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.2s ease;
+      }
+
+      .button:hover {
+        background-color: #f89406;
+        color: white;
+      }
+
+      .button-secondary {
+        border-color: #6c757d;
+        color: #6c757d;
+      }
+
+      .button-secondary:hover {
+        background-color: #6c757d;
+        color: white;
+      }
+    }
+  }
+
+  .payout-sections {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .payout-section {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+
+    .section-title {
+      margin: 0 0 1rem 0;
+      color: #333;
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      i {
+        color: #f7931a;
+      }
+    }
+
+    .payout-amount {
+      .amount-display {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+
+        .amount-unit {
+          font-size: 2rem;
+          color: #666;
+          font-weight: 500;
+        }
+
+        .amount-value {
+          font-size: 2rem;
+          font-weight: 700;
+          color: #f7931a;
+        }
+      }
+
+      .amount-description {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 0.5rem;
+      }
+
+      .manual-process-note {
+        color: #856404;
+        background-color: #fff3cd;
+        border: 1px solid #ffeaa7;
+        border-radius: 4px;
+        padding: 0.75rem;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        i {
+          color: #856404;
+        }
+      }
+    }
+  }
+
+  .payout-status-message.success {
+    margin-bottom: 0.5rem;
+    color: #155724;
+  }
+
+  .payout-status-message.error {
+    margin-bottom: 0.5rem;
+    color: #721c24;
+  }
+  .payout-actions {
+    margin-bottom: 2rem;
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      .button {
+        background: #f7931a;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        justify-content: center;
+        min-width: 200px;
+      }
+
+      .button:hover {
+        background: #e67e22;
+        transform: translateY(-1px);
+      }
+
+      .button:disabled {
+        background: #e5e7eb;
+        color: #b1b5bb;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .button-note {
+        color: #dc3545;
+        font-size: 0.9em;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+
+        i {
+          color: #dc3545;
+        }
+      }
+
+      .bolt11-input-section {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        background: #f8f9fa;
+      }
+
+      .bolt11-label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        color: #495057;
+      }
+
+      .bolt11-label i {
+        color: #f7931a;
+        margin-right: 0.5rem;
+      }
+
+      .bolt11-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.875rem;
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .bolt11-input:focus {
+        outline: none;
+        border-color: #f7931a;
+        box-shadow: 0 0 0 2px rgba(247, 147, 26, 0.25);
+      }
+
+      .bolt11-help {
+        margin-top: 0.5rem;
+        font-size: 0.875rem;
+        color: #6c757d;
+      }
+
+      .bolt11-help i {
+        color: #f7931a;
+        margin-right: 0.25rem;
+      }
+    }
+
+    .payout-status-message {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+    }
+
+    .payout-status-message.success {
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      color: #155724;
+    }
+
+    .payout-status-message.success i {
+      color: #28a745;
+    }
+
+    .payout-status-message.error {
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      color: #721c24;
+    }
+
+    .payout-status-message.error i {
+      color: #dc3545;
+    }
+  }
+
+  .payout-details {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    background: #fff;
+
+    .section-subtitle {
+      margin: 0 0 1rem 0;
+      color: #333;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .topics-payments {
+      .section-name {
+        margin: 1rem 0 0.5rem 0;
+        color: #555;
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      .topic-payment-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem;
+        border: 1px solid #e9ecef;
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+        background: #f8f9fa;
+
+        .topic-info {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+
+          .topic-name {
+            font-weight: 600;
+            color: #333;
+          }
+
+          .topic-payment-amount {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+
+            .topic-amount-unit {
+              color: #666;
+            }
+
+            .sats-received {
+              font-weight: 600;
+              color: #f7931a;
+            }
+          }
+        }
+
+        .topic-payment-count {
+          color: #666;
+          font-size: 0.9em;
+        }
+      }
+    }
+  }
+}
+
 /* Topic Show Page Styles */
 .topic-show {
   .page-header-row {

@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       delete :delete_sections
       get :projector
       get :payout
+      post :process_payout
     end
 
     resources :sections

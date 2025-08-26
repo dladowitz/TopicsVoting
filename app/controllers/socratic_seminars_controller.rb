@@ -2,6 +2,7 @@
 
 class SocraticSeminarsController < ApplicationController
   include ScreenSizeConcern
+  include ApplicationHelper
   before_action :authenticate_user!, except: [ :show, :projector, :index ]
   before_action :set_socratic_seminar, only: [ :show, :edit, :update, :destroy, :delete_sections, :projector, :payout ]
   load_and_authorize_resource except: [ :show, :projector, :new, :create ]
@@ -80,10 +81,64 @@ class SocraticSeminarsController < ApplicationController
                                                  .where(payments: { paid: true })
                                                  .sum("payments.amount")
 
-    # Placeholder for total payouts (will be implemented later)
-    @total_payouts = 0
+    # Calculate total payouts already made
+    @total_payouts = Payout.total_for_seminar(@socratic_seminar)
+
+    # Check if payout is possible
+    @can_payout = LightningPayoutService.can_payout?(@socratic_seminar)
+    @available_for_payout = LightningPayoutService.calculate_available_payout(@socratic_seminar)
 
     render "socratic_seminars/#{current_layout}/payout"
+  end
+
+  # Processes a payout to the organization
+  # @note Only accessible to users who can manage the organization
+  # @return [void]
+  def process_payout
+    unless @socratic_seminar.manageable_by?(current_user)
+      raise CanCan::AccessDenied
+    end
+
+    # Get the BOLT11 invoice from params
+    bolt11_invoice = params[:bolt11_invoice]&.strip
+
+    # Validate that BOLT11 invoice is provided
+    if bolt11_invoice.blank?
+      redirect_to payout_socratic_seminar_path(@socratic_seminar),
+                  alert: "BOLT11 invoice is required for payout."
+      return
+    end
+
+    # Validate that payout is possible
+    unless LightningPayoutService.can_payout?(@socratic_seminar)
+      redirect_to payout_socratic_seminar_path(@socratic_seminar),
+                  alert: "Payout is not possible. Please check organization settings and available funds."
+      return
+    end
+
+    # Get the amount to pay (all available funds)
+    amount_sats = LightningPayoutService.calculate_available_payout(@socratic_seminar)
+    memo = "Payout for #{@socratic_seminar.organization.name} ##{@socratic_seminar.seminar_number}"
+
+    begin
+      # Validate BOLT11 invoice amount is not larger than available amount
+      LightningPayoutService.validate_bolt11_amount(bolt11_invoice, amount_sats)
+
+      # Get the actual amount from the invoice for payment
+      decoded_invoice = LightningPayoutService.decode_bolt11_invoice(bolt11_invoice)
+      invoice_amount_sats = (decoded_invoice["amount_msat"] || 0) / 1000
+
+      # Create and process the payout with the invoice amount
+      payout = Payout.create_and_pay(@socratic_seminar, invoice_amount_sats, memo, bolt11_invoice)
+
+      puts "\n\n ->>>>>>>> Payout successful: #{payout.inspect} \n\n"
+
+      redirect_to payout_socratic_seminar_path(@socratic_seminar),
+                  notice: "Payout of #{format_with_commas(invoice_amount_sats)} sats/₿ was successfully processed."
+    rescue StandardError => e
+      redirect_to payout_socratic_seminar_path(@socratic_seminar),
+                  alert: "Payout failed: #{e.message}"
+    end
   end
 
   private
