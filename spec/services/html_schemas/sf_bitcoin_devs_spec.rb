@@ -104,6 +104,75 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       expect(stats[:topics_skipped]).to eq(0)
     end
 
+    it "creates parent-child relationships for nested topics" do
+      schema.process_sections
+
+      # Find the parent topic
+      parent_topic = Topic.find_by(name: "Parent Topic")
+      expect(parent_topic).to be_present
+      expect(parent_topic.parent_topic_id).to be_nil
+
+      # Find the nested topics
+      nested_topic_1 = Topic.find_by(name: "Nested Topic 1")
+      nested_topic_2 = Topic.find_by(name: "Nested Topic 2")
+
+      expect(nested_topic_1).to be_present
+      expect(nested_topic_2).to be_present
+
+      # Verify they have the correct parent
+      expect(nested_topic_1.parent_topic_id).to eq(parent_topic.id)
+      expect(nested_topic_2.parent_topic_id).to eq(parent_topic.id)
+
+      # Verify the association works
+      expect(parent_topic.subtopics).to contain_exactly(nested_topic_1, nested_topic_2)
+    end
+
+    it "handles real Bitcoin Builders SF nested structure" do
+      # Test with actual HTML structure from the website
+      real_html = <<~HTML
+        <h2 id="bitcoin-products-20-min">Bitcoin Products (20 min)</h2>
+        <ul>
+          <li>Block rolls out <a href="https://block.xyz/inside/block-to-roll-out-bitcoin-payments-on-square">Bitcoin payments on Square</a> at the Bitcoin 2025 Conference in Las Vegas
+            <ul>
+              <li>Steak N Shake reports <a href="https://bitcoinmagazine.com/news/steak-n-shake-reveals-bitcoin-payment-success-at-bitcoin-2025-conference">50% savings on processing fees when using BTC</a></li>
+            </ul>
+          </li>
+          <li>Square is earning <a href="https://www.coindesk.com/tech/2025/05/29/square-flies-the-flag-for-the-lightning-network-with-97-yield-on-bitcoin-holdings">9.7% returns</a> on its C= Lighting Service Provider
+            <ul>
+              <li>Bitrefill reports <a href="https://x.com/bitrefill/status/1930217463779676334">3.5% returns</a></li>
+              <li>Amboss launches <a href="https://bitcoinmagazine.com/news/amboss-launches-rails-a-self-custodial-bitcoin-yield-service">Rails</a>, a self-custody Bitcoin yield service</li>
+            </ul>
+          </li>
+        </ul>
+      HTML
+
+      doc = Nokogiri::HTML(real_html)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+      schema.process_sections
+
+      # Check that parent topics were created
+      parent_1 = Topic.find_by(name: "Block rolls out Bitcoin payments on Square at the Bitcoin 2025 Conference in Las Vegas")
+      parent_2 = Topic.find_by(name: "Square is earning 9.7% returns on its C= Lighting Service Provider")
+
+      expect(parent_1).to be_present
+      expect(parent_2).to be_present
+      expect(parent_1.parent_topic_id).to be_nil
+      expect(parent_2.parent_topic_id).to be_nil
+
+      # Check that subtopics were created with correct parent
+      subtopic_1 = Topic.find_by(name: "Steak N Shake reports 50% savings on processing fees when using BTC")
+      subtopic_2 = Topic.find_by(name: "Bitrefill reports 3.5% returns")
+      subtopic_3 = Topic.find_by(name: "Amboss launches Rails, a self-custody Bitcoin yield service")
+
+      expect(subtopic_1).to be_present
+      expect(subtopic_2).to be_present
+      expect(subtopic_3).to be_present
+
+      expect(subtopic_1.parent_topic_id).to eq(parent_1.id)
+      expect(subtopic_2.parent_topic_id).to eq(parent_2.id)
+      expect(subtopic_3.parent_topic_id).to eq(parent_2.id)
+    end
+
     context "when section already exists" do
       before do
         create(:section, name: "Development", socratic_seminar: socratic_seminar)

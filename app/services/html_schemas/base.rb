@@ -27,21 +27,28 @@ module HtmlSchemas
       Rails.logger.info("[Import Topics] #{message}")
     end
 
-    def create_or_skip_topic(section, name, link)
+    def create_or_skip_topic(section, name, link, parent_topic = nil)
       topic = section.topics.find_by(name: name)
       if topic
+        # Check if we need to update the parent relationship
+        if parent_topic && topic.parent_topic_id.nil?
+          topic.update!(parent_topic: parent_topic)
+          log "  Updated existing topic with parent: #{topic.name} -> #{parent_topic.name}"
+        end
         @stats[:topics_skipped] += 1
         log "Skipping Topic (already exists): #{topic.name}"
       else
         begin
-          topic = section.topics.create!(name: name, link: link)
+          topic = section.topics.create!(name: name, link: link, parent_topic: parent_topic)
           @stats[:topics_created] += 1
-          log "  Created Topic: #{topic.name} #{'- link found' if topic.link.present?}"
+          topic_type = parent_topic ? "Subtopic" : "Topic"
+          log "  Created #{topic_type}: #{topic.name} #{'- link found' if topic.link.present?} #{'- subtopic of: ' + parent_topic.name if parent_topic}"
         rescue ActiveRecord::RecordInvalid => e
           @stats[:topics_failed] += 1
           log "  Failed to create Topic: #{name} (#{e.message})"
         end
       end
+      topic
     end
 
     def create_or_skip_section(section_name)

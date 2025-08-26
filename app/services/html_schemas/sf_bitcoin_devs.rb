@@ -38,25 +38,41 @@ module HtmlSchemas
 
     def process_list_items(list, section, parent_topic = nil)
       list.css("> li").each do |li|
-        # Create a copy of the li element and remove nested <ul> and <ol> elements
-        li_copy = li.dup
-        li_copy.css("ul, ol").remove
+        # Get the text content before any nested lists
+        # First, find if there's a nested list
+        nested_list = li.xpath("./ul | ./ol").first
 
-        # Get all visible text content of this <li> (including text from <a> tags, but excluding nested list content)
-        direct_text = li_copy.text.strip
+        if nested_list
+          # Get text content before the nested list
+          # Create a copy of the li element and remove the nested list
+          li_copy = li.dup
+          li_copy.xpath("./ul | ./ol").remove
+          direct_text = li_copy.text.strip
+        else
+          # No nested list, get all text
+          direct_text = li.text.strip
+        end
 
         # Extract link if present
         link = extract_link(li, direct_text)
         direct_text = direct_text.gsub(/(https?:\/\/\S+|www\.\S+)/, "").strip if link
 
         # Create topic for this <li> if it has content
+        current_topic = nil
         if direct_text.present?
-          create_or_skip_topic(section, direct_text, link)
+          current_topic = create_or_skip_topic(section, direct_text, link, parent_topic)
         end
 
         # Process any nested <ul> or <ol> within this <li>
-        nested_list = li.xpath("./ul | ./ol").first
-        process_list_items(nested_list, section) if nested_list
+        if nested_list
+          if current_topic
+            # Process nested items with the current topic as the parent
+            process_list_items(nested_list, section, current_topic)
+          else
+            # If no current topic was created, process nested items with the same parent
+            process_list_items(nested_list, section, parent_topic)
+          end
+        end
       end
     end
   end

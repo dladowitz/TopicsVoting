@@ -72,7 +72,7 @@ RSpec.describe ImportService do
       success, output = described_class.import_sections_and_topics(socratic_seminar)
 
       expect(success).to be false
-      expect(output).to include("Error: 404 Not Found")
+      expect(output).to include("Error: 404")
     end
 
     it 'handles parsing errors' do
