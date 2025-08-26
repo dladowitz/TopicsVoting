@@ -1,4 +1,4 @@
-.container
+.container{"data-controller" => "payout-animation"}
   .payout-page
     .page-header
       .page-header-row
@@ -31,12 +31,12 @@
 
       .payout-section
         %h2.section-title
-          %i.fas.fa-arrow-up
+          %i.fas.fa-arrow-up{"data-payout-animation-target" => "lightningElement"}
           Total Payouts to Organization
         .payout-amount
           .amount-display
             %span.amount-unit sats
-            %span.amount-value.sats-received{"data-sats" => @total_payouts}= format_with_commas(@total_payouts)
+            %span.amount-value.sats-received{"data-sats" => @total_payouts, "data-payout-animation-target" => "payoutAmount"}= format_with_commas(@total_payouts)
           .amount-description
             Total amount paid out to the organization
 
@@ -52,7 +52,7 @@
             Amount available to be paid out to the organization
 
     - if notice
-      .payout-status-message.success
+      .payout-status-message.success{"data-payout-animation-target" => "successMessage"}
         %i.fas.fa-check-circle
         = notice
 
@@ -77,7 +77,7 @@
                 %i.fas.fa-info-circle
                 Enter a BOLT11 invoice for up to #{format_with_commas(@available_for_payout)} sats to pay out the funds.
 
-            %button.button.button-primary{type: "submit"}
+            %button.button.button-primary{type: "submit", "data-payout-animation-target" => "processButton"}
               %i.fas.fa-paper-plane
               Process Payout
         - else
