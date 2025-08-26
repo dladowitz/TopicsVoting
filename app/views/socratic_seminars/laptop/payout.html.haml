@@ -25,7 +25,7 @@
         .payout-amount
           .amount-display
             %span.amount-unit sats
-            %span.amount-value.sats-received{"data-sats" => @total_payments_received}= @total_payments_received
+            %span.amount-value.sats-received{"data-sats" => @total_payments_received}= format_with_commas(@total_payments_received)
           .amount-description
             Total Lightning payments received for all topics in this seminar
 
@@ -36,7 +36,7 @@
         .payout-amount
           .amount-display
             %span.amount-unit sats
-            %span.amount-value.sats-received{"data-sats" => @total_payouts}= @total_payouts
+            %span.amount-value.sats-received{"data-sats" => @total_payouts}= format_with_commas(@total_payouts)
           .amount-description
             Total amount paid out to the organization
           .manual-process-note
@@ -51,7 +51,7 @@
         .payout-amount
           .amount-display
             %span.amount-unit sats
-            %span.amount-value.sats-received{"data-sats" => @total_payments_received - @total_payouts}= @total_payments_received - @total_payouts
+            %span.amount-value.sats-received{"data-sats" => @total_payments_received - @total_payouts}= format_with_commas(@total_payments_received - @total_payouts)
           .amount-description
             Amount available to be paid out to the organization
 
@@ -77,7 +77,7 @@
                   %span.topic-name= topic.name
                   .topic-payment-amount
                     %span.topic-amount-unit sats
-                    %span.sats-received{"data-sats" => topic_payments}= topic_payments
+                    %span.sats-received{"data-sats" => topic_payments}= format_with_commas(topic_payments)
 
                 .topic-payment-count
                   = topic.completed_payments_count

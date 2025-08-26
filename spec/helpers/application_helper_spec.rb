@@ -40,4 +40,39 @@ RSpec.describe ApplicationHelper, type: :helper do
       end
     end
   end
+
+  describe '#format_with_commas' do
+    context 'with small numbers' do
+      it 'returns the number as string for numbers less than 1000' do
+        expect(helper.format_with_commas(123)).to eq('123')
+        expect(helper.format_with_commas(999)).to eq('999')
+      end
+    end
+
+    context 'with numbers 1000 and above' do
+      it 'adds commas for thousands' do
+        expect(helper.format_with_commas(1000)).to eq('1,000')
+        expect(helper.format_with_commas(11145)).to eq('11,145')
+        expect(helper.format_with_commas(123456)).to eq('123,456')
+      end
+
+      it 'adds commas for millions' do
+        expect(helper.format_with_commas(1000000)).to eq('1,000,000')
+        expect(helper.format_with_commas(1234567)).to eq('1,234,567')
+      end
+    end
+
+    context 'with string input' do
+      it 'formats string numbers correctly' do
+        expect(helper.format_with_commas('11145')).to eq('11,145')
+        expect(helper.format_with_commas('123456')).to eq('123,456')
+      end
+    end
+
+    context 'with zero' do
+      it 'returns zero as string' do
+        expect(helper.format_with_commas(0)).to eq('0')
+      end
+    end
+  end
 end

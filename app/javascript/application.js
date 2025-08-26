@@ -70,7 +70,8 @@ function updateSatsLabels(mode) {
   });
 
   document.querySelectorAll('.sats-received').forEach(function(el) {
-    el.textContent = el.dataset.sats;
+    const satsValue = el.dataset.sats;
+    el.textContent = formatWithCommas(satsValue);
   });
 
   // Update amount-unit elements for payout page
@@ -90,7 +91,7 @@ function updateSatsLabels(mode) {
   // Update topic-payment-amount elements for payout page
   document.querySelectorAll('.topic-payment-amount .sats-received').forEach(function(el) {
     const satsValue = el.dataset.sats;
-    el.textContent = satsValue;
+    el.textContent = formatWithCommas(satsValue);
   });
 
   // Update topic amount units for payout page
@@ -106,4 +107,9 @@ function updateSatsLabels(mode) {
       el.style.gap = '0.25rem';
     }
   });
+}
+
+// Helper function to format numbers with commas
+function formatWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }

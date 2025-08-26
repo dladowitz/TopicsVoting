@@ -14,4 +14,14 @@ module ApplicationHelper
   rescue URI::InvalidURIError
     nil
   end
+
+  # Formats a number with commas for better readability
+  # @param [Integer, String] number The number to format
+  # @return [String] The formatted number with commas
+  # @example
+  #   format_with_commas(11145) # => "11,145"
+  #   format_with_commas("11145") # => "11,145"
+  def format_with_commas(number)
+    number.to_s.reverse.gsub(/(\d{3})(?=\d)/, '\\1,').reverse
+  end
 end
