@@ -149,6 +149,8 @@
             align-items: center;
             justify-content: center;
             line-height: 1;
+            position: relative;
+            top: 2px;
           }
         }
       }
