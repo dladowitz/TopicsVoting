@@ -8,11 +8,17 @@ class SectionsController < ApplicationController
 
   def new
     @section = @socratic_seminar.sections.build
+    @next_order = @socratic_seminar.sections.count
     render "sections/laptop/new"
   end
 
   def create
     @section = @socratic_seminar.sections.build(section_params)
+
+    # Set default order if not provided
+    if @section.order.nil?
+      @section.order = @socratic_seminar.sections.count
+    end
 
     if @section.save
       redirect_to edit_socratic_seminar_path(@socratic_seminar), notice: "Section was successfully created."
@@ -49,6 +55,6 @@ class SectionsController < ApplicationController
   end
 
   def section_params
-    params.require(:section).permit(:name)
+    params.require(:section).permit(:name, :order)
   end
 end

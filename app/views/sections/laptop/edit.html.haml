@@ -14,6 +14,11 @@
       = f.text_field :name, required: true, placeholder: "Enter section name"
       .field-hint Required field
 
+    .field
+      = f.label :order, "Order"
+      = f.number_field :order, required: true, placeholder: "Enter order the section should appear in the list"
+      .field-hint Required field
+
     .actions
       = f.submit "Update Section", class: "button"
       = link_to "Cancel", edit_socratic_seminar_path(@socratic_seminar), class: "button button-secondary"

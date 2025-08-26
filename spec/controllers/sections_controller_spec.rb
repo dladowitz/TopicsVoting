@@ -41,9 +41,35 @@ RSpec.describe SectionsController, type: :controller do
         }.to change(Section, :count).by(1)
       end
 
+      it "sets default order when order is not provided" do
+        expect {
+          post :create, params: { socratic_seminar_id: socratic_seminar.id, section: valid_attributes }
+        }.to change(Section, :count).by(1)
+
+        new_section = Section.last
+        expect(new_section.order).to eq(0) # Default value from migration
+      end
+
       it "redirects to the socratic seminar edit page" do
         post :create, params: { socratic_seminar_id: socratic_seminar.id, section: valid_attributes }
         expect(response).to redirect_to(edit_socratic_seminar_path(socratic_seminar))
+      end
+
+      it "uses provided order when order is specified" do
+        attributes_with_order = valid_attributes.merge(order: 5)
+        post :create, params: { socratic_seminar_id: socratic_seminar.id, section: attributes_with_order }
+
+        new_section = Section.last
+        expect(new_section.order).to eq(5)
+      end
+
+      it "sets default order when order is explicitly nil" do
+        # Create a section with order explicitly set to nil to test the default logic
+        attributes_with_nil_order = valid_attributes.merge(order: nil)
+        post :create, params: { socratic_seminar_id: socratic_seminar.id, section: attributes_with_nil_order }
+
+        new_section = Section.last
+        expect(new_section.order).to eq(1) # Should be 1 since there's already one section
       end
     end
 
@@ -73,6 +99,13 @@ RSpec.describe SectionsController, type: :controller do
       it "redirects to the socratic seminar edit page" do
         put :update, params: { socratic_seminar_id: socratic_seminar.id, id: section.id, section: new_attributes }
         expect(response).to redirect_to(edit_socratic_seminar_path(socratic_seminar))
+      end
+
+      it "updates the order when order is provided" do
+        attributes_with_order = new_attributes.merge(order: 10)
+        put :update, params: { socratic_seminar_id: socratic_seminar.id, id: section.id, section: attributes_with_order }
+        section.reload
+        expect(section.order).to eq(10)
       end
     end
 

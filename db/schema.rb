@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_26_074645) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_26_212248) do
   create_table "organization_roles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "organization_id", null: false
@@ -64,6 +64,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_26_074645) do
     t.integer "socratic_seminar_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "order", default: 0, null: false
+    t.index ["socratic_seminar_id", "order"], name: "index_sections_on_socratic_seminar_id_and_order"
     t.index ["socratic_seminar_id"], name: "index_sections_on_socratic_seminar_id"
   end
 
