@@ -67,6 +67,21 @@ RSpec.describe HtmlSchemas::BaseSchema do
       expect(stats[:sections_created]).to eq(1)
     end
 
+    it "sets the order field correctly" do
+      # Create a section first to test order increment
+      create(:section, socratic_seminar: socratic_seminar, order: 0)
+
+      section = schema.send(:create_or_skip_section, "Second Section")
+      expect(section.order).to eq(1)
+      expect(output).to include("Created Section: Second Section (order: 1)")
+    end
+
+    it "sets order to 0 for the first section" do
+      section = schema.send(:create_or_skip_section, "First Section")
+      expect(section.order).to eq(0)
+      expect(output).to include("Created Section: First Section (order: 0)")
+    end
+
     it "skips existing section" do
       existing = create(:section, name: "Existing Section", socratic_seminar: socratic_seminar)
       expect {

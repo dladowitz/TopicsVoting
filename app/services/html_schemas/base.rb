@@ -58,9 +58,11 @@ module HtmlSchemas
         log "Skipping Section (already exists): #{section.name}"
       else
         begin
-          section = Section.create!(name: section_name, socratic_seminar: @seminar)
+          # Set order to the next available position
+          next_order = @seminar.sections.count
+          section = Section.create!(name: section_name, socratic_seminar: @seminar, order: next_order)
           @stats[:sections_created] += 1
-          log "Created Section: #{section.name}"
+          log "Created Section: #{section.name} (order: #{next_order})"
         rescue ActiveRecord::RecordInvalid => e
           @stats[:sections_failed] += 1
           log "Failed to create Section: #{section_name} (#{e.message})"
