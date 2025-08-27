@@ -11,6 +11,7 @@ AllCops:
     - 'tmp/**/*'
     - 'vendor/**/*'
     - 'log/**/*'
+    - '**/*.haml'
 
 # Disable specific cops for schema files
 Rails/CreateTableWithTimestamps:
