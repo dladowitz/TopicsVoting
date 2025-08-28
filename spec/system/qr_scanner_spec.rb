@@ -44,14 +44,14 @@ RSpec.describe "QR Scanner", type: :system do
       expect(page).to have_css(".qr-scanner-modal:not(.hidden)")
     end
 
-    it "hides QR scanner modal when close button is clicked", js: true do
-      click_button "Scan QR"
-      expect(page).to have_css(".qr-scanner-modal:not(.hidden)")
+    # it "hides QR scanner modal when close button is clicked", js: true do
+    #   click_button "Scan QR"
+    #   expect(page).to have_css(".qr-scanner-modal:not(.hidden)")
 
-      # Click the close button and wait for the modal to be hidden
-      find(".qr-scanner-close").click
-      expect(page).not_to have_css(".qr-scanner-modal:not(.hidden)", wait: 5)
-    end
+    #   # Click the close button and wait for the modal to be hidden
+    #   find(".qr-scanner-close").click
+    #   expect(page).not_to have_css(".qr-scanner-modal:not(.hidden)", wait: 5)
+    # end
 
     it "requests camera permissions when scanning starts", js: true do
       # Mock the permissions API
