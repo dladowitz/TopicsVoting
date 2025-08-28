@@ -26,9 +26,14 @@ class Ability
       @user.admin_of?(role.organization)
     end
 
-    # Users can manage topics in seminars they manage
+    # Users can manage topics in seminars they manage or in sections that allow public submissions
     can :manage, Topic do |topic|
-      topic.socratic_seminar.manageable_by?(@user)
+      topic.socratic_seminar.manageable_by?(@user) || topic.section&.allows_topic_creation_by?(@user)
+    end
+
+    # Users can create topics in sections they have access to
+    can :create, Topic do |topic|
+      topic.section&.allows_topic_creation_by?(@user)
     end
 
     # Users can manage Socratic Seminars for organizations they manage

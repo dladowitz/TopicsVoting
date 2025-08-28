@@ -19,6 +19,13 @@
       = f.number_field :order, required: true, placeholder: "Enter order the section should appear in the list"
       .field-hint Required field
 
+    .field
+      = f.label :allow_public_submissions, class: 'custom-checkbox' do
+        = f.check_box :allow_public_submissions
+        %span.checkmark
+        Allow Public Submissions
+      .field-hint Allow anyone to submit topics to this section
+
     .actions
       = f.submit "Update Section", class: "button"
       = link_to "Cancel", edit_socratic_seminar_path(@socratic_seminar), class: "button button-secondary"

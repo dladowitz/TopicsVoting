@@ -31,7 +31,7 @@ class TopicsController < ApplicationController
   # @return [void]
   def new
     @topic = Topic.new
-    @sections = @socratic_seminar.sections
+    @sections = @socratic_seminar.sections.available_for_topic_creation(current_user)
     @submit_text = "Create Topic"
     @back_text = "Back to Topics"
     @back_path = socratic_seminar_topics_path(@socratic_seminar)
@@ -49,7 +49,7 @@ class TopicsController < ApplicationController
     else
       # Log validation errors for debugging
       Rails.logger.error "Topic creation failed with errors: #{@topic.errors.full_messages.join(', ')}"
-      @sections = @socratic_seminar.sections
+      @sections = @socratic_seminar.sections.available_for_topic_creation(current_user)
       @submit_text = "Create Topic"
       @back_text = "Back to Topics"
       @back_path = socratic_seminar_topics_path(@socratic_seminar)
@@ -60,7 +60,7 @@ class TopicsController < ApplicationController
   # Displays form for editing a topic
   # @return [void]
   def edit
-    @sections = @socratic_seminar.sections
+    @sections = @socratic_seminar.sections.available_for_topic_creation(current_user)
     @submit_text = "Update Topic"
     @back_text = "Back to Topic"
     @back_path = socratic_seminar_topic_path(@socratic_seminar, @topic)
@@ -77,7 +77,7 @@ class TopicsController < ApplicationController
     else
       # Log validation errors for debugging
       Rails.logger.error "Topic update failed with errors: #{@topic.errors.full_messages.join(', ')}"
-      @sections = @socratic_seminar.sections
+      @sections = @socratic_seminar.sections.available_for_topic_creation(current_user)
       @submit_text = "Update Topic"
       @back_text = "Back to Topic"
       @back_path = socratic_seminar_topic_path(@socratic_seminar, @topic)

@@ -1,0 +1,68 @@
+.section-form .field {
+  margin-bottom: 1.5rem;
+}
+
+.section-form .field-hint {
+  font-size: 0.875rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+/* Custom checkbox styling */
+.section-form .field .custom-checkbox {
+  position: relative;
+  padding-left: 35px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 24px;
+}
+
+.section-form .field .custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.section-form .field .custom-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 24px;
+  width: 24px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.section-form .field .custom-checkbox:hover .checkmark {
+  border-color: #f7931a;
+}
+
+.section-form .field .custom-checkbox input:checked ~ .checkmark {
+  background-color: #f7931a;
+  border-color: #f7931a;
+}
+
+.section-form .field .custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 8px;
+  top: 4px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.section-form .field .custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.section-form .field .custom-checkbox input:focus ~ .checkmark {
+  box-shadow: 0 0 0 3px rgba(247, 147, 26, 0.3);
+}
