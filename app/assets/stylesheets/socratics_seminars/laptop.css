@@ -11,7 +11,7 @@
   padding: 1rem;
   border: 1px solid #e5e5e5;
   border-radius: 4px;
-  max-width: 700px;
+  /* max-width: 700px; */
 }
 
 .sections-container h2 {
@@ -574,7 +574,7 @@
 /* Socratic Seminar Form Styles */
 .seminar-form {
   max-width: 700px;
-  margin: 0.5rem 0;
+  /* margin: 0.5rem 0; */
   padding: 1rem;
   background: #ffffff;
   border-radius: 8px;

@@ -1,26 +1,57 @@
-.seminars
+.seminars{"data-controller" => "delete-modal"}
   .socratic-seminars
     %h1.edit-seminar-title Edit Seminar
 
-    = form_with(model: @socratic_seminar, local: true, class: "seminar-form") do |f|
-      .field
-        = f.label :organization_id, "Organization"
-        = f.collection_select :organization_id, Organization.all, :id, :name
+    .edit-layout
+      .edit-main-form
+        = form_with(model: @socratic_seminar, local: true, class: "seminar-form") do |f|
+          .field
+            = f.label :organization_id, "Organization"
+            = f.collection_select :organization_id, Organization.all, :id, :name
 
-      .field
-        = f.label :seminar_number, "Seminar Number"
-        = f.number_field :seminar_number
+          .field
+            = f.label :seminar_number, "Seminar Number"
+            = f.number_field :seminar_number
 
-      .field
-        = f.label :date, "Seminar Date"
-        = f.date_field :date
+          .field
+            = f.label :date, "Seminar Date"
+            = f.date_field :date
 
-      .field
-        = f.label :topics_list_url, "Topics List URL"
-        = f.url_field :topics_list_url, placeholder: "https://example.com/topics-list"
+          .field
+            = f.label :topics_list_url, "Topics List URL"
+            = f.url_field :topics_list_url, placeholder: "https://example.com/topics-list"
 
-      .actions
-        = f.submit "Update Seminar", class: "button"
-        = link_to "Cancel", organization_path(@socratic_seminar.organization), class: "button button-secondary"
+          .actions
+            = f.submit "Update Seminar", class: "button"
+            = link_to "Cancel", organization_path(@socratic_seminar.organization), class: "button button-secondary"
+
+      - if can? :manage, @socratic_seminar
+        .manage-topics
+          %h2.manage-topics-title Manage Topics
+          .manage-topics-buttons
+            = link_to "Import Topics", socratic_seminar_import_topics_path(@socratic_seminar), class: "manage-topics-button import"
+            %button.manage-topics-button.delete{"data-action" => "click->delete-modal#show"} Delete Topics
 
     = render "sections/laptop/sections"
+
+    - if can? :manage, @socratic_seminar
+      #deleteSectionsModal{"data-delete-modal-target" => "modal"}
+        .delete-modal-content
+          %h3.delete-modal-header ⚠️ Warning: You are deleting ALL Sections & Topics
+          %p
+            You are about to delete
+            %strong ALL
+            Sections and Topics for this Seminar.
+          %p
+            This will also delete
+            %strong ALL Lightning Payments
+            associated with the Topics.
+          %p.delete-modal-warning This action cannot be undone!
+
+          .delete-modal-actions
+            %button.button.delete-modal-cancel{"data-action" => "click->delete-modal#hide"} Cancel
+            = button_to "Confirm & Delete", delete_sections_socratic_seminar_path(@socratic_seminar),
+              method: :delete,
+              class: "button button-danger",
+              data: { confirm: false }
+
