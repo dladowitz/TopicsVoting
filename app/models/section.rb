@@ -18,4 +18,29 @@ class Section < ApplicationRecord
 
   # Default ordering by the order column
   default_scope { order(:order) }
+
+  # Determines if a user can create topics in this section
+  # @param user [User] The user to check permissions for
+  # @return [Boolean] true if the user can create topics in this section
+  def allows_topic_creation_by?(user)
+    return true if user&.moderator_of?(socratic_seminar.organization)
+    allow_public_submissions
+  end
+
+  # Scope for sections where a user can create topics
+  # @param user [User] The user to filter sections for
+  # @return [ActiveRecord::Relation] Sections where the user can create topics
+  scope :available_for_topic_creation, ->(user) {
+    if user.nil?
+      where(allow_public_submissions: true)
+    else
+      left_joins(socratic_seminar: :organization)
+        .where("sections.allow_public_submissions = ? OR EXISTS (
+          SELECT 1 FROM organization_roles
+          WHERE organization_roles.organization_id = organizations.id
+          AND organization_roles.user_id = ?
+          AND organization_roles.role = ?
+        )", true, user.id, "moderator")
+    end
+  }
 end

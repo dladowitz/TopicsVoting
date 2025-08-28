@@ -72,9 +72,30 @@ RSpec.describe TopicsController, type: :controller do
       expect(assigns(:topic)).to be_a_new(Topic)
     end
 
-    it "assigns available sections" do
-      get :new, params: { socratic_seminar_id: socratic_seminar.id }
-      expect(assigns(:sections)).to eq([ section ])
+    context "when user is not a moderator" do
+      it "only assigns sections with public submissions enabled" do
+        public_section = create(:section, socratic_seminar: socratic_seminar, allow_public_submissions: true)
+        private_section = create(:section, socratic_seminar: socratic_seminar, allow_public_submissions: false)
+
+        get :new, params: { socratic_seminar_id: socratic_seminar.id }
+        expect(assigns(:sections)).to eq([ public_section ])
+      end
+    end
+
+    context "when user is a moderator" do
+      it "assigns all sections" do
+        organization = create(:organization)
+        user = create(:user)
+        create(:organization_role, user: user, organization: organization, role: "moderator")
+        allow(controller).to receive(:current_user).and_return(user)
+
+        socratic_seminar.update!(organization: organization)
+        public_section = create(:section, socratic_seminar: socratic_seminar, allow_public_submissions: true)
+        private_section = create(:section, socratic_seminar: socratic_seminar, allow_public_submissions: false)
+
+        get :new, params: { socratic_seminar_id: socratic_seminar.id }
+        expect(assigns(:sections)).to match_array([ public_section, private_section ])
+      end
     end
   end
 

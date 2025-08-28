@@ -55,6 +55,6 @@ class SectionsController < ApplicationController
   end
 
   def section_params
-    params.require(:section).permit(:name, :order)
+    params.require(:section).permit(:name, :order, :allow_public_submissions)
   end
 end
