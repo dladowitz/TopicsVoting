@@ -409,6 +409,8 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       before { sign_in org_admin }
 
       context 'with valid parameters' do
+        let(:max_payout) { 2000 }
+
         before do
           allow(LightningPayoutService).to receive(:can_payout?).with(socratic_seminar).and_return(true)
           allow(LightningPayoutService).to receive(:calculate_available_payout).with(socratic_seminar).and_return(1000)
@@ -418,7 +420,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
         end
 
         it 'processes the payout successfully' do
-          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice }
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: max_payout }
 
           expect(response).to redirect_to(payout_socratic_seminar_path(socratic_seminar))
           expect(flash[:notice]).to include('Payout of 1,000 sats/₿ was successfully processed.')
@@ -430,7 +432,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
           expect(LightningPayoutService).to receive(:validate_bolt11_amount).with(bolt11_invoice, 1000)
           expect(LightningPayoutService).to receive(:decode_bolt11_invoice).with(bolt11_invoice)
 
-          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice }
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: max_payout }
         end
 
         it 'creates payout with correct parameters' do
@@ -438,7 +440,39 @@ RSpec.describe SocraticSeminarsController, type: :controller do
 
           expect(Payout).to receive(:create_and_pay).with(socratic_seminar, 1000, expected_memo, bolt11_invoice)
 
-          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice }
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: max_payout }
+        end
+      end
+
+      context 'when max payout is invalid' do
+        it 'redirects with error message when max payout is zero' do
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: 0 }
+
+          expect(response).to redirect_to(payout_socratic_seminar_path(socratic_seminar))
+          expect(flash[:alert]).to eq('Max payout amount must be greater than 0.')
+        end
+
+        it 'redirects with error message when max payout is negative' do
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: -100 }
+
+          expect(response).to redirect_to(payout_socratic_seminar_path(socratic_seminar))
+          expect(flash[:alert]).to eq('Max payout amount must be greater than 0.')
+        end
+      end
+
+      context 'when invoice amount exceeds max payout' do
+        before do
+          allow(LightningPayoutService).to receive(:can_payout?).with(socratic_seminar).and_return(true)
+          allow(LightningPayoutService).to receive(:calculate_available_payout).with(socratic_seminar).and_return(2000)
+          allow(LightningPayoutService).to receive(:validate_bolt11_amount).with(bolt11_invoice, 2000)
+          allow(LightningPayoutService).to receive(:decode_bolt11_invoice).with(bolt11_invoice).and_return({ 'amount_msat' => 1500000 }) # 1500 sats
+        end
+
+        it 'redirects with error message' do
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: 1000 }
+
+          expect(response).to redirect_to(payout_socratic_seminar_path(socratic_seminar))
+          expect(flash[:alert]).to eq('Invoice amount (1,500 sats) exceeds max payout amount (1,000 sats).')
         end
       end
 
@@ -452,12 +486,14 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       end
 
       context 'when payout is not possible' do
+        let(:max_payout) { 2000 }
+
         before do
           allow(LightningPayoutService).to receive(:can_payout?).with(socratic_seminar).and_return(false)
         end
 
         it 'redirects with error message' do
-          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice }
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: max_payout }
 
           expect(response).to redirect_to(payout_socratic_seminar_path(socratic_seminar))
           expect(flash[:alert]).to eq('Payout is not possible. Please check organization settings and available funds.')
@@ -465,6 +501,8 @@ RSpec.describe SocraticSeminarsController, type: :controller do
       end
 
       context 'when an error occurs during processing' do
+        let(:max_payout) { 2000 }
+
         before do
           allow(LightningPayoutService).to receive(:can_payout?).with(socratic_seminar).and_return(true)
           allow(LightningPayoutService).to receive(:calculate_available_payout).with(socratic_seminar).and_return(1000)
@@ -472,7 +510,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
         end
 
         it 'redirects with error message' do
-          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice }
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: max_payout }
 
           expect(response).to redirect_to(payout_socratic_seminar_path(socratic_seminar))
           expect(flash[:alert]).to eq('Payout failed: Test error')
@@ -481,6 +519,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
 
       context 'when invoice amount is zero' do
         let(:decoded_invoice) { { 'amount_msat' => 0 } }
+        let(:max_payout) { 2000 }
 
         before do
           allow(LightningPayoutService).to receive(:can_payout?).with(socratic_seminar).and_return(true)
@@ -491,7 +530,7 @@ RSpec.describe SocraticSeminarsController, type: :controller do
         end
 
         it 'processes payout with zero amount' do
-          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice }
+          post :process_payout, params: { id: socratic_seminar.id, bolt11_invoice: bolt11_invoice, max_payout: max_payout }
 
           expect(response).to redirect_to(payout_socratic_seminar_path(socratic_seminar))
           expect(flash[:notice]).to include('Payout of 0 sats/₿ was successfully processed.')

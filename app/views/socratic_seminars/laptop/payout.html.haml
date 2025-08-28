@@ -70,6 +70,10 @@
                 %i.fas.fa-bolt
                 BOLT11 Invoice
               .bolt11-input-row
+                .max-payout-section
+                  %label.max-payout-label{for: "max_payout"}
+                    Max payout
+                  %input#max_payout{type: "number", name: "max_payout", value: "100", min: "1", required: true}
                 %textarea#bolt11_invoice.bolt11-input{name: "bolt11_invoice", placeholder: "Enter BOLT11 invoice (lnbc1...)", rows: 3, required: true, "data-qr-scanner-target" => "input"}
                 %button.qr-scan-button{type: "button", "data-action" => "click->qr-scanner#startScanning"}
                   %i.fas.fa-qrcode
@@ -77,9 +81,6 @@
               .bolt11-help
                 %i.fas.fa-info-circle
                 An invoice with an amount is required for payout.
-              .bolt11-help
-                %i.fas.fa-info-circle
-                Enter a BOLT11 invoice for up to #{format_with_commas(@available_for_payout)} sats to pay out the funds.
 
               .qr-scanner-modal.hidden{"data-qr-scanner-target" => "modal"}
                 .qr-scanner-container

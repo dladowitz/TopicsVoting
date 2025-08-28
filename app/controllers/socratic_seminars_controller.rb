@@ -99,13 +99,21 @@ class SocraticSeminarsController < ApplicationController
       raise CanCan::AccessDenied
     end
 
-    # Get the BOLT11 invoice from params
+    # Get the BOLT11 invoice and max payout from params
     bolt11_invoice = params[:bolt11_invoice]&.strip
+    max_payout = params[:max_payout].to_i
 
     # Validate that BOLT11 invoice is provided
     if bolt11_invoice.blank?
       redirect_to payout_socratic_seminar_path(@socratic_seminar),
                   alert: "BOLT11 invoice is required for payout."
+      return
+    end
+
+    # Validate max payout amount
+    if max_payout <= 0
+      redirect_to payout_socratic_seminar_path(@socratic_seminar),
+                  alert: "Max payout amount must be greater than 0."
       return
     end
 
@@ -127,6 +135,13 @@ class SocraticSeminarsController < ApplicationController
       # Get the actual amount from the invoice for payment
       decoded_invoice = LightningPayoutService.decode_bolt11_invoice(bolt11_invoice)
       invoice_amount_sats = (decoded_invoice["amount_msat"] || 0) / 1000
+
+      # Validate against max payout amount
+      if invoice_amount_sats > max_payout
+        redirect_to payout_socratic_seminar_path(@socratic_seminar),
+                    alert: "Invoice amount (#{format_with_commas(invoice_amount_sats)} sats) exceeds max payout amount (#{format_with_commas(max_payout)} sats)."
+        return
+      end
 
       # Create and process the payout with the invoice amount
       payout = Payout.create_and_pay(@socratic_seminar, invoice_amount_sats, memo, bolt11_invoice)

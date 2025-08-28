@@ -1,3 +1,30 @@
+.bolt11-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.max-payout-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-right: 8px;
+}
+
+.max-payout-label {
+  font-size: 16px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+#max_payout {
+  width: 100px;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
 .qr-scanner-modal {
   position: fixed;
   top: 0;
