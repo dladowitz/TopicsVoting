@@ -28,6 +28,42 @@ RSpec.describe Section, type: :model do
       end
     end
 
+    context "when user is a site-wide admin" do
+      before do
+        create(:site_role, user: user, role: "admin")
+      end
+
+      it "allows creation regardless of public submissions setting" do
+        section.update(allow_public_submissions: false)
+        expect(section.allows_topic_creation_by?(user)).to be true
+
+        section.update(allow_public_submissions: true)
+        expect(section.allows_topic_creation_by?(user)).to be true
+      end
+    end
+
+    context "when user is an admin of the organization" do
+      before do
+        create(:organization_role, user: user, organization: organization, role: "admin")
+      end
+
+      it "allows creation regardless of public submissions setting" do
+        section.update(allow_public_submissions: false)
+        expect(section.allows_topic_creation_by?(user)).to be true
+
+        section.update(allow_public_submissions: true)
+        expect(section.allows_topic_creation_by?(user)).to be true
+      end
+
+      it "denies creation when user is admin of a different organization" do
+        other_org = create(:organization)
+        user.organization_roles.destroy_all
+        create(:organization_role, user: user, organization: other_org, role: "admin")
+        section.update(allow_public_submissions: false)
+        expect(section.allows_topic_creation_by?(user)).to be false
+      end
+    end
+
     context "when user is a moderator of the organization" do
       before do
         create(:organization_role, user: user, organization: organization, role: "moderator")
@@ -40,20 +76,21 @@ RSpec.describe Section, type: :model do
         section.update(allow_public_submissions: true)
         expect(section.allows_topic_creation_by?(user)).to be true
       end
+
+      it "denies creation when user is moderator of a different organization" do
+        other_org = create(:organization)
+        user.organization_roles.destroy_all
+        create(:organization_role, user: user, organization: other_org, role: "moderator")
+        section.update(allow_public_submissions: false)
+        expect(section.allows_topic_creation_by?(user)).to be false
+      end
     end
 
-    context "when user is not a moderator of the organization" do
+    context "when user has no special roles" do
       it "only allows creation if public submissions are enabled" do
         section.update(allow_public_submissions: true)
         expect(section.allows_topic_creation_by?(user)).to be true
 
-        section.update(allow_public_submissions: false)
-        expect(section.allows_topic_creation_by?(user)).to be false
-      end
-
-      it "denies creation when user is moderator of a different organization" do
-        other_org = create(:organization)
-        create(:organization_role, user: user, organization: other_org, role: "moderator")
         section.update(allow_public_submissions: false)
         expect(section.allows_topic_creation_by?(user)).to be false
       end
