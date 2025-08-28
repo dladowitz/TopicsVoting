@@ -65,17 +65,33 @@
       .action-buttons
         - if @can_payout
           = form_tag process_payout_socratic_seminar_path(@socratic_seminar), method: :post, data: { confirm: "Are you sure you want to process a payout of #{format_with_commas(@available_for_payout)} sats to #{@socratic_seminar.organization.name}?" } do
-            .bolt11-input-section
+            .bolt11-input-section{"data-controller" => "qr-scanner"}
               %label.bolt11-label{for: "bolt11_invoice"}
                 %i.fas.fa-bolt
                 BOLT11 Invoice
-              %textarea#bolt11_invoice.bolt11-input{name: "bolt11_invoice", placeholder: "Enter BOLT11 invoice (lnbc1...)", rows: 3, required: true}
+              .bolt11-input-row
+                .max-payout-section
+                  %label.max-payout-label{for: "max_payout"}
+                    Max payout
+                  %input#max_payout{type: "number", name: "max_payout", value: "100", min: "1", required: true}
+                %textarea#bolt11_invoice.bolt11-input{name: "bolt11_invoice", placeholder: "Enter BOLT11 invoice (lnbc1...)", rows: 3, required: true, "data-qr-scanner-target" => "input"}
+                %button.qr-scan-button{type: "button", "data-action" => "click->qr-scanner#startScanning"}
+                  %i.fas.fa-qrcode
+                  Scan QR
               .bolt11-help
                 %i.fas.fa-info-circle
                 An invoice with an amount is required for payout.
-              .bolt11-help
-                %i.fas.fa-info-circle
-                Enter a BOLT11 invoice for up to #{format_with_commas(@available_for_payout)} sats to pay out the funds.
+
+              .qr-scanner-modal.hidden{"data-qr-scanner-target" => "modal"}
+                .qr-scanner-container
+                  .qr-scanner-header
+                    .qr-scanner-title
+                      %i.fas.fa-qrcode
+                      Scan BOLT11 Invoice QR Code
+                    %button.qr-scanner-close{"data-action" => "click->qr-scanner#stopScanning"}
+                      %i.fas.fa-times
+                  .qr-scanner-video-container
+                    %video.qr-scanner-video{"data-qr-scanner-target" => "video"}
 
             %button.button.button-primary{type: "submit", "data-payout-animation-target" => "processButton"}
               %i.fas.fa-paper-plane
