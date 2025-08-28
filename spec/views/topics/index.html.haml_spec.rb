@@ -77,8 +77,6 @@ RSpec.describe "topics/laptop/index", type: :view do
 
     it "shows admin controls" do
       expect(rendered).to have_link("New Topic")
-      expect(rendered).to have_link("Import Topics")
-      expect(rendered).to have_button("Delete Topics")
     end
   end
 

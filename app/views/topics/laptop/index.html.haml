@@ -26,9 +26,6 @@
             - if can? :manage, @socratic_seminar
               .header-actions
                 = link_to 'New Topic', new_socratic_seminar_topic_path(@socratic_seminar), class: 'button header-controls-button'
-                = link_to "Import Topics", socratic_seminar_import_topics_path(@socratic_seminar),
-                  class: "button header-controls-button"
-                %button.button.header-controls-button.delete-content-btn{"data-action" => "click->delete-modal#show"} Delete Topics
               .header-payout
                 = link_to "Payout Bitcoin", payout_socratic_seminar_path(@socratic_seminar), class: "button header-controls-button"
             - else
