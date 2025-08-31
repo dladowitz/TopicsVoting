@@ -285,7 +285,13 @@
         font-size: 1.3rem;
         font-weight: 500 !important;
         margin-bottom: 0.3rem;
+        color: #f7931a;
       }
+    }
+
+    /* Make non-interactive topics black */
+    .topic-list-item:not(:has(.vote-and-sats-info > *)) .topic-name a {
+      color: #333;
     }
 
     /* Remove bottom margin from topic name when no actions are present */
