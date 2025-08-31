@@ -124,6 +124,16 @@ RSpec.describe Topic, type: :model do
       expect(topic.sats_received).to eq(0)
     end
 
+    it "sets votable to true by default" do
+      topic = build(:topic)
+      expect(topic.votable).to be true
+    end
+
+    it "sets payable to true by default" do
+      topic = build(:topic)
+      expect(topic.payable).to be true
+    end
+
     it "does not set lnurl before creation" do
       topic = build(:topic)
       expect(topic.lnurl).to be_nil
@@ -255,7 +265,9 @@ RSpec.describe Topic, type: :model do
         name: "Test Topic",
         link: "https://example.com",
         votes: 5,
-        sats_received: 1000
+        sats_received: 1000,
+        votable: false,
+        payable: false
       )
       expect(topic).to be_valid
       expect(topic.name).to eq("Test Topic")
