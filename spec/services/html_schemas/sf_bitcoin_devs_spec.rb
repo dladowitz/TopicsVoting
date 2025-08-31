@@ -31,19 +31,17 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
           </li>
         </ul>
 
+        <h2 id="vote-on-topics">Vote on topics</h2>
+        <!-- No list here, this section should be skipped -->
+
         <h2 id="intro-section">Intro Section</h2>
         <ul>
-          <li>Should be skipped</li>
+          <li>Intro Topic</li>
         </ul>
 
         <h2 id="lightning-and-wallets">Lightning and Wallets</h2>
         <ul>
           <li>Wallet Topic</li>
-        </ul>
-
-        <h2 id="vote-on-topics">Vote on topics</h2>
-        <ul>
-          <li>Should be completely skipped</li>
         </ul>
       HTML
     end
@@ -94,7 +92,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
 
       intro_section = Section.find_by(name: "Intro Section")
       expect(intro_section).to be_present
-      intro_topic = intro_section.topics.first
+      intro_topic = intro_section.topics.find_by(name: "Intro Topic")
       expect(intro_topic).to be_present
       expect(intro_topic.votable).to be false
       expect(intro_topic.payable).to be false

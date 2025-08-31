@@ -42,8 +42,17 @@ module HtmlSchemas
       section = create_or_skip_section(section_name)
       return unless section
 
-      # Find the next sibling <ul> or <ol> (the list of topics)
-      list = h2.xpath("following-sibling::*").find { |el| el.name == "ul" || el.name == "ol" }
+      # Find all siblings until the next h2
+      siblings = h2.xpath("following-sibling::*")
+      # Find the first list before the next h2
+      list = nil
+      siblings.each do |el|
+        break if el.name == "h2"
+        if el.name == "ul" || el.name == "ol"
+          list = el
+          break
+        end
+      end
       process_list_items(list, section) if list
     end
 
