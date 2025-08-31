@@ -261,6 +261,12 @@
       background-color: #eff1f66f;
     }
 
+    /* Reduce spacing for topics without actions */
+    .topic-list-item:not(:has(.vote-and-sats-info > *)) {
+      padding: 3px 15px;
+      margin-bottom: 5px;
+    }
+
     .topic-list-item.flash-border {
       animation: flash-border 0.7s cubic-bezier(.23,1.5,.32,1) both;
       border-radius: 8px;
