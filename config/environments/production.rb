@@ -93,7 +93,9 @@ Rails.application.configure do
     # 'http://buildervoting.com',
     # 'http://www.buildervoting.com',
     "https://buildervoting.com",
-    "https://www.buildervoting.com"
+    "https://www.buildervoting.com",
+    "https://lightning.vote",
+    "https://www.lightning.vote"
   ]
 
   # Fix orgiin vs base_url mismatch
