@@ -261,6 +261,12 @@
       background-color: #eff1f66f;
     }
 
+    /* Reduce spacing for topics without actions */
+    .topic-list-item:not(:has(.vote-and-sats-info > *)) {
+      padding: 3px 15px;
+      margin-bottom: 5px;
+    }
+
     .topic-list-item.flash-border {
       animation: flash-border 0.7s cubic-bezier(.23,1.5,.32,1) both;
       border-radius: 8px;
@@ -279,7 +285,18 @@
         font-size: 1.3rem;
         font-weight: 500 !important;
         margin-bottom: 0.3rem;
+        color: #f7931a;
       }
+    }
+
+    /* Make non-interactive topics black */
+    .topic-list-item:not(:has(.vote-and-sats-info > *)) .topic-name a {
+      color: #333;
+    }
+
+    /* Remove bottom margin from topic name when no actions are present */
+    .topic-list-item:not(:has(.vote-and-sats-info > *)) .topic-name {
+      margin-bottom: 0;
     }
 
     .topic-link {
@@ -296,7 +313,7 @@
 
     .topic-link a {
       font-size: 0.8em;
-      color: #d3961ae9;
+      color: #d3961ae9 !important;
     }
 
     /* Voting */
@@ -307,6 +324,8 @@
       gap: 0.5em;
       font-weight: 400;
       margin-bottom: 0;
+      /* Ensure consistent height even when empty */
+      /* min-height: 2em;  */
     }
 
     .vote-buttons {
@@ -1164,6 +1183,66 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
+}
+
+/* Custom Checkbox Styles */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0;
+  font-weight: 500;
+  color: #555;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.custom-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.custom-checkbox:hover input ~ .checkmark {
+  border-color: #f7931a;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #f7931a;
+  border-color: #f7931a;
+}
+
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
 }
 
 /* Topics New  */

@@ -173,6 +173,6 @@ class TopicsController < ApplicationController
   # Whitelists allowed topic parameters
   # @return [ActionController::Parameters] Permitted parameters
   def topic_params
-    params.require(:topic).permit(:name, :link, :section_id)
+    params.require(:topic).permit(:name, :link, :section_id, :votable, :payable)
   end
 end

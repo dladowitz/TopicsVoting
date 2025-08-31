@@ -39,7 +39,13 @@ RSpec.describe ImportService do
       expect(output).to include("Created Topic: Topic 1")
       expect(output).to include("Created Topic: Topic 2 with Link - link found")
       expect(output).to include("Created Topic: Topic 3 - link found")
-      expect(output).not_to include("Should be skipped")
+      # Verify intro section topics are created with votable/payable false
+      intro_section = Section.find_by(name: "Intro")
+      expect(intro_section).to be_present
+      intro_topic = intro_section.topics.first
+      expect(intro_topic.name).to eq("Should be skipped")
+      expect(intro_topic.votable).to be false
+      expect(intro_topic.payable).to be false
     end
 
     it 'skips existing sections' do
@@ -59,11 +65,19 @@ RSpec.describe ImportService do
       expect(output).to include("Skipping Topic (already exists): Topic 1")
     end
 
-    it 'skips sections in SECTIONS_TO_SKIP' do
+    it 'handles sections in SECTIONS_TO_SKIP' do
       success, output = described_class.import_sections_and_topics(socratic_seminar)
 
       expect(success).to be true
-      expect(output).to include("Skipping. Section in Skip List: Intro")
+      expect(output).to include("Created Section: Intro")
+
+      # Verify section was created with non-votable/non-payable topics
+      intro_section = Section.find_by(name: "Intro")
+      expect(intro_section).to be_present
+      intro_section.topics.each do |topic|
+        expect(topic.votable).to be false
+        expect(topic.payable).to be false
+      end
     end
 
     it 'handles network errors' do

@@ -31,9 +31,12 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
           </li>
         </ul>
 
-        <h2 id="intro">Intro Section</h2>
+        <h2 id="vote-on-topics">Vote on topics</h2>
+        <!-- No list here, this section should be skipped -->
+
+        <h2 id="intro-section">Intro Section</h2>
         <ul>
-          <li>Should be skipped</li>
+          <li>Intro Topic</li>
         </ul>
 
         <h2 id="lightning-and-wallets">Lightning and Wallets</h2>
@@ -50,10 +53,11 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       schema.process_sections
 
       # Check sections were created correctly
-      expect(Section.count).to eq(2)
+      expect(Section.count).to eq(3) # Development, Lightning and Wallets, Intro Section
       expect(Section.pluck(:name)).to contain_exactly(
         "Development",
-        "Lightning and Wallets"
+        "Lightning and Wallets",
+        "Intro Section"
       )
 
       # Check topics were created with correct sections
@@ -75,11 +79,51 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       expect(Topic.find_by(name: "Topic 3").link).to eq("https://example.org")
     end
 
-    it "skips sections in SECTIONS_TO_SKIP" do
+    it "completely skips sections in SECTIONS_TO_SKIP" do
       schema.process_sections
 
-      expect(Section.find_by(name: "Intro Section")).to be_nil
-      expect(output).to include("Skipping. Section in Skip List: Intro")
+      # Section should not be created at all
+      expect(Section.find_by(name: "Vote On Topics")).to be_nil
+      expect(output).to include("Skipping section: Vote On Topics")
+    end
+
+    it "handles section names with durations" do
+      html_with_duration = <<~HTML
+        <h2 id="live-videcoding-request-20-min">Live Videcoding Request (20 min)</h2>
+        <ul><li>Topic</li></ul>
+      HTML
+      doc = Nokogiri::HTML(html_with_duration)
+      schema = described_class.new(doc, socratic_seminar, stats, output)
+      schema.process_sections
+
+      section = Section.find_by(name: "Live Videcoding Request 20 Min")
+      expect(section).to be_present
+      topic = section.topics.first
+      expect(topic.votable).to be false
+    end
+
+    it "sets votable and payable to false for intro sections" do
+      schema.process_sections
+
+      intro_section = Section.find_by(name: "Intro Section")
+      expect(intro_section).to be_present
+      intro_topic = intro_section.topics.find_by(name: "Intro Topic")
+      expect(intro_topic).to be_present
+      expect(intro_topic.votable).to be false
+      expect(intro_topic.payable).to be false
+    end
+
+    it "sets votable and payable to true for non-intro sections" do
+      schema.process_sections
+
+      dev_section = Section.find_by(name: "Development")
+      expect(dev_section).to be_present
+      dev_topics = dev_section.topics
+      expect(dev_topics).to be_present
+      dev_topics.each do |topic|
+        expect(topic.votable).to be true
+        expect(topic.payable).to be true
+      end
     end
 
     it "handles sections without ids" do
@@ -243,8 +287,8 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     it "updates stats correctly" do
       schema.process_sections
 
-      expect(stats[:sections_created]).to eq(2)
-      expect(stats[:topics_created]).to eq(7)
+      expect(stats[:sections_created]).to eq(3) # Development, Lightning and Wallets, Intro Section
+      expect(stats[:topics_created]).to eq(8)
       expect(stats[:sections_skipped]).to eq(0)
       expect(stats[:topics_skipped]).to eq(0)
     end
@@ -327,7 +371,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         schema.process_sections
 
         expect(stats[:sections_skipped]).to eq(1)
-        expect(stats[:sections_created]).to eq(1)
+        expect(stats[:sections_created]).to eq(2) # Lightning and Wallets, Intro Section (Development is skipped)
         expect(output).to include("Skipping Section (already exists): Development")
       end
     end
@@ -342,7 +386,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         schema.process_sections
 
         expect(stats[:topics_skipped]).to eq(1)
-        expect(stats[:topics_created]).to eq(6)
+        expect(stats[:topics_created]).to eq(7)
         expect(output).to include("Skipping Topic (already exists): Topic 1")
       end
     end
