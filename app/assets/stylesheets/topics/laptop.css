@@ -289,7 +289,7 @@
     }
 
     /* Remove bottom margin from topic name when no actions are present */
-    .topic-list-item:not(:has(.vote-and-sats-info > *)) .topic-name a {
+    .topic-list-item:not(:has(.vote-and-sats-info > *)) .topic-name {
       margin-bottom: 0;
     }
 
@@ -1177,6 +1177,66 @@
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
   }
+}
+
+/* Custom Checkbox Styles */
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0;
+  font-weight: 500;
+  color: #555;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.custom-checkbox .checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.custom-checkbox:hover input ~ .checkmark {
+  border-color: #f7931a;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #f7931a;
+  border-color: #f7931a;
+}
+
+.custom-checkbox .checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
 }
 
 /* Topics New  */

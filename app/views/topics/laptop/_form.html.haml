@@ -21,6 +21,20 @@
     = form.text_field :link, placeholder: "https://example.com or www.example.com"
     .field-hint Enter a valid URL (https:// will be auto-added if missing)
 
+  .field
+    = form.label :votable, class: 'custom-checkbox' do
+      = form.check_box :votable
+      %span.checkmark
+      Allow Voting
+    .field-hint Enable up/down voting for this topic
+
+  .field
+    = form.label :payable, class: 'custom-checkbox' do
+      = form.check_box :payable
+      %span.checkmark
+      Allow Lightning Payments
+    .field-hint Enable Lightning payments for this topic
+
   .actions
     = form.submit @submit_text, class: 'button'
     = link_to @back_text, @back_path, class: 'button button-secondary'
