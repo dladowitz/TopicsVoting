@@ -307,6 +307,7 @@
       gap: 0.5em;
       font-weight: 400;
       margin-bottom: 0;
+      min-height: 2em; /* Ensure consistent height even when empty */
     }
 
     .vote-buttons {
