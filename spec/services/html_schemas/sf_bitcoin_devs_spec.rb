@@ -31,7 +31,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
           </li>
         </ul>
 
-        <h2 id="intro">Intro Section</h2>
+        <h2 id="intro-section">Intro Section</h2>
         <ul>
           <li>Should be skipped</li>
         </ul>
@@ -50,10 +50,11 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       schema.process_sections
 
       # Check sections were created correctly
-      expect(Section.count).to eq(2)
+      expect(Section.count).to eq(3)
       expect(Section.pluck(:name)).to contain_exactly(
         "Development",
-        "Lightning and Wallets"
+        "Lightning and Wallets",
+        "Intro Section"
       )
 
       # Check topics were created with correct sections
@@ -75,11 +76,28 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       expect(Topic.find_by(name: "Topic 3").link).to eq("https://example.org")
     end
 
-    it "skips sections in SECTIONS_TO_SKIP" do
+    it "sets votable and payable to false for intro sections" do
       schema.process_sections
 
-      expect(Section.find_by(name: "Intro Section")).to be_nil
-      expect(output).to include("Skipping. Section in Skip List: Intro")
+      intro_section = Section.find_by(name: "Intro Section")
+      expect(intro_section).to be_present
+      intro_topic = intro_section.topics.first
+      expect(intro_topic).to be_present
+      expect(intro_topic.votable).to be false
+      expect(intro_topic.payable).to be false
+    end
+
+    it "sets votable and payable to true for non-intro sections" do
+      schema.process_sections
+
+      dev_section = Section.find_by(name: "Development")
+      expect(dev_section).to be_present
+      dev_topics = dev_section.topics
+      expect(dev_topics).to be_present
+      dev_topics.each do |topic|
+        expect(topic.votable).to be true
+        expect(topic.payable).to be true
+      end
     end
 
     it "handles sections without ids" do
@@ -243,8 +261,8 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     it "updates stats correctly" do
       schema.process_sections
 
-      expect(stats[:sections_created]).to eq(2)
-      expect(stats[:topics_created]).to eq(7)
+      expect(stats[:sections_created]).to eq(3)
+      expect(stats[:topics_created]).to eq(8)
       expect(stats[:sections_skipped]).to eq(0)
       expect(stats[:topics_skipped]).to eq(0)
     end
@@ -327,7 +345,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         schema.process_sections
 
         expect(stats[:sections_skipped]).to eq(1)
-        expect(stats[:sections_created]).to eq(1)
+        expect(stats[:sections_created]).to eq(2)
         expect(output).to include("Skipping Section (already exists): Development")
       end
     end
@@ -342,7 +360,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         schema.process_sections
 
         expect(stats[:topics_skipped]).to eq(1)
-        expect(stats[:topics_created]).to eq(6)
+        expect(stats[:topics_created]).to eq(7)
         expect(output).to include("Skipping Topic (already exists): Topic 1")
       end
     end

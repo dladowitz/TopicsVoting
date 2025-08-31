@@ -4,7 +4,8 @@ require_relative "base"
 
 module HtmlSchemas
   class SFBitcoinDevsSchema < BaseSchema
-    SECTIONS_TO_SKIP = [ "intro" ]
+    NON_VOTABLE_SECTIONS = [ "intro" ]
+    NON_PAYABLE_SECTIONS = [ "intro" ]
 
     def process_sections
       log "Using SFBitcoinDevs schema parser"
@@ -15,17 +16,20 @@ module HtmlSchemas
         # Convert dashes to spaces and capitalize first letter of each word, preserving case of "and"
         section_name = section_id.gsub("-", " ").split.map { |word| word.downcase == "and" ? "and" : word.capitalize }.join(" ")
 
-        if SECTIONS_TO_SKIP.include?(section_name.split.first.downcase)
-          log "Skipping. Section in Skip List: #{section_name}"
-          next
-        end
-
         process_section(section_name, h2)
       end
       log "Import complete."
     end
 
     private
+
+    def non_votable_section?(section_name)
+      NON_VOTABLE_SECTIONS.any? { |pattern| section_name.downcase.include?(pattern) }
+    end
+
+    def non_payable_section?(section_name)
+      NON_PAYABLE_SECTIONS.any? { |pattern| section_name.downcase.include?(pattern) }
+    end
 
     def process_section(section_name, h2)
       section = create_or_skip_section(section_name)
@@ -37,6 +41,8 @@ module HtmlSchemas
     end
 
     def process_list_items(list, section, parent_topic = nil)
+      is_non_votable = non_votable_section?(section.name)
+      is_non_payable = non_payable_section?(section.name)
       list.css("> li").each do |li|
         # Get the text content before any nested lists
         # First, find if there's a nested list
@@ -60,7 +66,7 @@ module HtmlSchemas
         # Create topic for this <li> if it has content
         current_topic = nil
         if direct_text.present?
-          current_topic = create_or_skip_topic(section, direct_text, link, parent_topic)
+          current_topic = create_or_skip_topic(section, direct_text, link, parent_topic, votable: !is_non_votable, payable: !is_non_payable)
         end
 
         # Process any nested <ul> or <ol> within this <li>
