@@ -313,7 +313,7 @@
 
     .topic-link a {
       font-size: 0.8em;
-      color: #d3961ae9;
+      color: #d3961ae9 !important;
     }
 
     /* Voting */

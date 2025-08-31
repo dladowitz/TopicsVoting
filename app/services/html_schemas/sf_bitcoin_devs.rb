@@ -4,8 +4,8 @@ require_relative "base"
 
 module HtmlSchemas
   class SFBitcoinDevsSchema < BaseSchema
-    SECTIONS_TO_SKIP = [ "Vote on topics" ]
-    NON_VOTABLE_SECTIONS = [ "intro", "Live videcoding request", "Vibe Coded App Showcase", "Startup Showcase" ]
+    SECTIONS_TO_SKIP = [ "vote on topics" ]
+    NON_VOTABLE_SECTIONS = [ "intro", "live videcoding request", "vibe coded app showcase", "startup showcase" ]
     NON_PAYABLE_SECTIONS = [ "intro" ]
 
     def process_sections

@@ -83,7 +83,8 @@
                       %i.fas.fa-arrow-down
 
               - if topic.payable
-                |
+                - if topic.votable
+                  |
                 .sats-info
                   .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
                   .sats-received{"data-sats" => topic.sats_received}= topic.sats_received

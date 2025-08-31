@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_28_192359) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_31_045138) do
   create_table "organization_roles", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "organization_id", null: false
@@ -108,9 +108,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_28_192359) do
     t.string "link"
     t.integer "section_id", null: false
     t.integer "parent_topic_id"
+    t.boolean "votable", default: true, null: false
+    t.boolean "payable", default: true, null: false
     t.index ["id"], name: "index_topics_on_id", unique: true
     t.index ["parent_topic_id"], name: "index_topics_on_parent_topic_id"
+    t.index ["payable"], name: "index_topics_on_payable"
     t.index ["section_id"], name: "index_topics_on_section_id"
+    t.index ["votable"], name: "index_topics_on_votable"
   end
 
   create_table "users", force: :cascade do |t|
