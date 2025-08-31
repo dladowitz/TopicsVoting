@@ -88,7 +88,7 @@
                   .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
                   .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
                 |
-                = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
+                = link_to (topic.votable ? "Vote with Lightning ⚡" : "Show appreciation with Lightning ⚡"), "https://www.lnurlpay.com/#{topic.lnurl}",
                   class: "send-btc-link",
                   target: "_blank",
                   rel: "noopener"
