@@ -288,6 +288,11 @@
       }
     }
 
+    /* Remove bottom margin from topic name when no actions are present */
+    .topic-list-item:not(:has(.vote-and-sats-info > *)) .topic-name a {
+      margin-bottom: 0;
+    }
+
     .topic-link {
       font-size: 0.85em;
       color: #666;
@@ -313,7 +318,8 @@
       gap: 0.5em;
       font-weight: 400;
       margin-bottom: 0;
-      min-height: 2em; /* Ensure consistent height even when empty */
+      /* Ensure consistent height even when empty */
+      /* min-height: 2em;  */
     }
 
     .vote-buttons {
