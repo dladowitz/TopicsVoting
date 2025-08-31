@@ -4,6 +4,7 @@ require_relative "base"
 
 module HtmlSchemas
   class SFBitcoinDevsSchema < BaseSchema
+    SECTIONS_TO_SKIP = [ "Vote on topics" ]
     NON_VOTABLE_SECTIONS = [ "intro" ]
     NON_PAYABLE_SECTIONS = [ "intro" ]
 
@@ -15,6 +16,12 @@ module HtmlSchemas
 
         # Convert dashes to spaces and capitalize first letter of each word, preserving case of "and"
         section_name = section_id.gsub("-", " ").split.map { |word| word.downcase == "and" ? "and" : word.capitalize }.join(" ")
+
+        # Skip sections that match any pattern in SECTIONS_TO_SKIP
+        if SECTIONS_TO_SKIP.any? { |pattern| section_name.downcase == pattern.downcase }
+          log "Skipping section: #{section_name}"
+          next
+        end
 
         process_section(section_name, h2)
       end

@@ -40,6 +40,11 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         <ul>
           <li>Wallet Topic</li>
         </ul>
+
+        <h2 id="vote-on-topics">Vote on topics</h2>
+        <ul>
+          <li>Should be completely skipped</li>
+        </ul>
       HTML
     end
 
@@ -50,7 +55,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       schema.process_sections
 
       # Check sections were created correctly
-      expect(Section.count).to eq(3)
+      expect(Section.count).to eq(3) # Development, Lightning and Wallets, Intro Section
       expect(Section.pluck(:name)).to contain_exactly(
         "Development",
         "Lightning and Wallets",
@@ -74,6 +79,14 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       # Check links were extracted correctly
       expect(Topic.find_by(name: "Topic 2").link).to eq("https://example.com")
       expect(Topic.find_by(name: "Topic 3").link).to eq("https://example.org")
+    end
+
+    it "completely skips sections in SECTIONS_TO_SKIP" do
+      schema.process_sections
+
+      # Section should not be created at all
+      expect(Section.find_by(name: "Vote on topics")).to be_nil
+      expect(output).to include("Skipping section: Vote On Topics")
     end
 
     it "sets votable and payable to false for intro sections" do
@@ -261,7 +274,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     it "updates stats correctly" do
       schema.process_sections
 
-      expect(stats[:sections_created]).to eq(3)
+      expect(stats[:sections_created]).to eq(3) # Development, Lightning and Wallets, Intro Section
       expect(stats[:topics_created]).to eq(8)
       expect(stats[:sections_skipped]).to eq(0)
       expect(stats[:topics_skipped]).to eq(0)
@@ -345,7 +358,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         schema.process_sections
 
         expect(stats[:sections_skipped]).to eq(1)
-        expect(stats[:sections_created]).to eq(2)
+        expect(stats[:sections_created]).to eq(2) # Lightning and Wallets, Intro Section (Development is skipped)
         expect(output).to include("Skipping Section (already exists): Development")
       end
     end
