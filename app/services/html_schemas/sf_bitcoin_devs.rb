@@ -5,7 +5,7 @@ require_relative "base"
 module HtmlSchemas
   class SFBitcoinDevsSchema < BaseSchema
     SECTIONS_TO_SKIP = [ "Vote on topics" ]
-    NON_VOTABLE_SECTIONS = [ "intro" ]
+    NON_VOTABLE_SECTIONS = [ "intro", "Live videcoding request", "Vibe Coded App Showcase", "Startup Showcase" ]
     NON_PAYABLE_SECTIONS = [ "intro" ]
 
     def process_sections
@@ -18,7 +18,7 @@ module HtmlSchemas
         section_name = section_id.gsub("-", " ").split.map { |word| word.downcase == "and" ? "and" : word.capitalize }.join(" ")
 
         # Skip sections that match any pattern in SECTIONS_TO_SKIP
-        if SECTIONS_TO_SKIP.any? { |pattern| section_name.downcase == pattern.downcase }
+        if SECTIONS_TO_SKIP.any? { |pattern| normalize_section_name(section_name) == pattern.downcase }
           log "Skipping section: #{section_name}"
           next
         end
@@ -30,12 +30,19 @@ module HtmlSchemas
 
     private
 
+    def normalize_section_name(name)
+      # Remove duration in parentheses and any extra whitespace
+      name.gsub(/\s*\(\d+\s*(?:min|minute)s?\)\s*$/i, "").strip.downcase
+    end
+
     def non_votable_section?(section_name)
-      NON_VOTABLE_SECTIONS.any? { |pattern| section_name.downcase.include?(pattern) }
+      normalized_name = normalize_section_name(section_name)
+      NON_VOTABLE_SECTIONS.any? { |pattern| normalized_name.include?(pattern.downcase) }
     end
 
     def non_payable_section?(section_name)
-      NON_PAYABLE_SECTIONS.any? { |pattern| section_name.downcase.include?(pattern) }
+      normalized_name = normalize_section_name(section_name)
+      NON_PAYABLE_SECTIONS.any? { |pattern| normalized_name.include?(pattern.downcase) }
     end
 
     def process_section(section_name, h2)
