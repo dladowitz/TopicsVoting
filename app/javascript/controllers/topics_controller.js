@@ -136,6 +136,13 @@ export default class extends Controller {
     void element.offsetWidth;
     element.classList.add('lightning');
 
+    // Remove lightning class after animation ends
+    const removeLightning = () => {
+      element.classList.remove('lightning');
+      element.removeEventListener('animationend', removeLightning);
+    };
+    element.addEventListener('animationend', removeLightning);
+
     // Show page-level canvas lightning effect
     this.showCanvasLightning();
   }
