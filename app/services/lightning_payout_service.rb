@@ -37,8 +37,8 @@ class LightningPayoutService
     # Add memo if provided
     payment_data[:memo] = memo if memo.present?
 
-    puts "\n\n ->>>>>>>> Making BOLT11 payment: #{LNBITS_API_URL}"
-    puts payment_data.inspect
+    # puts "\n\n ->>>>>>>> Making BOLT11 payment: #{LNBITS_API_URL}"
+    # puts payment_data.inspect
 
     # Make the API request
     response = Faraday.post(LNBITS_API_URL) do |req|
@@ -47,7 +47,7 @@ class LightningPayoutService
       req.body = payment_data.to_json
     end
 
-    puts "\n\n ->>>>>>>> Response from BOLT11 payment: #{response.status} - #{response.body} \n\n"
+    # puts "\n\n ->>>>>>>> Response from BOLT11 payment: #{response.status} - #{response.body} \n\n"
 
     # Handle the response
     if response.success?
@@ -87,7 +87,7 @@ class LightningPayoutService
   # @return [Hash] Decoded invoice information including amount
   # @raise [StandardError] if invoice cannot be decoded
   def self.decode_bolt11_invoice(bolt11_invoice)
-    puts "\n\n ->>>>>>>> Decoding BOLT11 invoice: #{bolt11_invoice} \n\n"
+    # puts "\n\n ->>>>>>>> Decoding BOLT11 invoice: #{bolt11_invoice} \n\n"
     # Make the API request to decode the invoice
     response = Faraday.post(LNBITS_DECODE_URL) do |req|
       req.headers["X-Api-Key"] = lnbits_api_key
@@ -95,7 +95,7 @@ class LightningPayoutService
       req.body = { data: bolt11_invoice }.to_json
     end
 
-    puts "\n\n ->>>>>>>> Response from BOLT11 invoice decode: Status: #{response.status} - Body: #{response.body} \n\n"
+    # puts "\n\n ->>>>>>>> Response from BOLT11 invoice decode: Status: #{response.status} - Body: #{response.body} \n\n"
 
     if response.success?
       JSON.parse(response.body)
@@ -112,7 +112,7 @@ class LightningPayoutService
   # @return [Boolean] True if amount matches, false otherwise
   # @raise [StandardError] if invoice cannot be decoded
   def self.validate_bolt11_amount(bolt11_invoice, expected_amount_sats)
-    puts "\n\n ->>>>>>>> Validating BOLT11 invoice amount: #{bolt11_invoice} - Amount available: #{expected_amount_sats} \n\n"
+    # puts "\n\n ->>>>>>>> Validating BOLT11 invoice amount: #{bolt11_invoice} - Amount available: #{expected_amount_sats} \n\n"
     decoded = decode_bolt11_invoice(bolt11_invoice)
 
     # Extract amount from decoded invoice (amount is typically in millisats)
