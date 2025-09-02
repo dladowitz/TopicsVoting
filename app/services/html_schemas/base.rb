@@ -66,7 +66,13 @@ module HtmlSchemas
         begin
           # Set order to the next available position
           next_order = @seminar.sections.count
-          section = Section.create!(name: section_name, socratic_seminar: @seminar, order: next_order)
+          public_submissions_allowed = !non_publicly_submitable_section?(section_name)
+          section = Section.create!(
+            name: section_name,
+            socratic_seminar: @seminar,
+            order: next_order,
+            allow_public_submissions: public_submissions_allowed
+          )
           @stats[:sections_created] += 1
           log "Created Section: #{section.name} (order: #{next_order})"
         rescue ActiveRecord::RecordInvalid => e
@@ -86,6 +92,10 @@ module HtmlSchemas
       # Fall back to regex strategy
       match = direct_text.match(/(https?:\/\/[^\s]+|www\.[^\s]+)/)
       match[1] if match
+    end
+
+    def non_publicly_submitable_section?(section_name)
+      false # By default, all sections allow public submissions
     end
   end
 end
