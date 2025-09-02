@@ -6,16 +6,20 @@ module HtmlSchemas
   class SFBitcoinDevsSchema < BaseSchema
     # !!!! You must restart the Heroku dynos or local rails server for this to take effect !!!
     SECTIONS_TO_SKIP = [ "vote on topics" ]
-    NON_VOTABLE_SECTIONS = [ "intro", "live videcoding request", "vibe coded app showcase", "startup showcase", "housekeeping", "chain weather report" ]
-    NON_PAYABLE_SECTIONS = [ "intro", "housekeeping", "chain weather report" ]
-    NON_PUBLICLY_SUBMITABLE = [ "intro", "startup showcase", "vibe coded app showcase", "housekeeping", "chain weather report" ]
+    NON_PAYABLE_SECTIONS =    [ "housekeeping", "chain weather report", "intro" ]
+    NON_VOTABLE_SECTIONS =    [ "housekeeping", "chain weather report", "intro", "live vibe coding request", "live vibecoding request",
+                                  "vibe coded app showcase", "vibecoded app showcase", "startup showcase", "housekeeping", "chain weather report" ]
+    NON_PUBLICLY_SUBMITABLE = [ "housekeeping", "chain weather report", "intro", "live vibe coding request", "live vibecoding request",
+                                  "vibe coded app showcase", "vibecoded app showcase", "startup showcase", "housekeeping", "chain weather report" ]
     # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def process_sections
       log "Using SFBitcoinDevs schema parser"
       @doc.css("h2").each do |h2|
-        section_name = h2.text.strip
-        next unless section_name.present?
+        raw_section_name = h2.text.strip
+        next unless raw_section_name.present?
+
+        section_name = format_section_name(raw_section_name)
 
         # Skip sections that match any pattern in SECTIONS_TO_SKIP
         if SECTIONS_TO_SKIP.any? { |pattern| normalize_section_name(section_name) == pattern.downcase }
@@ -33,6 +37,18 @@ module HtmlSchemas
     def normalize_section_name(name)
       # Remove duration in parentheses and any extra whitespace
       name.gsub(/\s*\(\d+\s*(?:min|minute)s?\)\s*$/i, "").strip.downcase
+    end
+
+    def format_section_name(name)
+      # Extract duration if present
+      duration_match = name.match(/\s*\((\d+)\s*(?:min|minute)s?\)\s*$/i)
+      name_without_duration = duration_match ? name.gsub(duration_match[0], "") : name
+
+      # Capitalize first letter of each word, preserving case of "and"
+      formatted_name = name_without_duration.split.map { |word| word.downcase == "and" ? "and" : word.capitalize }.join(" ")
+
+      # Add duration back if it was present
+      duration_match ? "#{formatted_name} #{duration_match[1]} Min" : formatted_name
     end
 
     def non_votable_section?(section_name)

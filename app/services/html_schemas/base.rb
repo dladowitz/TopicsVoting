@@ -93,5 +93,9 @@ module HtmlSchemas
       match = direct_text.match(/(https?:\/\/[^\s]+|www\.[^\s]+)/)
       match[1] if match
     end
+
+    def non_publicly_submitable_section?(section_name)
+      false # By default, all sections allow public submissions
+    end
   end
 end
