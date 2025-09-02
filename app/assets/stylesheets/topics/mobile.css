@@ -83,29 +83,49 @@
       .topic-header-row {
         margin-bottom: 0.25rem;
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
         width: 100%;
-
+        flex-wrap: wrap;
+        gap: 0.5rem;
 
         .topic-name {
+          margin-bottom: 0;
           font-size: 1rem;
           font-weight: 500;
+          flex: 1;
+          min-width: 0;
+          word-wrap: break-word;
 
           a {
             color: #f7931a;
             text-decoration: none;
+            display: inline;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            hyphens: auto;
           }
 
           .topic-link {
             display: block;
-            font-size: 0.85em;
             color: #666;
             margin-top: 0.25rem;
+            margin-bottom: 0.25rem;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
 
             a {
               color: #d3961ae9;
               text-decoration: none;
+              font-weight: 500;
+              font-size: 0.8em;
+              display: inline-block;
+              max-width: 100%;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
         }
@@ -114,6 +134,12 @@
         .topic-list-item:not(:has(.vote-row, .payment-row)) & {
           .topic-name a {
             color: #333;
+          }
+          .topic-link {
+            margin-bottom: 0;
+          }
+          .topic-link a {
+            color: #d3961ae9;
           }
         }
       }
