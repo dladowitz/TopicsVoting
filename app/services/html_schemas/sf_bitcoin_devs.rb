@@ -4,18 +4,18 @@ require_relative "base"
 
 module HtmlSchemas
   class SFBitcoinDevsSchema < BaseSchema
+    # !!!! You must restart the Heroku dynos or local rails server for this to take effect !!!
     SECTIONS_TO_SKIP = [ "vote on topics" ]
-    NON_VOTABLE_SECTIONS = [ "intro", "live videcoding request", "vibe coded app showcase", "startup showcase" ]
-    NON_PAYABLE_SECTIONS = [ "intro" ]
+    NON_VOTABLE_SECTIONS = [ "intro", "live videcoding request", "vibe coded app showcase", "startup showcase", "housekeeping", "chain weather report" ]
+    NON_PAYABLE_SECTIONS = [ "intro", "housekeeping", "chain weather report" ]
+    NON_PUBLICLY_SUBMITABLE = [ "intro", "startup showcase", "vibe coded app showcase", "housekeeping", "chain weather report" ]
+    # !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     def process_sections
       log "Using SFBitcoinDevs schema parser"
       @doc.css("h2").each do |h2|
-        section_id = h2["id"]
-        next unless section_id.present?
-
-        # Convert dashes to spaces and capitalize first letter of each word, preserving case of "and"
-        section_name = section_id.gsub("-", " ").split.map { |word| word.downcase == "and" ? "and" : word.capitalize }.join(" ")
+        section_name = h2.text.strip
+        next unless section_name.present?
 
         # Skip sections that match any pattern in SECTIONS_TO_SKIP
         if SECTIONS_TO_SKIP.any? { |pattern| normalize_section_name(section_name) == pattern.downcase }
@@ -45,9 +45,25 @@ module HtmlSchemas
       NON_PAYABLE_SECTIONS.any? { |pattern| normalized_name.include?(pattern.downcase) }
     end
 
+    def non_publicly_submitable_section?(section_name)
+      normalized_name = normalize_section_name(section_name)
+      NON_PUBLICLY_SUBMITABLE.any? { |pattern| normalized_name.include?(pattern.downcase) }
+    end
+
     def process_section(section_name, h2)
       section = create_or_skip_section(section_name)
       return unless section
+
+      # Log section attributes
+      if non_votable_section?(section_name)
+        log "Section '#{section_name}' created as non-votable"
+      end
+      if non_payable_section?(section_name)
+        log "Section '#{section_name}' created as non-payable"
+      end
+      if non_publicly_submitable_section?(section_name)
+        log "Section '#{section_name}' created as non-publicly submittable"
+      end
 
       # Find all siblings until the next h2
       siblings = h2.xpath("following-sibling::*")

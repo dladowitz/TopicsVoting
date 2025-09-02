@@ -4,6 +4,7 @@
 # @attr [String] name The name of the section
 # @attr [Integer] socratic_seminar_id ID of the seminar this section belongs to
 # @attr [Integer] order The display order of this section within the seminar
+# @attr [Boolean] allow_public_submissions Whether public submissions are allowed for this section
 class Section < ApplicationRecord
   # @!attribute socratic_seminar
   #   @return [SocraticSeminar] The seminar this section belongs to

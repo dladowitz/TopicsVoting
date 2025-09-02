@@ -66,7 +66,13 @@ module HtmlSchemas
         begin
           # Set order to the next available position
           next_order = @seminar.sections.count
-          section = Section.create!(name: section_name, socratic_seminar: @seminar, order: next_order)
+          public_submissions_allowed = !non_publicly_submitable_section?(section_name)
+          section = Section.create!(
+            name: section_name,
+            socratic_seminar: @seminar,
+            order: next_order,
+            allow_public_submissions: public_submissions_allowed
+          )
           @stats[:sections_created] += 1
           log "Created Section: #{section.name} (order: #{next_order})"
         rescue ActiveRecord::RecordInvalid => e
