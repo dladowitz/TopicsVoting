@@ -38,12 +38,12 @@
 }
 
 .section-form .field .custom-checkbox:hover .checkmark {
-  border-color: #f7931a;
+  border-color: var(--primary-orange);
 }
 
 .section-form .field .custom-checkbox input:checked ~ .checkmark {
-  background-color: #f7931a;
-  border-color: #f7931a;
+  background-color: var(--primary-orange);
+  border-color: var(--primary-orange);
 }
 
 .section-form .field .custom-checkbox .checkmark:after {

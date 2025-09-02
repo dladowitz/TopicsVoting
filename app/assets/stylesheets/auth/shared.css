@@ -80,7 +80,7 @@
 }
 
 .actions input[type="submit"] {
-  background: #f7931a;
+  background: var(--primary-orange);
   color: white;
   border: none;
   cursor: pointer;
@@ -93,6 +93,6 @@
 
 /* Links styling */
 .shared-links a {
-  color: #f7931a;
+  color: var(--primary-orange);
   text-decoration: none;
 }

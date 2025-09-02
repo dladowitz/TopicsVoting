@@ -15,7 +15,7 @@
 }
 
 .import-results-card {
-  border: 1px solid #f7931a;
+  border: 1px solid var(--primary-orange);
   border-radius: 0.25rem;
   padding: 0.5rem;
   font-size: 0.875rem;

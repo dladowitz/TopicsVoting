@@ -92,7 +92,7 @@
         margin: 2rem 0 1rem;
         color: #333;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid #f7931a;
+        border-bottom: 2px solid var(--primary-orange);
         position: sticky;
         top: 0;
         background: white;
@@ -128,7 +128,7 @@
                 text-decoration: none;
 
                 &:hover {
-                  color: #f7931a;
+                  color: var(--primary-orange);
                 }
               }
             }

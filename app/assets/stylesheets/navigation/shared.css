@@ -2,7 +2,7 @@
 
 .navigation a {
   text-decoration: none;
-  color: #f7931a;
+  color: var(--primary-orange);
   padding: 0.4rem 1rem;
 }
 
@@ -14,8 +14,8 @@
   font-size: 0.95em;
   padding: 0.4em 1.2em;
   background: #fff;
-  color: #f7931a;
-  border: 1.5px solid #f7931a;
+  color: var(--primary-orange);
+  border: 1.5px solid var(--primary-orange);
   border-radius: 8px;
   box-shadow: none;
   font-weight: 600;
@@ -25,8 +25,8 @@
 
 .navigation .button:hover, .navigation .button:focus {
   background: #fff;
-  color: #f7931a;
-  border: 1.5px solid #f7931a;
+  color: var(--primary-orange);
+  border: 1.5px solid var(--primary-orange);
 }
 
 /* Add display flex to align items */

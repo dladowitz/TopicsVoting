@@ -90,7 +90,7 @@
         position: absolute;
         cursor: pointer;
         top: 0; left: 0; right: 0; bottom: 0;
-        background-color: #f7931a;
+        background-color: var(--primary-orange);
         border-radius: 34px;
         transition: .4s;
       }
@@ -121,12 +121,12 @@
       }
 
       .toggle-label-units {
-        color: #f7931a;
+        color: var(--primary-orange);
         margin-right: 0.5em;
       }
 
       .toggle-label-sats {
-        color: #f7931a;
+        color: var(--primary-orange);
       }
 
       .toggle-label-btc {
@@ -145,7 +145,7 @@
       }
 
       .toggle-label-lightning {
-        color: #f7931a;
+        color: var(--primary-orange);
         font-weight: 600;
         user-select: none;
       }
@@ -161,7 +161,7 @@
       }
 
       .toggle-label-qr {
-        color: #f7931a;
+        color: var(--primary-orange);
         font-weight: 600;
         user-select: none;
       }
@@ -208,8 +208,8 @@
       }
 
       .submit-topic-button {
-        color: #0690b3 !important;
-        border: 1.5px solid #0690b3 !important;
+        color: var(--primary-blue) !important;
+        border: 1.5px solid var(--primary-blue) !important;
         border-radius: 8px;
         padding: 0.75rem 1.5rem;
         font-size: 1rem;
@@ -285,7 +285,7 @@
         font-size: 1.3rem;
         font-weight: 500 !important;
         margin-bottom: 0.3rem;
-        color: #f7931a;
+        color: var(--primary-orange);
       }
     }
 
@@ -313,7 +313,7 @@
 
     .topic-link a {
       font-size: 0.8em;
-      color: #d3961ae9 !important;
+      color: var(--secondary-orange) !important;
     }
 
     /* Voting */
@@ -337,7 +337,7 @@
     }
 
     .vote-button {
-      background: #f7931a;
+      background: var(--primary-orange);
       color: #fff;
       border: none;
       border-radius: 6px;
@@ -549,7 +549,7 @@
 .topic-form input[type="text"]:focus,
 .topic-form textarea:focus,
 .topic-form select:focus {
-  border-color: #f7931a;
+  border-color: var(--primary-orange);
   outline: none;
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
@@ -662,7 +662,7 @@
         position: absolute;
         cursor: pointer;
         top: 0; left: 0; right: 0; bottom: 0;
-        background-color: #f7931a;
+        background-color: var(--primary-orange);
         border-radius: 34px;
         transition: .4s;
       }
@@ -693,7 +693,7 @@
       }
 
       .toggle-label-sats {
-        color: #f7931a;
+        color: var(--primary-orange);
       }
 
       .toggle-label-btc {
@@ -753,7 +753,7 @@
       gap: 0.5rem;
 
       i {
-        color: #f7931a;
+        color: var(--primary-orange);
       }
     }
 
@@ -773,7 +773,7 @@
         .amount-value {
           font-size: 2rem;
           font-weight: 700;
-          color: #f7931a;
+          color: var(--primary-orange);
         }
       }
 
@@ -819,7 +819,7 @@
       gap: 0.5rem;
 
       .button {
-        background: #f7931a;
+        background: var(--primary-orange);
         color: white;
         border: none;
         border-radius: 8px;
@@ -881,7 +881,7 @@
       }
 
       .bolt11-label i {
-        color: #f7931a;
+        color: var(--primary-orange);
         margin-right: 0.5rem;
       }
 
@@ -903,7 +903,7 @@
 
       .bolt11-input:focus {
         outline: none;
-        border-color: #f7931a;
+        border-color: var(--primary-orange);
         box-shadow: 0 0 0 2px rgba(247, 147, 26, 0.25);
       }
 
@@ -914,7 +914,7 @@
       }
 
       .bolt11-help i {
-        color: #f7931a;
+        color: var(--primary-orange);
         margin-right: 0.25rem;
       }
     }
@@ -1002,7 +1002,7 @@
 
             .sats-received {
               font-weight: 600;
-              color: #f7931a;
+              color: var(--primary-orange);
             }
           }
         }
@@ -1043,7 +1043,7 @@
     margin-bottom: 1rem;
 
     .topic-link-show {
-      color: #f7931a;
+      color: var(--primary-orange);
       text-decoration: none;
       font-size: 1rem;
       line-height: 1.4;
@@ -1071,7 +1071,7 @@
     }
 
     .lnurl-link {
-      color: #f7931a;
+      color: var(--primary-orange);
       text-decoration: none;
       font-weight: 600;
 
@@ -1096,7 +1096,7 @@
     }
 
     .copy-button {
-      background: #f7931a;
+      background: var(--primary-orange);
       color: white;
       border: none;
       border-radius: 4px;
@@ -1152,7 +1152,7 @@
     margin: 1.5rem 0;
 
     a {
-      color: #f7931a;
+      color: var(--primary-orange);
       text-decoration: none;
       font-weight: 600;
 
@@ -1220,12 +1220,12 @@
 }
 
 .custom-checkbox:hover input ~ .checkmark {
-  border-color: #f7931a;
+  border-color: var(--primary-orange);
 }
 
 .custom-checkbox input:checked ~ .checkmark {
-  background-color: #f7931a;
-  border-color: #f7931a;
+  background-color: var(--primary-orange);
+  border-color: var(--primary-orange);
 }
 
 .custom-checkbox .checkmark:after {

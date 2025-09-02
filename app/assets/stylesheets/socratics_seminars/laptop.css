@@ -88,7 +88,7 @@
 }
 
 .button {
-  border: 1px solid #f7931a;
+  border: 1px solid var(--primary-orange);
 }
 
 .button:hover {
@@ -136,7 +136,7 @@
 .page-header {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f7931a;
+  border-bottom: 2px solid var(--primary-orange);
 }
 
 .page-header-content {
@@ -158,7 +158,7 @@
 }
 
 .seminar-number {
-  color: #f7931a;
+  color: var(--primary-orange);
   font-weight: bold;
 }
 
@@ -187,7 +187,7 @@
 }
 
 .section-title i {
-  color: #f7931a;
+  color: var(--primary-orange);
 }
 
 .payout-amount {
@@ -209,7 +209,7 @@
 
 .amount-unit {
   font-size: 2.5rem;
-  color: #f7931a;
+  color: var(--primary-orange);
 }
 
 .amount-description {
@@ -276,8 +276,8 @@
 .section-name {
   margin: 1.5rem 0 1rem 0;
   font-size: 1.2rem;
-  color: #f7931a;
-  border-left: 3px solid #f7931a;
+  color: var(--primary-orange);
+  border-left: 3px solid var(--primary-orange);
   padding-left: 1rem;
 }
 
@@ -289,7 +289,7 @@
   margin-bottom: 0.5rem;
   background: #f8f9fa;
   border-radius: 4px;
-  border-left: 3px solid #f7931a;
+  border-left: 3px solid var(--primary-orange);
 }
 
 .topic-info {
@@ -300,7 +300,7 @@
 
 .topic-payment-amount {
   font-size: 0.9rem;
-  color: #f7931a;
+  color: var(--primary-orange);
   font-weight: 500;
   display: flex;
   align-items: baseline;
@@ -349,7 +349,7 @@
   position: absolute;
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #f7931a;
+  background-color: var(--primary-orange);
   border-radius: 34px;
   transition: .4s;
 }
@@ -381,7 +381,7 @@
 
 .toggle-label-sats {
   margin-left: 1.4em;
-  color: #f7931a;
+  color: var(--primary-orange);
 }
 
 .toggle-label-btc {
@@ -523,7 +523,7 @@
   }
   50% {
     transform: scale(1.1);
-    color: #f7931a;
+    color: var(--primary-orange);
     text-shadow: 0 0 10px rgba(247, 147, 26, 0.5);
   }
   100% {
@@ -542,7 +542,7 @@
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: #f7931a;
+  background: var(--primary-orange);
   color: white;
   padding: 16px 32px;
   border-radius: 12px;
@@ -621,7 +621,7 @@
 .seminar-form input[type="email"]:focus,
 .seminar-form textarea:focus,
 .seminar-form select:focus {
-  border-color: #f7931a;
+  border-color: var(--primary-orange);
   outline: none;
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
@@ -737,7 +737,7 @@
 .section-form input[type="email"]:focus,
 .section-form textarea:focus,
 .section-form select:focus {
-  border-color: #f7931a;
+  border-color: var(--primary-orange);
   outline: none;
   box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
