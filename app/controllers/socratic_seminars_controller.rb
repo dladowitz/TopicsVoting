@@ -146,7 +146,7 @@ class SocraticSeminarsController < ApplicationController
       # Create and process the payout with the invoice amount
       payout = Payout.create_and_pay(@socratic_seminar, invoice_amount_sats, memo, bolt11_invoice)
 
-      puts "\n\n ->>>>>>>> Payout successful: #{payout.inspect} \n\n"
+      # puts "\n\n ->>>>>>>> Payout successful: #{payout.inspect} \n\n"
 
       redirect_to payout_socratic_seminar_path(@socratic_seminar),
                   notice: "Payout of #{format_with_commas(invoice_amount_sats)} sats/₿ was successfully processed."

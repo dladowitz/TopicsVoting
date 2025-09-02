@@ -17,7 +17,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
   describe "#process_sections" do
     let(:html_content) do
       <<~HTML
-        <h2 id="development">Development</h2>
+        <h2 id="development">Development (30 mins)</h2>
         <ul>
           <li>Topic 1</li>
           <li><a href="https://example.com">Topic 2</a></li>
@@ -31,15 +31,15 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
           </li>
         </ul>
 
-        <h2 id="vote-on-topics">Vote on topics</h2>
+        <h2 id="vote-on-topics">Vote on topics (5 min)</h2>
         <!-- No list here, this section should be skipped -->
 
-        <h2 id="intro-section">Intro Section</h2>
+        <h2 id="intro-section">Intro Section (10 minutes)</h2>
         <ul>
           <li>Intro Topic</li>
         </ul>
 
-        <h2 id="lightning-and-wallets">Lightning and Wallets</h2>
+        <h2 id="lightning-and-wallets">Lightning and Wallets (20 mins)</h2>
         <ul>
           <li>Wallet Topic</li>
         </ul>
@@ -52,16 +52,16 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     it "processes sections and topics correctly" do
       schema.process_sections
 
-      # Check sections were created correctly
+      # Check sections were created correctly with durations
       expect(Section.count).to eq(3) # Development, Lightning and Wallets, Intro Section
       expect(Section.pluck(:name)).to contain_exactly(
-        "Development",
-        "Lightning and Wallets",
-        "Intro Section"
+        "Development (30 mins)",
+        "Lightning and Wallets (20 mins)",
+        "Intro Section (10 minutes)"
       )
 
       # Check topics were created with correct sections
-      dev_section = Section.find_by(name: "Development")
+      dev_section = Section.find_by(name: "Development (30 mins)")
       expect(dev_section.topics.pluck(:name)).to contain_exactly(
         "Topic 1",
         "Topic 2",
@@ -71,7 +71,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         "Nested Topic 2"
       )
 
-      wallet_section = Section.find_by(name: "Lightning and Wallets")
+      wallet_section = Section.find_by(name: "Lightning and Wallets (20 mins)")
       expect(wallet_section.topics.pluck(:name)).to contain_exactly("Wallet Topic")
 
       # Check links were extracted correctly
@@ -83,14 +83,14 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       schema.process_sections
 
       # Section should not be created at all
-      expect(Section.find_by(name: "Vote On Topics")).to be_nil
-      expect(output).to include("Skipping section: Vote On Topics")
+      expect(Section.find_by(name: "vote on topics (5 min)")).to be_nil
+      expect(output).to include("Skipping section: Vote on topics (5 min)")
     end
 
     it "sets votable and payable to false for intro sections" do
       schema.process_sections
 
-      intro_section = Section.find_by(name: "Intro Section")
+      intro_section = Section.find_by(name: "Intro Section (10 minutes)")
       expect(intro_section).to be_present
       intro_topic = intro_section.topics.find_by(name: "Intro Topic")
       expect(intro_topic).to be_present
@@ -101,7 +101,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     it "sets votable and payable to true for non-intro sections" do
       schema.process_sections
 
-      dev_section = Section.find_by(name: "Development")
+      dev_section = Section.find_by(name: "Development (30 mins)")
       expect(dev_section).to be_present
       dev_topics = dev_section.topics
       expect(dev_topics).to be_present
@@ -111,7 +111,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       end
     end
 
-    it "handles sections without ids" do
+    it "creates sections without ids" do
       html_without_id = <<~HTML
         <h2>No ID Section</h2>
         <ul><li>Topic</li></ul>
@@ -121,7 +121,10 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
 
       schema.process_sections
 
-      expect(Section.find_by(name: "No ID Section")).to be_nil
+      section = Section.find_by(name: "No ID Section")
+      expect(section).to be_present
+      expect(section.topics.count).to eq(1)
+      expect(section.topics.first.name).to eq("Topic")
     end
 
     it "handles sections with no following list" do
@@ -219,7 +222,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
 
       schema.process_sections
 
-      section = Section.find_by(name: "Url Only Section")
+      section = Section.find_by(name: "URL Only Section")
       expect(section).to be_present
 
       # Should only create one topic (the one with text beyond the URL)
@@ -274,7 +277,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
 
       expect(stats[:sections_created]).to eq(3) # Development, Lightning and Wallets, Intro Section
       expect(stats[:topics_created]).to eq(8)
-      expect(stats[:sections_skipped]).to eq(0)
+      expect(stats[:sections_skipped]).to eq(1) # Vote on topics section is skipped
       expect(stats[:topics_skipped]).to eq(0)
     end
 
@@ -349,21 +352,21 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
 
     context "when section already exists" do
       before do
-        create(:section, name: "Development", socratic_seminar: socratic_seminar)
+        create(:section, name: "Development (30 mins)", socratic_seminar: socratic_seminar)
       end
 
       it "skips existing section" do
         schema.process_sections
 
-        expect(stats[:sections_skipped]).to eq(1)
+        expect(stats[:sections_skipped]).to eq(2) # Vote on topics section and Development section are skipped
         expect(stats[:sections_created]).to eq(2) # Lightning and Wallets, Intro Section (Development is skipped)
-        expect(output).to include("Skipping Section (already exists): Development")
+        expect(output).to include("Skipping Section (already exists): Development (30 mins)")
       end
     end
 
     context "when topic already exists" do
       before do
-        section = create(:section, name: "Development", socratic_seminar: socratic_seminar)
+        section = create(:section, name: "Development (30 mins)", socratic_seminar: socratic_seminar)
         create(:topic, name: "Topic 1", section: section)
       end
 
@@ -374,6 +377,100 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
         expect(stats[:topics_created]).to eq(7)
         expect(output).to include("Skipping Topic (already exists): Topic 1")
       end
+    end
+  end
+
+  describe "#non_votable_section?" do
+    let(:schema) { described_class.new(nil, nil, nil, nil) }
+
+    it "identifies non-votable sections" do
+      described_class::NON_VOTABLE_SECTIONS.each do |section_name|
+        expect(schema.send(:non_votable_section?, section_name)).to be true
+        expect(schema.send(:non_votable_section?, section_name.upcase)).to be true
+        expect(schema.send(:non_votable_section?, "#{section_name} (20 min)")).to be true
+      end
+    end
+
+    it "identifies votable sections" do
+      votable_sections = [ "Development", "Lightning Network", "Bitcoin Products" ]
+      votable_sections.each do |section_name|
+        expect(schema.send(:non_votable_section?, section_name)).to be false
+        expect(schema.send(:non_votable_section?, section_name.upcase)).to be false
+        expect(schema.send(:non_votable_section?, "#{section_name} (20 min)")).to be false
+      end
+    end
+  end
+
+  describe "#non_payable_section?" do
+    let(:schema) { described_class.new(nil, nil, nil, nil) }
+
+    it "identifies non-payable sections" do
+      described_class::NON_PAYABLE_SECTIONS.each do |section_name|
+        expect(schema.send(:non_payable_section?, section_name)).to be true
+        expect(schema.send(:non_payable_section?, section_name.upcase)).to be true
+        expect(schema.send(:non_payable_section?, "#{section_name} (20 min)")).to be true
+      end
+    end
+
+    it "identifies payable sections" do
+      payable_sections = [ "Development", "Lightning Network", "Bitcoin Products" ]
+      payable_sections.each do |section_name|
+        expect(schema.send(:non_payable_section?, section_name)).to be false
+        expect(schema.send(:non_payable_section?, section_name.upcase)).to be false
+        expect(schema.send(:non_payable_section?, "#{section_name} (20 min)")).to be false
+      end
+    end
+  end
+
+  describe "#non_publicly_submitable_section?" do
+    let(:schema) { described_class.new(nil, nil, nil, nil) }
+
+    it "identifies non-publicly submitable sections" do
+      described_class::NON_PUBLICLY_SUBMITABLE.each do |section_name|
+        expect(schema.send(:non_publicly_submitable_section?, section_name)).to be true
+        expect(schema.send(:non_publicly_submitable_section?, section_name.upcase)).to be true
+        expect(schema.send(:non_publicly_submitable_section?, "#{section_name} (20 min)")).to be true
+      end
+    end
+
+    it "identifies publicly submitable sections" do
+      public_sections = [ "Development", "Lightning Network", "Bitcoin Products" ]
+      public_sections.each do |section_name|
+        expect(schema.send(:non_publicly_submitable_section?, section_name)).to be false
+        expect(schema.send(:non_publicly_submitable_section?, section_name.upcase)).to be false
+        expect(schema.send(:non_publicly_submitable_section?, "#{section_name} (20 min)")).to be false
+      end
+    end
+  end
+
+  describe "#normalize_section_name" do
+    let(:schema) { described_class.new(nil, nil, nil, nil) }
+
+    it "removes duration in parentheses" do
+      expect(schema.send(:normalize_section_name, "Bitcoin Products (20 min)")).to eq("bitcoin products")
+      expect(schema.send(:normalize_section_name, "Lightning Network (30 mins)")).to eq("lightning network")
+      expect(schema.send(:normalize_section_name, "Development (5 minutes)")).to eq("development")
+    end
+
+    it "handles variations in duration format" do
+      expect(schema.send(:normalize_section_name, "Section (20min)")).to eq("section")
+      expect(schema.send(:normalize_section_name, "Section (20 minutes)")).to eq("section")
+      expect(schema.send(:normalize_section_name, "Section (20mins)")).to eq("section")
+    end
+
+    it "handles extra whitespace" do
+      expect(schema.send(:normalize_section_name, "  Bitcoin Products  (20 min)  ")).to eq("bitcoin products")
+      expect(schema.send(:normalize_section_name, "Lightning Network(30mins)")).to eq("lightning network")
+    end
+
+    it "preserves section names without duration" do
+      expect(schema.send(:normalize_section_name, "Bitcoin Products")).to eq("bitcoin products")
+      expect(schema.send(:normalize_section_name, "Lightning Network")).to eq("lightning network")
+    end
+
+    it "handles case variations" do
+      expect(schema.send(:normalize_section_name, "BITCOIN PRODUCTS (20 min)")).to eq("bitcoin products")
+      expect(schema.send(:normalize_section_name, "Lightning NETWORK (30 mins)")).to eq("lightning network")
     end
   end
 

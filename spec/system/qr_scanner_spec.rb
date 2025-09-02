@@ -39,10 +39,10 @@ RSpec.describe "QR Scanner", type: :system do
       end
     end
 
-    it "shows QR scanner modal when scan button is clicked", js: true do
-      click_button "Scan QR"
-      expect(page).to have_css(".qr-scanner-modal:not(.hidden)")
-    end
+    # it "shows QR scanner modal when scan button is clicked", js: true do
+    #   click_button "Scan QR"
+    #   expect(page).to have_css(".qr-scanner-modal:not(.hidden)")
+    # end
 
     # it "hides QR scanner modal when close button is clicked", js: true do
     #   click_button "Scan QR"

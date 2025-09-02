@@ -16,14 +16,13 @@ module HtmlSchemas
     def process_sections
       log "Using SFBitcoinDevs schema parser"
       @doc.css("h2").each do |h2|
-        raw_section_name = h2.text.strip
-        next unless raw_section_name.present?
-
-        section_name = format_section_name(raw_section_name)
+        section_name = h2.text.strip
+        next unless section_name.present?
 
         # Skip sections that match any pattern in SECTIONS_TO_SKIP
         if SECTIONS_TO_SKIP.any? { |pattern| normalize_section_name(section_name) == pattern.downcase }
           log "Skipping section: #{section_name}"
+          @stats[:sections_skipped] += 1
           next
         end
 
@@ -37,18 +36,6 @@ module HtmlSchemas
     def normalize_section_name(name)
       # Remove duration in parentheses and any extra whitespace
       name.gsub(/\s*\(\d+\s*(?:min|minute)s?\)\s*$/i, "").strip.downcase
-    end
-
-    def format_section_name(name)
-      # Extract duration if present
-      duration_match = name.match(/\s*\((\d+)\s*(?:min|minute)s?\)\s*$/i)
-      name_without_duration = duration_match ? name.gsub(duration_match[0], "") : name
-
-      # Capitalize first letter of each word, preserving case of "and"
-      formatted_name = name_without_duration.split.map { |word| word.downcase == "and" ? "and" : word.capitalize }.join(" ")
-
-      # Add duration back if it was present
-      duration_match ? "#{formatted_name} #{duration_match[1]} Min" : formatted_name
     end
 
     def non_votable_section?(section_name)
