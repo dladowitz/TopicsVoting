@@ -56,7 +56,7 @@
         margin: 1.5rem 0 1rem;
         color: #333;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid #f7931a;
+        border-bottom: 2px solid var(--primary-orange);
         position: sticky;
         top: 0;
         background: white;
@@ -65,7 +65,7 @@
 
       .upcoming-events-title, .past-events-title {
         margin-top: 0.75rem;
-        color: #f7931a;
+        color: var(--primary-orange);
       }
 
       .events-list {
@@ -87,7 +87,7 @@
                 text-decoration: none;
 
                 &:hover {
-                  color: #f7931a;
+                  color: var(--primary-orange);
                 }
               }
             }

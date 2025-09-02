@@ -9,6 +9,9 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
+/* Import variables */
+@import "../variables/colors.css";
+
 /* =========================
    GENERAL PAGE LAYOUT
    ========================= */
@@ -106,8 +109,8 @@ span {
   font-size: 0.95em;
   padding: 0.4em 1.2em;
   background: #fff;
-  color: #f7931a;
-  border: 1.5px solid #f7931a;
+  color: var(--primary-orange);
+  border: 1.5px solid var(--primary-orange);
   border-radius: 8px;
   box-shadow: none;
   font-weight: 600;
@@ -123,8 +126,8 @@ span {
 
 .button:hover:not(:disabled), input[type="submit"]:hover:not([disabled]) {
   background: #fff;
-  color: #f7931a;
-  border: 1.5px solid #f7931a;
+  color: var(--primary-orange);
+  border: 1.5px solid var(--primary-orange);
 }
 
 button:hover {
@@ -240,10 +243,10 @@ button:hover {
 
 @keyframes pop {
   0% { transform: scale(1); }
-  20% { transform: scale(1.4) rotate(-8deg); color: #f7931a; }
-  40% { transform: scale(1.2) rotate(8deg); color: #f7931a; }
-  60% { transform: scale(1.3) rotate(-4deg); color: #f7931a; }
-  80% { transform: scale(1.1) rotate(4deg); color: #f7931a; }
+  20% { transform: scale(1.4) rotate(-8deg); color: var(--primary-orange); }
+  40% { transform: scale(1.2) rotate(8deg); color: var(--primary-orange); }
+  60% { transform: scale(1.3) rotate(-4deg); color: var(--primary-orange); }
+  80% { transform: scale(1.1) rotate(4deg); color: var(--primary-orange); }
   100% { transform: scale(1); color: inherit; }
 }
 
@@ -267,9 +270,9 @@ button:hover {
 }
 
 @keyframes flash-border {
-  0% { box-shadow: 0 0 0 0 #f7931a; border-color: #f7931a; border-width: 0.1px; }
-  30% { box-shadow: 0 0 0 2px #f7931a; border-color: #f7931a; border-width: 0.1px; }
-  70% { box-shadow: 0 0 0 2px #f7931a; border-color: #f7931a; border-width: 0.1px; }
+  0% { box-shadow: 0 0 0 0 var(--primary-orange); border-color: var(--primary-orange); border-width: 0.1px; }
+  30% { box-shadow: 0 0 0 2px var(--primary-orange); border-color: var(--primary-orange); border-width: 0.1px; }
+  70% { box-shadow: 0 0 0 2px var(--primary-orange); border-color: var(--primary-orange); border-width: 0.1px; }
   100% { box-shadow: 0 0 0 0 transparent; border-color: transparent; border-width: 0; }
 }
 
@@ -277,8 +280,8 @@ button:hover {
   font-size: 0.95em;
   padding: 0.4em 1.2em;
   background: #fff;
-  color: #f7931a;
-  border: 1.5px solid #f7931a;
+  color: var(--primary-orange);
+  border: 1.5px solid var(--primary-orange);
   border-radius: 8px;
   box-shadow: none;
   font-weight: 600;
@@ -286,8 +289,8 @@ button:hover {
 }
 .projector-footer-btn:hover, .projector-footer-btn:focus {
   background: #fff;
-  color: #f7931a;
-  border: 1.5px solid #f7931a;
+  color: var(--primary-orange);
+  border: 1.5px solid var(--primary-orange);
 }
 
 .sticky-footer {

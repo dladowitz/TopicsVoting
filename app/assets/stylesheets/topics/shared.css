@@ -15,11 +15,11 @@
 .lightning-bolt svg {
   width: 100%;
   height: 100%;
-  filter: drop-shadow(0 0 20px #f7931a) drop-shadow(0 0 40px #f7931a);
+  filter: drop-shadow(0 0 20px var(--primary-orange)) drop-shadow(0 0 40px var(--primary-orange));
 }
 
 .lightning-bolt path {
-  fill: #f7931a;
+  fill: var(--primary-orange);
   animation: lightning-bolt-flash 0.5s ease-in-out infinite;
 }
 
@@ -44,7 +44,7 @@
 
 @keyframes lightning-bolt-flash {
   0%, 100% {
-    fill: #f7931a;
+    fill: var(--primary-orange);
     filter: brightness(1);
   }
   50% {
@@ -76,7 +76,7 @@
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: #f7931a;
+  background: var(--primary-orange);
   color: white;
   padding: 12px 24px;
   border-radius: 8px;

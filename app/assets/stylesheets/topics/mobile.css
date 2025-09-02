@@ -98,7 +98,7 @@
           word-wrap: break-word;
 
           a {
-            color: #f7931a;
+            color: var(--primary-orange);
             text-decoration: none;
             display: inline;
             word-wrap: break-word;
@@ -117,7 +117,7 @@
             white-space: nowrap;
 
             a {
-              color: #d3961ae9;
+              color: var(--secondary-orange);
               text-decoration: none;
               font-weight: 500;
               font-size: 0.8em;
@@ -139,7 +139,7 @@
             margin-bottom: 0;
           }
           .topic-link a {
-            color: #d3961ae9;
+            color: var(--secondary-orange);
           }
         }
       }
@@ -166,7 +166,7 @@
         }
 
         .vote-button {
-          background: #f7931a;
+          background: var(--primary-orange);
           color: #fff;
           border: none;
           border-radius: 6px;
@@ -218,7 +218,7 @@
         }
 
         .mobile-lightning-button {
-          color: #f7931a;
+          color: var(--primary-orange);
           text-decoration: none;
           font-weight: 500;
 
@@ -294,7 +294,7 @@
       position: absolute;
       cursor: pointer;
       top: 0; left: 0; right: 0; bottom: 0;
-      background-color: #f7931a;
+      background-color: var(--primary-orange);
       border-radius: 34px;
       transition: .4s;
     }
@@ -325,7 +325,7 @@
     }
 
     .toggle-label-sats {
-      color: #f7931a;
+      color: var(--primary-orange);
     }
 
     .toggle-label-btc {
@@ -342,7 +342,7 @@
     }
 
     .toggle-label-lightning {
-      color: #f7931a;
+      color: var(--primary-orange);
       font-weight: 600;
       user-select: none;
     }
@@ -370,7 +370,7 @@
       .topic-link-show {
         display: block;
         word-break: break-all;
-        color: #f7931a;
+        color: var(--primary-orange);
         text-decoration: none;
         font-size: 1rem;
         line-height: 1.4;
@@ -456,7 +456,7 @@
       width: 100%;
       padding: 0.75rem;
       margin: 1rem 0;
-      color: #f7931a;
+      color: var(--primary-orange);
       background-color: white;
       border: 1px solid #e9ecef;
       border-radius: 0.5rem;
@@ -598,7 +598,7 @@
 
         &:focus {
           outline: none;
-          border-color: #f7931a;
+          border-color: var(--primary-orange);
           box-shadow: 0 0 0 2px rgba(247, 147, 26, 0.2);
         }
       }
@@ -648,7 +648,7 @@
       }
 
       .mobile-submit-button {
-        background-color: #f7931a;
+        background-color: var(--primary-orange);
         color: white;
 
         &:hover {
@@ -667,8 +667,8 @@
 
         &:hover {
           background-color: #f8f9fa;
-          border-color: #f7931a;
-          color: #f7931a;
+          border-color: var(--primary-orange);
+          color: var(--primary-orange);
         }
       }
     }

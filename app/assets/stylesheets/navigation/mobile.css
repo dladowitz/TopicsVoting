@@ -6,8 +6,8 @@
 }
 
 .mobile-navigation .submit-topic-button {
-  color: #0690b3 !important;
-  border: 1.5px solid #0690b3 !important;
+  color: var(--primary-blue) !important;
+  border: 1.5px solid var(--primary-blue) !important;
   border-radius: 8px;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;

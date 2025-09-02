@@ -1,0 +1,14 @@
+/* =========================
+   COLOR VARIABLES
+   ========================= */
+
+:root {
+  /* Primary Colors */
+  --primary-orange: #f7931a;
+  --primary-blue: #0690b3;
+
+  /* Secondary Colors */
+  --secondary-orange: rgba(211, 150, 26, 0.914);
+
+  /* Add more color variables here as needed */
+}

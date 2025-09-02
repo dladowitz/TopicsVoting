@@ -54,7 +54,7 @@
 
 .qr-scanner-header {
   padding: 16px;
-  background: #f7931a;
+  background: var(--primary-orange);
   color: white;
   display: flex;
   justify-content: space-between;
@@ -97,7 +97,7 @@
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background-color: #f7931a;
+  background-color: var(--primary-orange);
   color: white;
   border: none;
   border-radius: 4px;
