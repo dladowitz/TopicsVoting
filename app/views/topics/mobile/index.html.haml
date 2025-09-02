@@ -13,11 +13,18 @@
           = render 'topics/mobile/sats_btc_toggle'
         .lightning-effects-toggle
           = render 'topics/mobile/lightning_effects_toggle'
-  .voting-instructions.mobile-instructions
-    %ul
-      %li Vote for free with the Up & Down arrows
-      %li Send Lighthing payments as additional votes.
-      %li Votes count for ranking. Lightning payments add votes, but don't count for ranking.
+  - has_votable_topics = @topics.any?(&:votable)
+  - has_payable_topics = @topics.any?(&:payable)
+
+  - if has_votable_topics || has_payable_topics
+    .voting-instructions.mobile-instructions
+      %ul
+        - if has_votable_topics
+          %li Vote for free with the Up & Down arrows
+        - if has_payable_topics
+          %li Send Lightning payments as additional votes or to show appreciation
+        - if has_votable_topics && has_payable_topics
+          %li Votes count for ranking. Lightning payments add votes, but don't count for ranking
 
   - @sections.each do |section|
     %h2.section-title= section.name
@@ -28,34 +35,39 @@
           .topic-header-row
             %span.topic-name
               = link_to topic.name, socratic_seminar_topic_path(@socratic_seminar, topic)
-          .vote-row
-            .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
-            .vote-count-label votes
-            .vote-buttons
-              = button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic),
-                method: :post,
-                class: "vote-button",
-                disabled: (vote_state == 'up'),
-                form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
-                %span.vote-arrow
-                  %i.fas.fa-arrow-up
-              = button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic),
-                method: :post,
-                class: "vote-button",
-                disabled: (vote_state == 'down'),
-                form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
-                %span.vote-arrow
-                  %i.fas.fa-arrow-down
+              - if topic.link.present?
+                %span.topic-link
+                  = link_to truncate(topic.link, length: 50), topic.link, target: "_blank", rel: "noopener"
+          - if topic.votable
+            .vote-row
+              .vote-count{"data-topics-target" => "voteCount"}= topic.votes || 0
+              .vote-count-label votes
+              .vote-buttons
+                = button_to upvote_socratic_seminar_topic_path(@socratic_seminar, topic),
+                  method: :post,
+                  class: "vote-button",
+                  disabled: (vote_state == 'up'),
+                  form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
+                  %span.vote-arrow
+                    %i.fas.fa-arrow-up
+                = button_to downvote_socratic_seminar_topic_path(@socratic_seminar, topic),
+                  method: :post,
+                  class: "vote-button",
+                  disabled: (vote_state == 'down'),
+                  form: { data: { topics_target: 'voteForm', turbo: 'false' } } do
+                  %span.vote-arrow
+                    %i.fas.fa-arrow-down
 
-          .payment-row
-            .sats-info
-              .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
-              .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
-            |
-            = link_to "Vote with Lightning ⚡", "https://www.lnurlpay.com/#{topic.lnurl}",
-              class: "send-btc-link mobile-lightning-button",
-              target: "_blank",
-              rel: "noopener"
+          - if topic.payable
+            .payment-row
+              .sats-info
+                .sats-label{"data-action" => "click->topics#toggleSatsLabel"} Sats
+                .sats-received{"data-sats" => topic.sats_received}= topic.sats_received
+              |
+              = link_to (topic.votable ? "Vote with Lightning ⚡" : "Show appreciation with Lightning ⚡"), "https://www.lnurlpay.com/#{topic.lnurl}",
+                class: "send-btc-link mobile-lightning-button",
+                target: "_blank",
+                rel: "noopener"
 
           - if topic.subtopics.any?
             .subtopics-container

@@ -69,14 +69,16 @@
     }
 
     .topic-list-item {
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      padding-left: 0.75rem;
-      padding-right: 0.5rem;
+      padding: 0.5rem 0.75rem;
       margin-bottom: 0.5rem;
       background-color: #fff;
       border: 2px solid #e9ecef;
       border-radius: 0.5rem;
+
+      /* Reduce padding for non-interactive topics */
+      &:not(:has(.vote-row, .payment-row)) {
+        padding: 0.25rem 0.75rem;
+      }
 
       .topic-header-row {
         margin-bottom: 0.25rem;
@@ -91,8 +93,27 @@
           font-weight: 500;
 
           a {
-            color: #f7931a;;
+            color: #f7931a;
             text-decoration: none;
+          }
+
+          .topic-link {
+            display: block;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 0.25rem;
+
+            a {
+              color: #d3961ae9;
+              text-decoration: none;
+            }
+          }
+        }
+
+        /* Non-interactive topics */
+        .topic-list-item:not(:has(.vote-row, .payment-row)) & {
+          .topic-name a {
+            color: #333;
           }
         }
       }
