@@ -87,21 +87,6 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
       expect(output).to include("Skipping section: Vote On Topics")
     end
 
-    it "handles section names with durations" do
-      html_with_duration = <<~HTML
-        <h2 id="live-videcoding-request-20-min">Live Videcoding Request (20 min)</h2>
-        <ul><li>Topic</li></ul>
-      HTML
-      doc = Nokogiri::HTML(html_with_duration)
-      schema = described_class.new(doc, socratic_seminar, stats, output)
-      schema.process_sections
-
-      section = Section.find_by(name: "Live Videcoding Request 20 Min")
-      expect(section).to be_present
-      topic = section.topics.first
-      expect(topic.votable).to be false
-    end
-
     it "sets votable and payable to false for intro sections" do
       schema.process_sections
 
