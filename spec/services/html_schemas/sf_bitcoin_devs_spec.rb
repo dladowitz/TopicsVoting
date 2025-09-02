@@ -392,7 +392,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     end
 
     it "identifies votable sections" do
-      votable_sections = ["Development", "Lightning Network", "Bitcoin Products"]
+      votable_sections = [ "Development", "Lightning Network", "Bitcoin Products" ]
       votable_sections.each do |section_name|
         expect(schema.send(:non_votable_section?, section_name)).to be false
         expect(schema.send(:non_votable_section?, section_name.upcase)).to be false
@@ -413,7 +413,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     end
 
     it "identifies payable sections" do
-      payable_sections = ["Development", "Lightning Network", "Bitcoin Products"]
+      payable_sections = [ "Development", "Lightning Network", "Bitcoin Products" ]
       payable_sections.each do |section_name|
         expect(schema.send(:non_payable_section?, section_name)).to be false
         expect(schema.send(:non_payable_section?, section_name.upcase)).to be false
@@ -434,7 +434,7 @@ RSpec.describe HtmlSchemas::SFBitcoinDevsSchema do
     end
 
     it "identifies publicly submitable sections" do
-      public_sections = ["Development", "Lightning Network", "Bitcoin Products"]
+      public_sections = [ "Development", "Lightning Network", "Bitcoin Products" ]
       public_sections.each do |section_name|
         expect(schema.send(:non_publicly_submitable_section?, section_name)).to be false
         expect(schema.send(:non_publicly_submitable_section?, section_name.upcase)).to be false
