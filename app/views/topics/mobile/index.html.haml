@@ -21,8 +21,8 @@
       %ul
         - if has_votable_topics
           %li Vote for free with the Up & Down arrows
-        - if has_payable_topics
-          %li Send Lightning payments as additional votes or to show appreciation
+        - if has_payable_topics && !has_votable_topics
+          %li Send Lightning payments to show appreciation
         - if has_votable_topics && has_payable_topics
           %li Votes count for ranking. Lightning payments add votes, but don't count for ranking
 
