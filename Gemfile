@@ -16,7 +16,7 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 # Template engine
-gem "haml-rails", "~> 2.1"
+gem "haml-rails", "~> 3.0"
 
 # Authentication
 gem "devise"
